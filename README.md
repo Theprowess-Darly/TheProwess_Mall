@@ -1,61 +1,123 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# TheProwess Mall
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+## Aperçu
+TheProwess Mall est une marketplace en ligne permettant aux vendeurs de créer et gérer plusieurs boutiques sur une seule plateforme. Cette application web fullstack développée avec Laravel 12 facilite les interactions entre administrateurs, vendeurs et clients, avec une infrastructure de paiement intégrée.
 
-## About Laravel
+## Fonctionnalités principales
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+### Utilisateurs & Rôles
+- **Admin**: Validation des boutiques et produits, gestion globale de la plateforme
+- **Vendeur**: Création de boutiques, ajout de produits par catégorie
+- **Client**: Navigation, achat de produits, gestion de panier
+- **Livreur** (acteur secondaire): Gestion des livraisons
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+### Commerce & Paiements
+- E-portefeuille intégré pour tous les utilisateurs
+- Paiements via Orange Money et Mobile Money (API)
+- Transactions sécurisées intégrées à la plateforme
+- Gestion des commandes et suivi des livraisons
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+### Boutiques & Produits
+- Processus de création de boutique avec validation administrative
+- Système de catégorisation des produits
+- Workflow de validation pour les nouveaux produits
+- Liste de souhaits pour les clients
 
-## Learning Laravel
+## Architecture technique
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+### Frontend
+- **Laravel Blade** pour les vues dynamiques
+- **HTML5 & TailwindCSS** pour l'interface responsive
+- **jQuery & AJAX** pour les interactions utilisateur en temps réel
+- Affichage dynamique des produits avec filtrage et tri
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+### Backend
+- **Laravel 12** comme framework principal
+- **Laravel Breeze** pour l'authentification et la gestion des rôles
+- **Laravel Echo/Pusher** pour les notifications en temps réel
+- API RESTful pour la gestion des produits, commandes et paiements
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+### Base de données
+Structure relationnelle (mysql) comprenant:
+- Gestion des utilisateurs et portefeuilles
+- Système de boutiques et produits
+- Gestion des commandes et livraisons
+- Système de transactions et paiements
+- Abonnements et notifications
 
-## Laravel Sponsors
+## Prérequis
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+Pour installer et exécuter TheProwess Mall localement, vous aurez besoin de:
 
-### Premium Partners
+- PHP 8.1 ou supérieur
+- Composer
+- Node.js et NPM
+- MySQL ou PostgreSQL
+- Extension PHP pour PDO, JSON et Mbstring
+- Serveur web (Apache, Nginx)
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development/)**
-- **[Active Logic](https://activelogic.com)**
+## Installation
 
-## Contributing
+1. **Cloner le dépôt**
+   ```bash
+   git clone https://github.com/Theprowess-Darly/TheProwess_Mall
+   cd theprowess-mall
+   ```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+2. **Installer les dépendances PHP**
+   ```bash
+   composer install
+   ```
 
-## Code of Conduct
+3. **Installer les dépendances NPM**
+   ```bash
+   npm install
+   ```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+4. **Configurer l'environnement**
+   ```bash
+   cp .env.example .env
+   php artisan key:generate
+   ```
 
-## Security Vulnerabilities
+5. **Configurer la base de données**
+   Modifiez le fichier `.env` avec vos identifiants de base de données:
+   ```
+   DB_CONNECTION=mysql
+   DB_HOST=127.0.0.1
+   DB_PORT=3306
+   DB_DATABASE=tpmall
+   DB_USERNAME=votre_username
+   DB_PASSWORD=votre_mot_de_passe
+   ```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+6. **Exécuter les migrations et les seeders**
+   ```bash
+   php artisan migrate --seed
+   ```
 
-## License
+7. **Compiler les assets**
+   ```bash
+   npm run dev
+   ```
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+8. **Lancer le serveur de développement**
+   ```bash
+   php artisan serve
+   ```
+
+L'application sera disponible à l'adresse [http://localhost:8000](http://localhost:8000)
+
+## Contribution
+
+Les contributions sont les bienvenues ! Pour contribuer:
+
+1. Forkez le projet
+2. Créez votre branche de fonctionnalité (`git checkout -b feature/amazing-feature`)
+3. Committez vos changements (`git commit -m 'Add some amazing feature'`)
+4. Poussez vers la branche (`git push origin feature/amazing-feature`)
+5. Ouvrez une Pull Request
+
+## Licence
+
+Ce projet est sous licence MIT - voir le fichier `LICENSE` pour plus de détails.
