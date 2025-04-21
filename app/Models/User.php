@@ -68,7 +68,7 @@ class User extends Authenticatable
 
     public function isVendor()
     {
-        return $this->role === 'Marchand~';
+        return $this->role === 'Marchand';
     }
 
     public function isClient()
