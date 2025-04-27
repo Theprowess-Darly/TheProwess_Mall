@@ -16,7 +16,6 @@ class Order extends Model
         'subtotal',
         'shipping_fee',
         'status',
-        'payment_status',
         'payment_method',
         'address',
         'city',
@@ -39,4 +38,14 @@ class Order extends Model
     {
         return $this->hasMany(OrderItem::class);
     }
+
+    // Define relationship with products through order items
+    public function products()
+    {
+        return $this->belongsToMany(Product::class, 'order_items')
+                    ->withPivot('quantity', 'price')
+                    ->withTimestamps();
+    }
+
+
 }

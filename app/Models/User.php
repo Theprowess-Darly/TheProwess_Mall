@@ -1,6 +1,5 @@
 <?php
 
-// Dans app/Models/User.php
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -35,9 +34,36 @@ class User extends Authenticatable
         return $this->hasOne(Wallet::class);
     }
 
-    public function shops()
+    /**
+     * Get the shop associated with the user.
+     */
+    public function shop()
     {
-        return $this->hasMany(Shop::class);
+        return $this->hasOne(Shop::class);
+    }
+    
+    /**
+     * Get the subscriptions for the user.
+     */
+    public function subscriptions()
+    {
+        return $this->hasMany(Subscription::class);
+    }
+    
+    /**
+     * Check if user has an active shop.
+     */
+    public function hasActiveShop()
+    {
+        return $this->shop && $this->shop->status === 'active';
+    }
+    
+    /**
+     * Check if user is a vendor.
+     */
+    public function isVendor()
+    {
+        return $this->role === 'Marchand';
     }
 
     public function orders()
@@ -52,7 +78,7 @@ class User extends Authenticatable
 
     public function deliveries()
     {
-        return $this->hasMany(Shipping::class, 'delivery_user_id');
+        return $this->hasMany(Delivery::class, 'delivery_user_id');
     }
 
     public function subscription()
@@ -66,7 +92,7 @@ class User extends Authenticatable
         return $this->role === 'admin';
     }
 
-    public function isVendor()
+    public function isMarchand()
     {
         return $this->role === 'Marchand';
     }

@@ -17,6 +17,8 @@
                     </x-nav-link>
                 </div>
             </div>
+           <!-- Cart -->
+           <a href="{{ route('cart') }}" class="text-gray-800 hover:text-green-500" title="Panier"><i class="fas fa-shopping-cart"></i></a>
 
             <!-- Settings Dropdown -->
             <div class="hidden sm:flex sm:items-center sm:ml-6">

@@ -126,9 +126,9 @@
             <!-- Charts Section -->
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
                 <!-- Sales Chart -->
-                <div class="bg-white dark:bg-gray-700 overflow-hidden shadow-md rounded-lg p-6">
+                <div class="bg-white dark:bg-gray-700 overflow-hidden shadow-md rounded-lg p-6 dark:text-white">
                     <h3 class="text-lg font-semibold text-green-950 dark:text-green-300 mb-4 border-b border-gray-200 dark:border-gray-600 pb-2">Ventes des 7 derniers jours</h3>
-                    <div class="h-80">
+                    <div class=" dark:text-white h-80">
                         <canvas id="salesChart"></canvas>
                     </div>
                 </div>

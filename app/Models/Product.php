@@ -10,47 +10,51 @@ class Product extends Model
     use HasFactory;
 
     protected $fillable = [
-        'shop_id',
         'name',
         'description',
         'price',
-        'sale_price',
-        'quantity',
+        'stock',
+        'shop_id',
         'category_id',
-        'status',
-        'featured',
-        'image'
+        'image_url',
+        'status'
     ];
 
-    /**
-     * Get the shop that owns the product.
-     */
+    // Define relationship with shop
     public function shop()
     {
         return $this->belongsTo(Shop::class);
     }
 
-    /**
-     * Get the category that the product belongs to.
-     */
+    // Define relationship with category
     public function category()
     {
         return $this->belongsTo(Category::class);
     }
 
-    /**
-     * Get the order items for the product.
-     */
+    // Define relationship with order items
     public function orderItems()
     {
         return $this->hasMany(OrderItem::class);
     }
 
-    /**
-     * Get the product images.
-     */
-    public function images()
+    // Define relationship with orders through order items
+    public function orders()
     {
-        return $this->hasMany(ProductImage::class);
+        return $this->belongsToMany(Order::class, 'order_items')
+                    ->withPivot('quantity', 'price')
+                    ->withTimestamps();
+    }
+    
+    // Get the vendor through the shop
+    public function vendor()
+    {
+        return $this->shop->user;
+    }
+    
+    // For wishlist functionality
+    public function wishlistItems()
+    {
+        return $this->hasMany(WishlistItem::class);
     }
 }

@@ -65,6 +65,15 @@
                 </div>
             </div>
 
+            <!-- Add this at the bottom of the form, just before the closing </form> tag -->
+            <div class="mt-4 text-center">
+                <p class="text-sm text-gray-600">
+                    {{ __('Vous êtes un marchand?') }} 
+                    <a href="{{ route('vendor.register') }}" class="font-medium text-indigo-600 hover:text-indigo-500">
+                        {{ __('Inscrivez-vous ici') }}
+                    </a>
+                </p>
+            </div>
             <div class="flex items-center justify-end mt-6">
                 <a class="underline text-sm text-green-950 hover:text-yellow-700 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-700" href="{{ route('login') }}">
                     {{ __('Déjà inscrit?') }}

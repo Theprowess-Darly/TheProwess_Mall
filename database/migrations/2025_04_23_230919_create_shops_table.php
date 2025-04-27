@@ -14,14 +14,17 @@ return new class extends Migration
         Schema::create('shops', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->string('name');
-            $table->text('description')->nullable();
+            $table->string('name')->unique();
+            $table->string('email');
+            $table->string('phone');
+            $table->string('address');
+            $table->string('city');
+            $table->string('country');
+            $table->string('postal_code');
+            $table->text('description');
             $table->string('logo')->nullable();
-            $table->enum('status', ['pending', 'approved', 'rejected'])->default('pending');
-            $table->string('rejection_reason')->nullable();
-            $table->timestamp('rejected_at')->nullable();
-            $table->timestamp('category')->nullable();
-            $table->timestamp('approved_at')->nullable();
+            $table->string('banner')->nullable();
+            $table->enum('status', ['pending', 'active', 'suspended'])->default('pending');
             $table->timestamps();
         });
     }

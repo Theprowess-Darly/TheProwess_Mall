@@ -1,10 +1,7 @@
 <div class="min-h-screen bg-teal-950 dark:bg-gray-900 text-white w-64 fixed left-0 top-0 z-40 transition-all duration-300 ease-in-out" id="sidebar">
     <div class="flex items-center justify-between p-4 border-b border-green-800 dark:border-gray-700">
-        Internal Server Error
-
-        InvalidArgumentException
-        View [delivery.dashboard] not found        <div class="flex items-center space-x-2">
-            <img src="{{ asset('images/logo.png') }}" alt="TPMall Logo" class="h-8 w-auto" onerror="this.src='{{ asset('images/placeholder.png') }}'; this.onerror='';">
+        <div class="flex items-center space-x-2">
+            <img src="{{ asset('images/logos/spxbg.jpg') }}" alt="TPMall Logo" class="h-8 w-auto" onerror="this.src='{{ asset('images/placeholder.png') }}'; this.onerror='';">
             <span class="text-xl font-bold text-white">TPMall</span>
         </div>
         <button id="closeSidebar" class="md:hidden text-white hover:text-green-300">

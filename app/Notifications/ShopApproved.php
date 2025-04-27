@@ -7,6 +7,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
+use Illuminate\Notifications\Messages\DatabaseMessage;
 
 class ShopApproved extends Notification implements ShouldQueue
 {
@@ -29,6 +30,14 @@ class ShopApproved extends Notification implements ShouldQueue
     {
         return ['mail', 'database'];
     }
+    public function toDatabase(object $notifiable)
+    {
+        return [
+            'title' => 'Subscription Approved',
+            'message' => 'Your shop subscription has been approved. Your shop is now active.',
+            'link' => route('vendor.dashboard'),
+        ];
+    }
 
     /**
      * Get the mail representation of the notification.
@@ -40,7 +49,7 @@ class ShopApproved extends Notification implements ShouldQueue
             ->greeting('Bonjour ' . $notifiable->name . ',')
             ->line('Nous sommes heureux de vous informer que votre boutique "' . $this->shop->name . '" a été approuvée.')
             ->line('Vous pouvez maintenant commencer à ajouter des produits à votre boutique.')
-            ->action('Gérer ma boutique', url('/vendor/shops/' . $this->shop->id))
+            ->action('Gérer ma boutique', url('/vendor/dashboard/'. $this->shop->id))
             ->line('Merci d\'utiliser notre plateforme!');
     }
 
