@@ -3,7 +3,9 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use Illuminate\Support\Facades\Schema; // to extend string length to 191
+use Illuminate\Support\Facades\Route;
+use App\Http\Middleware\CheckRole;
+use Illuminate\Support\Facades\Schema;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -20,6 +22,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        Route::aliasMiddleware('role', CheckRole::class);
         Schema::defaultStringLength(191); //
     }
 }

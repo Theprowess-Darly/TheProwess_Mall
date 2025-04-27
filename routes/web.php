@@ -1,19 +1,24 @@
 <?php
 
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Admin\ShopController;
+use App\Http\Controllers\Admin\ProductController;
+use App\Http\Controllers\Admin\OrderController;
 use Illuminate\Support\Facades\Route;
 
-// Public routes
 Route::get('/', function () {
-    return view('welcome');
-});
+    return view('home');
+})->name('home');
 
-// Protected routes requiring authentication
-Route::middleware(['auth', 'verified'])->group(function () {
-    Route::get('/dashboard', function () {
-        return view('dashboard');
-    })->name('dashboard');
-    
+// Apply the redirect.role middleware to the dashboard route
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['auth', 'redirect.role'])->name('dashboard');
+
+Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
@@ -21,45 +26,182 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
 // Admin Routes 
 Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->group(function () {
-    Route::get('/dashboard', function () {
-        return view('admin.dashboard');
-    })->name('dashboard');
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     
-    // Routes pour gérer les boutiques
-    // Routes pour gérer les produits
-    // etc.
+    // User management routes
+    Route::get('/users', [UserController::class, 'index'])->name('users.index');
+    Route::get('/users/create', [UserController::class, 'create'])->name('users.create');
+    Route::post('/users', [UserController::class, 'store'])->name('users.store');
+    Route::get('/users/{user}', [UserController::class, 'show'])->name('users.show');
+    Route::get('/users/{user}/edit', [UserController::class, 'edit'])->name('users.edit');
+    Route::put('/users/{user}', [UserController::class, 'update'])->name('users.update');
+    Route::delete('/users/{user}', [UserController::class, 'destroy'])->name('users.destroy');
+    
+    // Shop management routes
+    Route::get('/shops', [ShopController::class, 'index'])->name('shops.index');
+    Route::get('/shops/pending', [ShopController::class, 'pending'])->name('shops.pending');
+    Route::get('/shops/{shop}', [ShopController::class, 'show'])->name('shops.show');
+    Route::post('/shops/{shop}/approve', [ShopController::class, 'approve'])->name('shops.approve');
+    Route::post('/shops/{shop}/reject', [ShopController::class, 'reject'])->name('shops.reject');
+    Route::post('/shops/{shop}/suspend', [ShopController::class, 'suspend'])->name('shops.suspend');
+    Route::post('/shops/{shop}/reactivate', [ShopController::class, 'reactivate'])->name('shops.reactivate');
+    
+    // Product management routes
+    Route::get('/products', [ProductController::class, 'index'])->name('products.index');
+    Route::get('/products/{product}', [ProductController::class, 'show'])->name('products.show');
+    Route::patch('/products/{product}/activate', [ProductController::class, 'activate'])->name('products.activate');
+    Route::patch('/products/{product}/deactivate', [ProductController::class, 'deactivate'])->name('products.deactivate');
+    
+    // Order management routes
+    Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
+    Route::get('/orders/{order}', [OrderController::class, 'show'])->name('orders.show');
+    Route::patch('/orders/{order}/status', [OrderController::class, 'updateStatus'])->name('orders.update-status');
 });
 
-// Vendeur Routes
-Route::middleware(['auth', 'role:vendeur'])->prefix('vendeur')->name('vendeur.')->group(function () {
-    Route::get('/dashboard', function () {
-        return view('vendor.dashboard');
-    })->name('dashboard');
+// Vendor Routes
+Route::middleware(['auth', 'role:Marchand'])->prefix('vendor')->name('vendor.')->group(function () {
+    Route::get('/dashboard', [App\Http\Controllers\Vendor\DashboardController::class, 'index'])->name('dashboard');
     
-    // Routes pour gérer ses boutiques
-    // Routes pour gérer ses produits
-    // etc.
+    // Profile routes
+    Route::get('/profile', [App\Http\Controllers\Vendor\ProfileController::class, 'edit'])->name('profile.edit');
+    Route::put('/profile', [App\Http\Controllers\Vendor\ProfileController::class, 'update'])->name('profile.update');
+    
+    // Shop routes
+    Route::get('/shop/create', [App\Http\Controllers\Vendor\ShopController::class, 'create'])->name('shop.create');
+    Route::post('/shop', [App\Http\Controllers\Vendor\ShopController::class, 'store'])->name('shop.store');
+    Route::get('/shop/edit', [App\Http\Controllers\Vendor\ShopController::class, 'edit'])->name('shop.edit');
+    Route::put('/shop', [App\Http\Controllers\Vendor\ShopController::class, 'update'])->name('shop.update');
+    
+    // Subscription routes
+    Route::get('/subscription/plans', [App\Http\Controllers\Vendor\SubscriptionController::class, 'plans'])->name('subscription.plans');
+    Route::post('/subscription/subscribe', [App\Http\Controllers\Vendor\SubscriptionController::class, 'subscribe'])->name('subscription.subscribe');
+    Route::get('/subscription/{id}/payment', [App\Http\Controllers\Vendor\SubscriptionController::class, 'payment'])->name('subscription.payment');
+    Route::post('/subscription/{id}/payment', [App\Http\Controllers\Vendor\SubscriptionController::class, 'processPayment'])->name('subscription.process-payment');
+    Route::get('/subscription/history', [App\Http\Controllers\Vendor\SubscriptionController::class, 'history'])->name('subscription.history');
 });
 
-// Routes Livreur
-Route::middleware(['auth', 'role:livreur'])->prefix('livreur')->name('livreur.')->group(function () {
-    Route::get('/dashboard', function () {
-        return view('delivery.dashboard');
-    })->name('dashboard');
-    
-    // Routes pour gérer les livraisons
-    // etc.
+// Admin routes (continued)
+Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->group(function () {
+    // Subscription management
+    Route::get('/subscriptions/pending', [App\Http\Controllers\Admin\SubscriptionController::class, 'pending'])->name('subscriptions.pending');
+    Route::get('/subscriptions/{id}', [App\Http\Controllers\Admin\SubscriptionController::class, 'show'])->name('subscriptions.show');
+    Route::post('/subscriptions/{id}/approve', [App\Http\Controllers\Admin\SubscriptionController::class, 'approve'])->name('subscriptions.approve');
+    Route::post('/subscriptions/{id}/reject', [App\Http\Controllers\Admin\SubscriptionController::class, 'reject'])->name('subscriptions.reject');
+    Route::get('/subscriptions', [App\Http\Controllers\Admin\SubscriptionController::class, 'all'])->name('subscriptions.all');
 });
 
-
-// Route::get('/dashboard', function () {
-//     return view('dashboard');
-// })->middleware(['auth', 'verified'])->name('dashboard');
-
-// Route::middleware('auth')->group(function () {
-//     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-//     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-//     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+// Notification routes (for all authenticated users)
+// Route::middleware(['auth'])->group(function () {
+//     Route::get('/notifications', [App\Http\Controllers\NotificationController::class, 'index'])->name('notifications.index');
+//     Route::get('/notifications/{id}', [App\Http\Controllers\NotificationController::class, 'show'])->name('notifications.show');
+//     Route::post('/notifications/mark-all-read', [App\Http\Controllers\NotificationController::class, 'markAllAsRead'])->name('notifications.mark-all-read');
+//     Route::delete('/notifications/{id}', [App\Http\Controllers\NotificationController::class, 'destroy'])->name('notifications.destroy');
 // });
 
+// Delivery routes
+Route::middleware(['auth', 'role:livreur'])->prefix('delivery')->name('delivery.')->group(function () {
+    Route::get('/dashboard', [App\Http\Controllers\Delivery\DashboardController::class, 'index'])->name('dashboard');
+});
+
+//Client dashboard routes
+Route::middleware(['auth', 'role:client'])->prefix('client')->name('client.')->group(function () {
+    Route::get('/dashboard', [App\Http\Controllers\Client\DashboardController::class, 'index'])->name('dashboard');
+});
+
 require __DIR__.'/auth.php';
+
+// Vendor registration routes
+Route::get('/register/vendor', [App\Http\Controllers\Auth\VendorRegisterController::class, 'showRegistrationForm'])->name('vendor.register');
+Route::post('/register/vendor', [App\Http\Controllers\Auth\VendorRegisterController::class, 'register']);
+
+
+
+//Visitor pages routes
+
+Route::get('/privacy-policy', function () {
+    return view('pages.privacy-policy');
+})->name('privacy-policy');
+
+Route::get('/return-policy', function () {
+    return view('pages.return-policy');
+})->name('return-policy');
+
+Route::get('/terms-of-sale', function () {
+    return view('pages.terms-of-sale');
+})->name('terms-of-sale');
+
+Route::get('/careers', function () {
+    return view('pages.careers');
+})->name('careers');
+
+Route::get('/become-seller', function () {
+    return view('pages.become-seller');
+})->name('become-seller');
+
+Route::get('/about', function () {
+    return view('pages.about');
+})->name('about');
+
+Route::get('/showrooms', function () {
+    return view('pages.showrooms');
+})->name('showrooms');
+
+Route::get('/how-to-shop', function () {
+    return view('pages.how-to-shop');
+})->name('how-to-shop');
+
+Route::get('/contact', function () {
+    return view('pages.contact');
+})->name('contact');
+
+Route::get('/delivery-fees', function () {
+    return view('pages.delivery-fees');
+})->name('delivery-fees');
+
+Route::get('/help-center', function () {
+    return view('pages.help-center');
+})->name('help-center');
+
+Route::get('/about-deliveries', function () {
+    return view('pages.about-deliveries');
+})->name('about-deliveries');
+
+Route::get('/about-fees', function () {
+    return view('pages.about-fees');
+})->name('about-fees');
+
+Route::get('/about-orders', function () {
+    return view('pages.about-orders');
+})->name('about-orders');
+
+Route::get('/about-payments', function () {
+    return view('pages.about-payments');
+})->name('about-payments');
+
+Route::get('/about-stock', function () {
+    return view('pages.about-stock');
+})->name('about-stock');
+
+
+// Seller Registration Routes
+Route::post('/seller/register', [App\Http\Controllers\SellerController::class, 'register'])->name('seller.register');
+Route::post('/seller/documents', [App\Http\Controllers\SellerController::class, 'uploadDocuments'])->name('seller.documents');
+
+
+// Home and Public Pages
+Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get('/home', function() {
+    return redirect('/');
+});
+
+// Cart Routes
+Route::get('/cart', function () {
+    return view('cart');
+})->name('cart');
+
+Route::get('/checkout', function () {
+    return view('checkout');
+})->middleware('auth')->name('checkout');
+
+// Order Routes
+Route::post('/orders', [OrderController::class, 'store'])->middleware('auth')->name('orders.store');

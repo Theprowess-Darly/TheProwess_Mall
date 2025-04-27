@@ -17,6 +17,8 @@ return new class extends Migration
             $table->integer('deposit')->default(0);
             $table->integer('withdrawal')->default(0);            
             $table->integer('balance')->default(0);
+            $table->string('currency')->default('XAF');
+            $table->boolean('is_active')->default(true);
             $table->timestamps();
         });
     }

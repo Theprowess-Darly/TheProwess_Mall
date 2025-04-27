@@ -1,3 +1,100 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.auth-background {
+    background-image: url('@/images/carousel/TPMbg.png');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+}
+.hero1-background {
+    background-image: url('@/images/carousel/ladyy.jpg');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    height: 600px;
+}
+.hero2-background {
+    background-image: url('@/images/carousel/slider-6.jpg');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    height: 600px;
+}
+.hero3-background {
+    background-image: url('@/images/carousel/money1.jpg');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    height: 600px;
+}
+.hero4-background {
+    background-image: url('@/images/carousel/ladyB.jpg');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    height: 600px;
+}
+.hero5-background {
+    background-image: url('@/images/carousel/hero5.png');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    height: 600px;
+}
+.hero6-background {
+    background-image: url('@/images/carousel/livaison.jpg');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    height: 600px;
+    object-fit: cover;
+}
+.hero7-background {
+    background-image: url('@/images/carousel/lady3.jpg');
+    background-repeat: no-repeat;
+    background-position: top;
+    background-size: cover;
+    object-fit: cover;
+    height: 600px;
+}
+.hero8-background {
+    background-image: url('@/images/carousel/lady2.jpg');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    height: 600px;
+}
+
+@font-face {
+    font-family: 'CustomFont';
+    src: url('../fonts/ionicons.eot') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+.carousel-container {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    height: 600px;
+}
+
+.carousel-track {
+    display: flex;
+    transition: transform 0.5s ease-in-out;
+}
+
+.carousel-item {
+    min-width: 100%;
+    flex-shrink: 0;
+    height: fit-content;
+}
+
+.carousel-prev,
+.carousel-next {
+    z-index: 10;
+}
+
+/* Add any additional styling needed */
