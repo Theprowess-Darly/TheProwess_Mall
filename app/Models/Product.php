@@ -47,11 +47,13 @@ class Product extends Model
     }
     
     // Get the vendor through the shop
-    public function vendor()
-    {
-        return $this->shop->user;
-    }
+    // public function vendor()
+    // {
+    //     return $this->shop->user;
+    // }
     
+  
+
     // For wishlist functionality
     public function wishlistItems()
     {

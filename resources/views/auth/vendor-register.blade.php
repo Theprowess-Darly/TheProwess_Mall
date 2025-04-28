@@ -48,11 +48,11 @@
             </div>
 
             <!-- Postal Code -->
-            {{-- <div class="w-1/3">
+            <div class="w-1/3">
                 <x-input-label for="postal_code" :value="__('Code postal')" />
                 <x-text-input id="postal_code" class="block mt-1 w-full" type="text" name="postal_code" :value="old('postal_code')" required />
                 <x-input-error :messages="$errors->get('postal_code')" class="mt-2" />
-            </div> --}}
+            </div>
         </div>
 
         <!-- Password -->
@@ -84,7 +84,7 @@
             </a>
 
             <x-primary-button class="ml-4">
-                {{ __('S\'inscrire') }}
+                {{ __('Creer mon compte') }}
             </x-primary-button>
         </div>
     </form>

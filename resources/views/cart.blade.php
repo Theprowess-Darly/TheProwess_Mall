@@ -4,7 +4,7 @@
 
 @section('content')
 <div class="container mx-auto px-4 py-8">
-    <h1 class="text-2xl font-bold mb-6">Panier d'achat</h1>
+    <h1 class="text-2xl dark:text-blue-300 font-bold mb-6">Panier d'achat</h1>
     
     <div id="cart-container">
         <!-- Cart content will be rendered by JavaScript -->

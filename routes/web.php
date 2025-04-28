@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\ShopController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\OrderController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Vendor\VendorProductController;
 
 Route::get('/', function () {
     return view('home');
@@ -78,6 +79,13 @@ Route::middleware(['auth', 'role:Marchand'])->prefix('vendor')->name('vendor.')-
     Route::get('/subscription/{id}/payment', [App\Http\Controllers\Vendor\SubscriptionController::class, 'payment'])->name('subscription.payment');
     Route::post('/subscription/{id}/payment', [App\Http\Controllers\Vendor\SubscriptionController::class, 'processPayment'])->name('subscription.process-payment');
     Route::get('/subscription/history', [App\Http\Controllers\Vendor\SubscriptionController::class, 'history'])->name('subscription.history');
+    // Product routes
+    Route::get('/products', [App\Http\Controllers\Vendor\VendorProductController::class, 'index'])->name('products.index');
+    Route::get('/products/create', [App\Http\Controllers\Vendor\VendorProductController::class, 'create'])->name('products.create');
+    Route::post('/products', [VendorProductController::class, 'store'])->name('products.store');  // This is the store route
+
+
+
 });
 
 // Admin routes (continued)
@@ -88,6 +96,14 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
     Route::post('/subscriptions/{id}/approve', [App\Http\Controllers\Admin\SubscriptionController::class, 'approve'])->name('subscriptions.approve');
     Route::post('/subscriptions/{id}/reject', [App\Http\Controllers\Admin\SubscriptionController::class, 'reject'])->name('subscriptions.reject');
     Route::get('/subscriptions', [App\Http\Controllers\Admin\SubscriptionController::class, 'all'])->name('subscriptions.all');
+    Route::prefix('admin')->name('admin.')->middleware(['auth', 'role:Admin'])->group(function () {    
+        Route::resource('categories', App\Http\Controllers\Admin\CategoryController::class);
+
+    });
+    Route::resource('categories', \App\Http\Controllers\Admin\CategoryController::class);
+    Route::put('/admin/categories/{category}', [App\Http\Controllers\Admin\CategoryController::class, 'update'])->name('admin.categories.update');
+
+
 });
 
 // Notification routes (for all authenticated users)
@@ -205,3 +221,27 @@ Route::get('/checkout', function () {
 
 // Order Routes
 Route::post('/orders', [OrderController::class, 'store'])->middleware('auth')->name('orders.store');
+
+// Client Order Routes
+Route::middleware(['auth', 'role:client'])->group(function () {
+    Route::get('/client/orders', [App\Http\Controllers\Client\OrderController::class, 'index'])->name('client.orders');
+    Route::get('/client/orders/{order}', [App\Http\Controllers\Client\OrderController::class, 'show'])->name('client.orders.show');
+});
+
+// Client Wishlist Routes
+Route::middleware(['auth', 'role:client'])->group(function () {
+    Route::get('/client/wishlist', [App\Http\Controllers\Client\WishlistController::class, 'index'])->name('client.wishlist');
+    Route::post('/client/wishlist', [App\Http\Controllers\Client\WishlistController::class, 'store'])->name('client.wishlist.store');
+    Route::delete('/client/wishlist/{product}', [App\Http\Controllers\Client\WishlistController::class, 'destroy'])->name('client.wishlist.destroy');
+});
+
+// Client Review Routes
+Route::middleware(['auth', 'role:client'])->group(function () {
+    Route::get('/client/reviews', [App\Http\Controllers\Client\ReviewController::class, 'index'])->name('client.reviews');
+    Route::get('/client/reviews/create/{product}', [App\Http\Controllers\Client\ReviewController::class, 'create'])->name('client.reviews.create');
+    Route::post('/client/reviews', [App\Http\Controllers\Client\ReviewController::class, 'store'])->name('client.reviews.store');
+    Route::delete('/client/reviews/{review}', [App\Http\Controllers\Client\ReviewController::class, 'destroy'])->name('client.reviews.destroy');
+});
+
+// Add this route for vendor shop
+Route::get('/vendor/shop/{shop}', [App\Http\Controllers\Vendor\ShopController::class, 'show'])->name('vendor.shop.show');
