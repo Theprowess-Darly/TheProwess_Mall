@@ -55,7 +55,10 @@ class DashboardController extends Controller
             'recentOrders',
             'topProducts',
             'salesChartData',
-            'customerLocations'
+            'customerLocations',           
         ));
     }
+   
+
+    
 }

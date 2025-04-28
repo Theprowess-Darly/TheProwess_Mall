@@ -32,7 +32,7 @@
                 Tableau de bord
             </a>
             
-            <a href="#" class="flex items-center px-4 py-3 {{ request()->routeIs('vendor.products.*') ? 'bg-green-800 dark:bg-gray-800 text-white' : 'text-green-200 dark:text-gray-300 hover:bg-green-800 dark:hover:bg-gray-800 hover:text-white' }} transition-colors duration-200">
+            <a href="{{ route('vendor.products.index') }}" class="flex items-center px-4 py-3 {{ request()->routeIs('vendor.products.*') ? 'bg-green-800 dark:bg-gray-800 text-white' : 'text-green-200 dark:text-gray-300 hover:bg-green-800 dark:hover:bg-gray-800 hover:text-white' }} transition-colors duration-200">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
                 </svg>
@@ -46,12 +46,17 @@
                 Commandes
             </a>
             
-            <a href="{{ route('vendor.shop.show')}}" class="flex items-center px-4 py-3 {{ request()->routeIs('vendor.shop.*') ? 'bg-green-800 dark:bg-gray-800 text-white' : 'text-green-200 dark:text-gray-300 hover:bg-green-800 dark:hover:bg-gray-800 hover:text-white' }} transition-colors duration-200">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
-                </svg>
-                Ma boutique
-            </a>
+            @isset($shop)
+                <a href="{{ route('vendor.shop.show', ['shop' => $shop->id]) }}" class="flex items-center px-4 py-3 {{ request()->routeIs('vendor.shop.*') ? 'bg-green-800 dark:bg-gray-800 text-white' : 'text-green-200 dark:text-gray-300 hover:bg-green-800 dark:hover:bg-gray-800 hover:text-white' }} transition-colors duration-200">
+            @else
+                <a href="{{ route('vendor.shop.create') }}" class="flex items-center px-4 py-3 {{ request()->routeIs('vendor.shop.*') ? 'bg-green-800 dark:bg-gray-800 text-white' : 'text-green-200 dark:text-gray-300 hover:bg-green-800 dark:hover:bg-gray-800 hover:text-white' }} transition-colors duration-200">
+            @endisset
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+                    </svg>
+                    Ma boutique
+                </a>
+        
             
             <a href="#" class="flex items-center px-4 py-3 {{ request()->routeIs('vendor.reviews.*') ? 'bg-green-800 dark:bg-gray-800 text-white' : 'text-green-200 dark:text-gray-300 hover:bg-green-800 dark:hover:bg-gray-800 hover:text-white' }} transition-colors duration-200">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">

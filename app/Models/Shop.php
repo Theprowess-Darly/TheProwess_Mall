@@ -55,4 +55,8 @@ class Shop extends Model
             ->where('ends_at', '>', now())
             ->latest();
     }
+    public function products()
+    {
+        return $this->hasMany(Product::class);
+    }
 }

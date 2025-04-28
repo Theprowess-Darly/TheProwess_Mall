@@ -65,10 +65,10 @@
                                 <i class="fas fa-user"></i> Mon Profil
                             </a>
                         </li>
-                        <li class="nav-item">
+                        {{-- <li class="nav-item">
                             <a class="nav-link" href="{{ route('notifications.index') }}">
                                 <i class="fas fa-bell"></i> Notifications
-                            </a>
+                            </a> --}}
                         </li>
                         <li class="nav-item">
                             <form method="POST" action="{{ route('logout') }}" class="d-inline">
