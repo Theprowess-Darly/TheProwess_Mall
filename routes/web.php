@@ -10,6 +10,7 @@ use App\Http\Controllers\Admin\OrderController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Vendor\VendorProductController;
 
+
 Route::get('/', function () {
     return view('home');
 })->name('home');
@@ -71,7 +72,7 @@ Route::middleware(['auth', 'role:Marchand'])->prefix('vendor')->name('vendor.')-
     Route::get('/shop/create', [App\Http\Controllers\Vendor\ShopController::class, 'create'])->name('shop.create');
     Route::post('/shop', [App\Http\Controllers\Vendor\ShopController::class, 'store'])->name('shop.store');
     Route::get('/shop/edit', [App\Http\Controllers\Vendor\ShopController::class, 'edit'])->name('shop.edit');
-    Route::put('/shop', [App\Http\Controllers\Vendor\ShopController::class, 'update'])->name('shop.update');
+    Route::put('/shop/{shop}', [App\Http\Controllers\Vendor\ShopController::class, 'update'])->name('shop.update');
     
     // Subscription routes
     Route::get('/subscription/plans', [App\Http\Controllers\Vendor\SubscriptionController::class, 'plans'])->name('subscription.plans');
@@ -83,6 +84,12 @@ Route::middleware(['auth', 'role:Marchand'])->prefix('vendor')->name('vendor.')-
     Route::get('/products', [App\Http\Controllers\Vendor\VendorProductController::class, 'index'])->name('products.index');
     Route::get('/products/create', [App\Http\Controllers\Vendor\VendorProductController::class, 'create'])->name('products.create');
     Route::post('/products', [VendorProductController::class, 'store'])->name('products.store');  // This is the store route
+    Route::get('/products/{product}/edit', [App\Http\Controllers\Vendor\VendorProductController::class, 'edit'])->name('products.edit');
+    Route::put('/products/{product}', [App\Http\Controllers\Vendor\VendorProductController::class, 'update'])->name('products.update');
+    Route::get('/products/{product}', [App\Http\Controllers\Vendor\VendorProductController::class, 'show'])->name('products.show');
+  
+    
+    
 
 
 
@@ -102,6 +109,8 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
     });
     Route::resource('categories', \App\Http\Controllers\Admin\CategoryController::class);
     Route::put('/admin/categories/{category}', [App\Http\Controllers\Admin\CategoryController::class, 'update'])->name('admin.categories.update');
+    Route::delete('/admin/categories/{category}', [App\Http\Controllers\Admin\CategoryController::class, 'destroy'])->name('admin.categories.destroy');
+
 
 
 });

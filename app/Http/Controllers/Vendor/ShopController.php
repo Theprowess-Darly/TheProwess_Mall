@@ -99,8 +99,8 @@ class ShopController extends Controller
     public function update(Request $request)
     {
         $shop = Shop::where('user_id', Auth::id())->firstOrFail();
-
-        $request->validate([
+    
+        $validated = $request->validate([
             'name' => 'required|string|max:255|unique:shops,name,' . $shop->id,
             'email' => 'required|email|max:255',
             'phone' => 'required|string|max:20',
@@ -112,7 +112,8 @@ class ShopController extends Controller
             'logo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'banner' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
-
+    
+        // Mise à jour des champs de base
         $shop->name = $request->name;
         $shop->email = $request->email;
         $shop->phone = $request->phone;
@@ -121,30 +122,36 @@ class ShopController extends Controller
         $shop->country = $request->country;
         $shop->postal_code = $request->postal_code;
         $shop->description = $request->description;
-
-        // Handle logo upload
+    
+        // Gestion du logo
         if ($request->hasFile('logo')) {
-            // Delete old logo if exists
+            // Suppression de l'ancien logo s'il existe
             if ($shop->logo) {
                 Storage::disk('public')->delete($shop->logo);
             }
             $logoPath = $request->file('logo')->store('shops/logos', 'public');
             $shop->logo = $logoPath;
         }
-
-        // Handle banner upload
+    
+        // Gestion de la bannière
         if ($request->hasFile('banner')) {
-            // Delete old banner if exists
+            // Suppression de l'ancienne bannière si elle existe
             if ($shop->banner) {
                 Storage::disk('public')->delete($shop->banner);
             }
             $bannerPath = $request->file('banner')->store('shops/banners', 'public');
             $shop->banner = $bannerPath;
         }
-
+    
         $shop->save();
-
+    
         return redirect()->route('vendor.shop.edit')
             ->with('success', 'Boutique mise à jour avec succès!');
     }
+
+  
+
+       
+
+   
 }
