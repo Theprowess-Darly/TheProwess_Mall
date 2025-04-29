@@ -14,6 +14,7 @@ class VendorShopController extends Controller
      * @return \Illuminate\View\View
      */
     public function show(Shop $shop)
+
     {
         return view('vendor.shop.show', compact('shop'));
     }

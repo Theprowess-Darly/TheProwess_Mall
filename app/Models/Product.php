@@ -14,10 +14,10 @@ class Product extends Model
         'description',
         'price',
         'stock',
+        'image_url',
         'shop_id',
         'category_id',
-        'image_url',
-        'status'
+        'status', // Assurez-vous que 'status' est inclus ici
     ];
 
     // Define relationship with shop

@@ -13,7 +13,7 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $categories = Category::latest()->paginate(50);
+        $categories = Category::latest()->paginate(5);
         return view('admin.categories.index', compact('categories'));
     }
 
@@ -58,16 +58,33 @@ class CategoryController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+
+    
+    public function update(Request $request, Category $category)
     {
-        $request->validate([
-            'name' => 'required|string|max:255',
-        ]);
+        try {
+            // Validate incoming data
+            $validated = $request->validate([
+                'name' => 'required|string|max:255',
+            ]);
     
-        $category->update(['name' => $request->name]);
+            // Update the category
+            $category->update($validated);
     
-        return redirect()->route('admin.categories.index')->with('success', 'Catégorie mise à jour avec succès.');
+            // Return a JSON response for AJAX
+            return response()->json([
+                'message' => 'Catégorie mise à jour avec succès.',
+                'category' => $category,
+            ], 200);
+        } catch (\Exception $e) {
+            // Handle errors and return 500 if something goes wrong
+            return response()->json([
+                'message' => 'Erreur lors de la mise à jour de la catégorie.',
+                'error' => $e->getMessage(),
+            ], 500);
+        }
     }
+    
 
     /**
      * Remove the specified resource from storage.
