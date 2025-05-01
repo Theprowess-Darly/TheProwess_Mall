@@ -46,6 +46,13 @@
                 Boutiques
             </a>
             
+            <a href="{{ route('admin.subscriptions.all') }}" class="flex items-center px-4 py-3 {{ request()->routeIs('admin.subscriptions.*') ? 'bg-green-800 dark:bg-gray-800 text-white' : 'text-green-200 dark:text-gray-300 hover:bg-green-800 dark:hover:bg-gray-800 hover:text-white' }} transition-colors duration-200">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 5v2m0 4v2m0 4v2M5 5a2 2 0 00-2 2v3a2 2 0 110 4v3a2 2 0 002 2h14a2 2 0 002-2v-3a2 2 0 110-4V7a2 2 0 00-2-2H5z" />
+                </svg>
+                Abonnements
+            </a>
+            
             <a href="{{ route('admin.products.index') }}" class="flex items-center px-4 py-3 {{ request()->routeIs('admin.products.*') ? 'bg-green-800 dark:bg-gray-800 text-white' : 'text-green-200 dark:text-gray-300 hover:bg-green-800 dark:hover:bg-gray-800 hover:text-white' }} transition-colors duration-200">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />

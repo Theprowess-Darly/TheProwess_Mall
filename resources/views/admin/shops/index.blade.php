@@ -32,6 +32,7 @@
                                     <th class="py-3 px-4 text-left">Nom</th>
                                     <th class="py-3 px-4 text-left">Vendeur</th>
                                     <th class="py-3 px-4 text-left">Statut</th>
+                                    <th class="py-3 px-4 text-left">Abonnement</th>
                                     <th class="py-3 px-4 text-left">Date de création</th>
                                     <th class="py-3 px-4 text-left">Actions</th>
                                 </tr>
@@ -51,6 +52,23 @@
                                                 <span class="px-2 py-1 bg-red-100 text-red-800 rounded-full text-xs">Rejetée</span>
                                             @elseif ($shop->status === 'suspended')
                                                 <span class="px-2 py-1 bg-gray-100 text-gray-800 rounded-full text-xs">Suspendue</span>
+                                            @endif
+                                        </td>
+                                        <td class="py-3 px-4">
+                                            @php
+                                                $activeSubscription = $shop->subscriptions()->where('status', 'active')->first();
+                                            @endphp
+                                            
+                                            @if ($activeSubscription)
+                                                <span class="px-2 py-1 bg-green-100 text-green-800 rounded-full text-xs">
+                                                    {{ $activeSubscription->plan->name }} - Expire le {{ $activeSubscription->ends_at->format('d/m/Y') }}
+                                                </span>
+                                            @elseif ($shop->subscriptions()->where('status', 'pending')->first())
+                                                <span class="px-2 py-1 bg-yellow-100 text-yellow-800 rounded-full text-xs">En attente d'approbation</span>
+                                            @elseif ($shop->subscriptions()->where('status', 'expired')->first())
+                                                <span class="px-2 py-1 bg-red-100 text-red-800 rounded-full text-xs">Expiré</span>
+                                            @else
+                                                <span class="px-2 py-1 bg-gray-100 text-gray-800 rounded-full text-xs">Aucun abonnement</span>
                                             @endif
                                         </td>
                                         <td class="py-3 px-4">{{ $shop->created_at->format('d/m/Y H:i') }}</td>

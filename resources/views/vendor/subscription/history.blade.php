@@ -42,8 +42,6 @@
                                     <td class="px-6 py-4 whitespace-nowrap">
                                         @if ($subscription->status == 'pending')
                                             <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-700">En attente de paiement</span>
-                                        @elseif ($subscription->status == 'pending_approval')
-                                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800">En attente d'approbation</span>
                                         @elseif ($subscription->status == 'active')
                                             <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-950">Actif</span>
                                         @elseif ($subscription->status == 'expired')
@@ -62,7 +60,7 @@
                                             <a href="{{ route('vendor.subscription.payment', $subscription->id) }}" class="inline-flex items-center px-3 py-1.5 border border-transparent text-xs font-medium rounded-md text-white bg-green-950 hover:bg-green-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-950">
                                                 Compléter le paiement
                                             </a>
-                                        @elseif ($subscription->status == 'active' && $subscription->ends_at && $subscription->ends_at->isPast())
+                                        @elseif ($subscription->status == 'expired')
                                             <a href="{{ route('vendor.subscription.plans') }}" class="inline-flex items-center px-3 py-1.5 border border-transparent text-xs font-medium rounded-md text-white bg-yellow-700 hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-700">
                                                 Renouveler
                                             </a>

@@ -121,7 +121,9 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'role:admin'])->grou
     // Subscription management
     Route::get('/subscriptions/pending', [App\Http\Controllers\Admin\SubscriptionController::class, 'pending'])->name('subscriptions.pending');
     Route::get('/subscriptions/{id}', [App\Http\Controllers\Admin\SubscriptionController::class, 'show'])->name('subscriptions.show');
-    Route::post('/subscriptions/{id}/approve', [App\Http\Controllers\Admin\SubscriptionController::class, 'approve'])->name('subscriptions.approve');
+    
+  
+    Route::post('/admin/subscriptions/{subscription}/approve', [App\Http\Controllers\Admin\SubscriptionController::class, 'approve'])->name('admin.subscriptions.approve');
     Route::post('/subscriptions/{id}/reject', [App\Http\Controllers\Admin\SubscriptionController::class, 'reject'])->name('subscriptions.reject');
     Route::get('/subscriptions', [App\Http\Controllers\Admin\SubscriptionController::class, 'all'])->name('subscriptions.all');
     Route::prefix('admin')->name('admin.')->middleware(['auth', 'role:Admin'])->group(function () {    
@@ -176,6 +178,8 @@ Route::middleware(['auth', 'role:livreur'])->prefix('delivery')->name('delivery.
 //Client dashboard routes
 Route::middleware(['auth', 'role:client'])->prefix('client')->name('client.')->group(function () {
     Route::get('/dashboard', [App\Http\Controllers\Client\DashboardController::class, 'index'])->name('dashboard');
+    Route::get('/products', [App\Http\Controllers\client\ProductController::class, 'index'])->name('products.index');
+
 });
 
 require __DIR__.'/auth.php';

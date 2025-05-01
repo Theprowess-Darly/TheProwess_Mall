@@ -19,7 +19,7 @@ return new class extends Migration
             $table->decimal('amount', 10, 2);
             $table->string('payment_method')->nullable();
             $table->string('payment_id')->nullable();
-            $table->enum('status', ['pending', 'pending_approval', 'active', 'expired', 'cancelled', 'rejected'])->default('pending');
+            $table->enum('status', ['pending', 'active', 'expired', 'cancelled', 'rejected'])->default('pending');
             $table->text('rejection_reason')->nullable();
             $table->timestamp('starts_at')->nullable();
             $table->timestamp('ends_at')->nullable();

@@ -16,6 +16,13 @@
                         {{ __('Dashboard') }}
                     </x-nav-link>
                 </div>
+                {{-- Home page --}}
+                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                    <x-nav-link :href="route('home')" :active="request()->routeIs('home')">
+                        {{ __('Accueil') }}
+                    </x-nav-link>
+                </div>
+                
             </div>
            <!-- Cart -->
            <a href="{{ route('cart') }}" class="text-gray-800 hover:text-green-500" title="Panier"><i class="fas fa-shopping-cart"></i></a>

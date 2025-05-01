@@ -14,8 +14,8 @@
         <!-- Hero Section -->
         <div class="bg-teal-950 text-white py-16 rounded-lg mb-12">
             <div class="container mx-auto text-center">
-                <h1 class="text-4xl font-bold mb-4">Devenez Vendeur sur TPM</h1>
-                <p class="text-lg text-gray-300 mb-8">Développez votre business avec la première marketplace du Cameroun</p>
+                <h1 class="text-4xl font-bold mb-4">Creez votre boutique sur TPM</h1>
+                <p class="text-lg text-gray-300 mb-8">Développez votre business avec la meilleure marketplace  du Cameroun</p>
                 <div class="flex justify-center gap-4">
                     <a href="#register" class="bg-yellow-600 text-white px-8 py-3 rounded-full hover:bg-yellow-700 transition duration-300">
                         Commencer maintenant

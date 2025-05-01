@@ -1,99 +1,111 @@
-@extends('layouts.admin')
+<x-app-layout>
+    <x-slot name="header">
+        <h2 class="font-semibold text-xl text-green-950 dark:text-green-300 leading-tight">
+            {{ __('Détails de l\'abonnement') }}
+        </h2>
+    </x-slot>
 
-@section('title', 'Détails de l\'abonnement')
+    <div class="py-12 bg-green-100 dark:bg-gray-800">
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+            <div class="bg-white dark:bg-gray-700 overflow-hidden shadow-md rounded-lg">
+                <div class="p-6 text-gray-900 dark:text-gray-100">
+                    <div class="flex justify-between items-center mb-6">
+                        <h3 class="text-lg font-semibold text-green-950 dark:text-green-300">Détails de l'abonnement #{{ $subscription->id }}</h3>
+                    </div>
 
-@section('content')
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-md-8 mx-auto">
-            <div class="card">
-                <div class="card-header">
-                    <h4 class="card-title">Détails de l'abonnement #{{ $subscription->id }}</h4>
-                </div>
-                <div class="card-body">
-                    <div class="row mb-4">
-                        <div class="col-md-6">
-                            <h5>Détails de l'abonnement</h5>
-                            <p><strong>Plan:</strong> {{ $subscription->plan->name }}</p>
-                            <p><strong>Montant:</strong> ${{ number_format($subscription->amount, 2) }}</p>
-                            <p><strong>Statut:</strong> 
-                                @if ($subscription->status == 'pending_approval')
-                                    <span class="badge badge-warning">En attente d'approbation</span>
-                                @else
-                                    <span class="badge badge-secondary">{{ $subscription->status }}</span>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                        <div>
+                            <h4 class="text-md font-semibold mb-3">Détails de l'abonnement</h4>
+                            <p class="mb-2"><span class="font-medium">Plan:</span> {{ $subscription->plan->name }}</p>
+                            <p class="mb-2"><span class="font-medium">Montant:</span> ${{ number_format($subscription->amount, 2) }}</p>
+                            <p class="mb-2"><span class="font-medium">Statut:</span> 
+                                @if ($subscription->status == 'pending')
+                                    <span class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800 dark:bg-yellow-800 dark:text-yellow-100">En attente</span>
+                                @elseif ($subscription->status == 'active')
+                                    <span class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800 dark:bg-green-800 dark:text-green-100">Actif</span>
+                                @elseif ($subscription->status == 'expired')
+                                    <span class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-100">Expiré</span>
+                                @elseif ($subscription->status == 'cancelled')
+                                    <span class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800 dark:bg-red-800 dark:text-red-100">Annulé</span>
+                                @elseif ($subscription->status == 'rejected')
+                                    <span class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800 dark:bg-red-800 dark:text-red-100">Rejeté</span>
                                 @endif
                             </p>
-                            <p><strong>Méthode de paiement:</strong> {{ $subscription->payment_method }}</p>
-                            <p><strong>ID de transaction:</strong> {{ $subscription->payment_id }}</p>
-                            <p><strong>Date de création:</strong> {{ $subscription->created_at->format('d/m/Y H:i') }}</p>
+                            <p class="mb-2"><span class="font-medium">Méthode de paiement:</span> {{ $subscription->payment_method }}</p>
+                            <p class="mb-2"><span class="font-medium">ID de transaction:</span> {{ $subscription->payment_id }}</p>
+                            <p class="mb-2"><span class="font-medium">Date de création:</span> {{ $subscription->created_at->format('d/m/Y H:i') }}</p>
+                            @if($subscription->starts_at)
+                                <p class="mb-2"><span class="font-medium">Date de début:</span> {{ $subscription->starts_at->format('d/m/Y') }}</p>
+                            @endif
+                            @if($subscription->ends_at)
+                                <p class="mb-2"><span class="font-medium">Date de fin:</span> {{ $subscription->ends_at->format('d/m/Y') }}</p>
+                            @endif
                         </div>
-                        <div class="col-md-6">
-                            <h5>Détails du marchand</h5>
-                            <p><strong>Nom:</strong> {{ $subscription->user->name }}</p>
-                            <p><strong>Email:</strong> {{ $subscription->user->email }}</p>
-                            <p><strong>Téléphone:</strong> {{ $subscription->user->phone }}</p>
-                            <p><strong>Adresse:</strong> {{ $subscription->user->address }}</p>
-                            <p><strong>Ville:</strong> {{ $subscription->user->city }}</p>
-                            <p><strong>Pays:</strong> {{ $subscription->user->country }}</p>
-                        </div>
-                    </div>
-
-                    <div class="row mb-4">
-                        <div class="col-md-12">
-                            <h5>Détails de la boutique</h5>
-                            <p><strong>Nom de la boutique:</strong> {{ $subscription->shop->name }}</p>
-                            <p><strong>Description:</strong> {{ $subscription->shop->description }}</p>
-                            <p><strong>Email:</strong> {{ $subscription->shop->email }}</p>
-                            <p><strong>Téléphone:</strong> {{ $subscription->shop->phone }}</p>
-                            <p><strong>Adresse:</strong> {{ $subscription->shop->address }}, {{ $subscription->shop->city }}, {{ $subscription->shop->country }}</p>
+                        <div>
+                            <h4 class="text-md font-semibold mb-3">Détails du marchand</h4>
+                            <p class="mb-2"><span class="font-medium">Nom:</span> {{ $subscription->user->name }}</p>
+                            <p class="mb-2"><span class="font-medium">Email:</span> {{ $subscription->user->email }}</p>
+                            <p class="mb-2"><span class="font-medium">Téléphone:</span> {{ $subscription->user->phone }}</p>
+                            <p class="mb-2"><span class="font-medium">Adresse:</span> {{ $subscription->user->address }}</p>
+                            <p class="mb-2"><span class="font-medium">Ville:</span> {{ $subscription->user->city }}</p>
+                            <p class="mb-2"><span class="font-medium">Pays:</span> {{ $subscription->user->country }}</p>
                         </div>
                     </div>
 
-                    <hr>
+                    <div class="mb-6">
+                        <h4 class="text-md font-semibold mb-3">Détails de la boutique</h4>
+                        <p class="mb-2"><span class="font-medium">Nom de la boutique:</span> {{ $subscription->shop->name }}</p>
+                        <p class="mb-2"><span class="font-medium">Description:</span> {{ $subscription->shop->description }}</p>
+                        <p class="mb-2"><span class="font-medium">Email:</span> {{ $subscription->shop->email }}</p>
+                        <p class="mb-2"><span class="font-medium">Téléphone:</span> {{ $subscription->shop->phone }}</p>
+                        <p class="mb-2"><span class="font-medium">Adresse:</span> {{ $subscription->shop->address }}, {{ $subscription->shop->city }}, {{ $subscription->shop->country }}</p>
+                    </div>
 
-                    <div class="row">
-                        <div class="col-md-6">
+                    <hr class="my-6 border-gray-300 dark:border-gray-600">
+
+                    @if($subscription->status == 'pending')
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
                             <form action="{{ route('admin.subscriptions.approve', $subscription->id) }}" method="POST">
                                 @csrf
-                                <button type="submit" class="btn btn-success btn-block">Approuver</button>
+                                <button type="submit" class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+                                    Approuver
+                                </button>
                             </form>
                         </div>
-                        <div class="col-md-6">
-                            <button type="button" class="btn btn-danger btn-block" data-toggle="modal" data-target="#rejectModal">
+                        <div>
+                            <button type="button" class="w-full bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" onclick="document.getElementById('rejectModal').classList.remove('hidden')">
                                 Rejeter
                             </button>
                         </div>
                     </div>
+                    @endif
                 </div>
             </div>
         </div>
     </div>
-</div>
 
-<!-- Reject Modal -->
-<div class="modal fade" id="rejectModal" tabindex="-1" role="dialog" aria-labelledby="rejectModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <form action="{{ route('admin.subscriptions.reject', $subscription->id) }}" method="POST">
-                @csrf
-                <div class="modal-header">
-                    <h5 class="modal-title" id="rejectModalLabel">Rejeter l'abonnement</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div class="form-group">
-                        <label for="rejection_reason">Raison du rejet</label>
-                        <textarea class="form-control" id="rejection_reason" name="rejection_reason" rows="4" required></textarea>
+    <!-- Reject Modal -->
+    <div id="rejectModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full hidden" x-data="{ open: false }">
+        <div class="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white dark:bg-gray-800">
+            <div class="mt-3 text-center">
+                <h3 class="text-lg leading-6 font-medium text-gray-900 dark:text-gray-100">Rejeter l'abonnement</h3>
+                <form action="{{ route('admin.subscriptions.reject', $subscription->id) }}" method="POST" class="mt-4">
+                    @csrf
+                    <div class="mt-2 px-7 py-3">
+                        <label for="rejection_reason" class="block text-left text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Raison du rejet</label>
+                        <textarea id="rejection_reason" name="rejection_reason" rows="4" class="shadow-sm focus:ring-green-500 focus:border-green-500 mt-1 block w-full sm:text-sm border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-md" required></textarea>
                     </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
-                    <button type="submit" class="btn btn-danger">Rejeter</button>
-                </div>
-            </form>
+                    <div class="items-center px-4 py-3">
+                        <button type="button" class="px-4 py-2 bg-gray-500 text-white text-base font-medium rounded-md w-full sm:w-auto sm:ml-4 shadow-sm hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-300 mr-2" onclick="document.getElementById('rejectModal').classList.add('hidden')">
+                            Annuler
+                        </button>
+                        <button type="submit" class="px-4 py-2 bg-red-600 text-white text-base font-medium rounded-md w-full sm:w-auto sm:ml-4 shadow-sm hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-300">
+                            Rejeter
+                        </button>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
-</div>
-@endsection
+</x-app-layout>
