@@ -13,13 +13,12 @@ class VendorProductController extends Controller
 {
     public function index()
     {
-        $products = Product::where('status', 'approved')
-        ->with(['category', 'shop'])
-        ->latest()
-        ->paginate(12);
-
+        // Récupérer uniquement les produits du vendeur connecté
+        $shop = auth()->user()->shop;
+        $products = $shop->products()->with(['category', 'shop'])->latest()->paginate(12);
+        
         $categories = Category::all();
-
+    
         return view('vendor.products.index', compact('products', 'categories'));
     }
 

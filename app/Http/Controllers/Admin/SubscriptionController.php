@@ -4,10 +4,10 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Subscription;
-use App\Models\Notification;
 use App\Models\Shop;
+use App\Models\Notification;
 use Illuminate\Http\Request;
-use Illuminate\Support\Carbon;
+use Carbon\Carbon;
 
 class SubscriptionController extends Controller
 {
@@ -33,7 +33,7 @@ class SubscriptionController extends Controller
     public function pending()
     {
         $pendingSubscriptions = Subscription::with(['user', 'shop', 'plan'])
-            ->where('status', 'pending_approval')
+            ->where('status', 'pending')
             ->orderBy('created_at', 'desc')
             ->paginate(15);
 
@@ -62,38 +62,24 @@ class SubscriptionController extends Controller
      */
     public function approve($id)
     {
-        $subscription = Subscription::with(['user', 'shop', 'plan'])
-            ->findOrFail($id);
-
-        if ($subscription->status !== 'pending_approval') {
-            return back()->with('error', 'Cet abonnement ne peut pas être approuvé.');
-        }
-
-        // Calculate start and end dates
-        $startDate = Carbon::now();
-        $endDate = $startDate->copy()->addDays($subscription->plan->duration_in_days);
-
-        // Update subscription
+        // Récupérer l'abonnement
+        $subscription = Subscription::findOrFail($id);
+        
+        // Mettre à jour le statut de l'abonnement
         $subscription->status = 'active';
-        $subscription->starts_at = $startDate;
-        $subscription->ends_at = $endDate;
+        $subscription->starts_at = now();
+        $subscription->ends_at = now()->addDays(10); // Ou la durée définie dans le plan
         $subscription->save();
-
-        // Update shop status
-        $shop = Shop::find($subscription->shop_id);
-        $shop->status = 'active';
+        
+        // Mettre à jour le statut de la boutique
+        $shop = Shop::findOrFail($subscription->shop_id);
+        // Correction ici - ajouter des guillemets autour de 'active'
+        $shop->status = 'approved'; // Au lieu de $shop->status = active;
         $shop->save();
-
-        // Create notification for vendor
-        $notification = new Notification();
-        $notification->user_id = $subscription->user_id;
-        $notification->title = 'Abonnement approuvé';
-        $notification->message = 'Votre abonnement "' . $subscription->plan->name . '" a été approuvé. Votre boutique est maintenant active.';
-        $notification->type = 'success';
-        $notification->save();
-
-        return redirect()->route('admin.subscriptions.pending')
-            ->with('success', 'Abonnement approuvé avec succès!');
+        
+        // Rediriger avec un message de succès
+        return redirect()->route('admin.subscriptions.all')
+            ->with('success', 'Abonnement approuvé avec succès.');
     }
 
     /**
@@ -112,7 +98,7 @@ class SubscriptionController extends Controller
         $subscription = Subscription::with(['user', 'shop', 'plan'])
             ->findOrFail($id);
 
-        if ($subscription->status !== 'pending_approval') {
+        if ($subscription->status !== 'pending') {
             return back()->with('error', 'Cet abonnement ne peut pas être rejeté.');
         }
 

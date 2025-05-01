@@ -16,10 +16,34 @@
             </div>
             <div class="hidden md:flex items-center space-x-6">
                 <a href="#" class="text-gray-600 hover:text-green-500" title="Favoris"><i class="fas fa-heart"></i></a>
+                
+                @auth
+                <!-- Afficher le panier uniquement pour les utilisateurs connectés -->
                 <a href="{{ route('cart') }}" class="text-gray-600 hover:text-green-500" title="Panier"><i class="fas fa-shopping-cart"></i></a>
-                <a href="#" class="text-gray-600 hover:text-green-500" title="Mon Compte"><i class="fas fa-user"></i></a>
+                
+                <!-- Afficher le nom de l'utilisateur et menu déroulant -->
+                <div class="relative group">
+                    <button class="flex items-center text-gray-700 hover:text-green-500">
+                        <span class="mr-1">{{ Auth::user()->name }}</span>
+                        <i class="fas fa-chevron-down text-xs"></i>
+                    </button>
+                    <div class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50 hidden group-hover:block">
+                        <a href="{{ route('profile.edit') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-green-50 hover:text-green-500">
+                            Mon Profil
+                        </a>
+                        <form method="POST" action="{{ route('logout') }}">
+                            @csrf
+                            <button type="submit" class="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-green-50 hover:text-green-500">
+                                Déconnexion
+                            </button>
+                        </form>
+                    </div>
+                </div>
+                @else
+                <!-- Afficher les boutons de connexion/inscription pour les utilisateurs non connectés -->
                 <a href="{{ route('login') }}" class="bg-green-900 text-white px-4 py-2 rounded-md hover:bg-green-700">Connexion</a>
                 <a href="{{ route('register') }}" class="bg-green-900 text-white px-4 py-2 rounded-md hover:bg-green-700 transition duration-300">Inscription</a>
+                @endauth
             </div>
         </div>
     </nav>
@@ -33,14 +57,35 @@
             </div>
             <div class="flex justify-around mb-4">
                 <a href="#" class="text-gray-600 hover:text-green-500" title="Favoris"><i class="fas fa-heart"></i></a>
-                <a href="#" class="text-gray-600 hover:text-green-500" title="Panier"><i class="fas fa-shopping-cart"></i></a>
-                <a href="#" class="text-gray-600 hover:text-green-500" title="Mon Compte"><i class="fas fa-user"></i></a>
+                
+                @auth
+                <!-- Panier pour mobile (utilisateurs connectés uniquement) -->
+                <a href="{{ route('cart') }}" class="text-gray-600 hover:text-green-500" title="Panier"><i class="fas fa-shopping-cart"></i></a>
+                <a href="{{ route('profile.edit') }}" class="text-gray-600 hover:text-green-500" title="Mon Compte"><i class="fas fa-user"></i></a>
+                @endauth
             </div>
+            
+            @auth
+            <!-- Afficher le nom de l'utilisateur et le bouton de déconnexion -->
+            <div class="mb-4 text-center">
+                <p class="font-medium text-gray-700 mb-2">{{ Auth::user()->name }}</p>
+                <form method="POST" action="{{ route('logout') }}" class="mt-2">
+                    @csrf
+                    <button type="submit" class="bg-green-900 text-white px-4 py-2 rounded-md hover:bg-green-700 w-full">
+                        Déconnexion
+                    </button>
+                </form>
+            </div>
+            @else
+            <!-- Boutons de connexion/inscription pour mobile -->
             <div class="flex flex-col space-y-2 mb-4">
                 <a href="{{ route('login') }}" class="bg-green-900 text-white px-4 py-2 rounded-md hover:bg-green-700 text-center">Connexion</a>
                 <a href="{{ route('register') }}" class="bg-green-900 text-white px-4 py-2 rounded-md hover:bg-green-700 text-center">Inscription</a>
             </div>
+            @endauth
         </div>
+        
+        <!-- Menu de navigation mobile -->
         <ul class="border-t border-gray-200">
             <li><a href="{{ route('home') }}" class="block px-4 py-2 text-gray-700 hover:bg-green-50 hover:text-green-500">Accueil</a></li>
             <li><a href="#" class="block px-4 py-2 text-gray-700 hover:bg-green-50 hover:text-green-500">Catégories</a></li>

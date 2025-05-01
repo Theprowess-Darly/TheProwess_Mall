@@ -50,7 +50,7 @@ class SubscriptionController extends Controller
 
         // Check if there's already a pending subscription
         $pendingSubscription = Subscription::where('shop_id', $shop->id)
-            ->whereIn('status', ['pending', 'pending_approval'])
+            ->whereIn('status', ['pending', 'approved'])
             ->first();
 
         if ($pendingSubscription) {
@@ -119,7 +119,7 @@ class SubscriptionController extends Controller
         // Update subscription with payment details
         $subscription->payment_method = $request->payment_method;
         $subscription->payment_id = $request->transaction_id;
-        $subscription->status = 'pending_approval';
+        $subscription->status = 'pending';
         $subscription->save();
 
         // Create notification for admin

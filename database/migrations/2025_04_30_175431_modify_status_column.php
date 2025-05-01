@@ -30,3 +30,29 @@ class ModifyStatusColumn extends Migration
         });
     }
 }
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     */
+    public function up(): void
+    {
+        Schema::table('subscriptions', function (Blueprint $table) {
+            // Drop the existing status column and recreate it with the new enum values
+            $table->dropColumn('status');
+            $table->enum('status', ['pending', 'active', 'expired', 'cancelled', 'rejected'])->default('pending')->after('payment_id');
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
+    {
+        Schema::table('subscriptions', function (Blueprint $table) {
+            // Restore the original status column with all possible values
+            $table->dropColumn('status');
+            $table->enum('status', ['pending', 'active', 'expired', 'cancelled', 'rejected'])->default('pending')->after('payment_id');
+        });
+    }
+};
