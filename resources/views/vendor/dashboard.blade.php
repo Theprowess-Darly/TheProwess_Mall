@@ -20,8 +20,17 @@
                                 </svg>
                             </div>
                         </div>
-                        <p class="text-3xl font-bold mt-2 text-green-800 dark:text-white">{{ $totalProducts ?? 0 }}</p>
-                        <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">Total des produits</p>
+                        <div class="flex justify-between w-full">
+                            <div>                            
+                                <p class="text-3xl font-bold mt-2 text-green-800 dark:text-white">{{ auth()->user()->shop->products()->where('status', 'approved')->count() }}</p>
+                                <p class="mt-2 text-sm text-gray-600 dark:text-gray-400"> Approuvés</p>
+                            </div>
+                            <div>
+                                <p class="text-3xl font-bold mt-2 text-yellow-700 dark:text-white">{{ auth()->user()->shop->products()->where('status', 'rejected')->count() }}</p>
+                                <p class="mt-2 text-sm text-gray-600 dark:text-gray-400"> Rejettés</p>
+          
+                            </div>         
+                        </div>
                     </div>
                 </div>
 
@@ -36,8 +45,22 @@
                                 </svg>
                             </div>
                         </div>
-                        <p class="text-3xl font-bold mt-2 text-green-800 dark:text-white">{{ $totalOrders ?? 0 }}</p>
-                        <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">Total des commandes</p>
+                        <div class="flex justify-between w-full">
+                            <div>  
+                                {{-- <p class="text-3xl font-bold mt-2 text-green-800 dark:text-white">{{ auth()->user()->shop->orders()->count() }}</p> --}}
+                                <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">En cours</p>
+                            </div>
+                            <div>
+                                {{-- <p class="text-3xl font-bold mt-2 text-green-800 dark:text-white">{{ auth()->user()->shop->orders()->count() }}</p> --}}
+                                <p class="mt-2 text-sm text-gray-600 dark:text-gray-400"> Livrées</p>
+                            </div>
+
+                        </div>
+                        <div class="flex justify-between w-full">
+                            <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">Total des commandes</p>                            
+
+                            {{-- <p class="text-3xl font-bold mt-2 text-green-800 dark:text-white">{{ auth()->user()->shop->orders()->count() }}</p> --}}
+                        </div>
                     </div>
                 </div>
 
@@ -52,7 +75,7 @@
                                 </svg>
                             </div>
                         </div>
-                        <p class="text-3xl font-bold mt-2 text-green-800 dark:text-white">{{ number_format($totalRevenue ?? 0, 0, ',', ' ') }} FCFA</p>
+                        {{-- <p class="text-3xl font-bold mt-2 text-green-800 dark:text-white">{{ number_format(auth()->user()->shop->orders()->sum('total_amount') ?? 0, 0, ',', ' ') }} FCFA</p> --}}
                         <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">Revenus totaux</p>
                     </div>
                 </div>
@@ -68,7 +91,7 @@
                                 </svg>
                             </div>
                         </div>
-                        <p class="text-3xl font-bold mt-2 text-green-800 dark:text-white">{{ $totalCustomers ?? 0 }}</p>
+                        {{-- <p class="text-3xl font-bold mt-2 text-green-800 dark:text-white">{{ auth()->user()->shop->orders()->distinct('user_id')->count('user_id') }}</p> --}}
                         <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">Clients uniques</p>
                     </div>
                 </div>

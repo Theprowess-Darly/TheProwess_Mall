@@ -87,9 +87,10 @@ Route::middleware(['auth', 'role:Marchand'])->prefix('vendor')->name('vendor.')-
     Route::get('/products/{product}/edit', [App\Http\Controllers\Vendor\VendorProductController::class, 'edit'])->name('products.edit');
     Route::put('/products/{product}', [App\Http\Controllers\Vendor\VendorProductController::class, 'update'])->name('products.update');
     Route::get('/products/{product}', [App\Http\Controllers\Vendor\VendorProductController::class, 'show'])->name('products.show');
-  
-    
-    
+    Route::delete('/vendor/products/{product}', [App\Http\Controllers\Vendor\VendorProductController::class, 'destroy'])->name('vendor.products.destroy');
+    Route::get('/vendor/shop/{id}', [App\Http\Controllers\Vendor\ShopController::class, 'show'])->name('vendor.shop.show');
+    Route::put('/shop/update', [App\Http\Controllers\Vendor\ShopController::class, 'update'])->name('shop.update');
+    Route::get('vendor/shop/edit', [App\Http\Controllers\Vendor\ShopController::class, 'edit'])->name('vendor.shop.edit');
 
 
 
@@ -112,6 +113,50 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
     Route::delete('/admin/categories/{category}', [App\Http\Controllers\Admin\CategoryController::class, 'destroy'])->name('admin.categories.destroy');
 
 
+
+});
+
+// Routes pour l'administration
+Route::prefix('admin')->name('admin.')->middleware(['auth', 'role:admin'])->group(function () {
+    // Subscription management
+    Route::get('/subscriptions/pending', [App\Http\Controllers\Admin\SubscriptionController::class, 'pending'])->name('subscriptions.pending');
+    Route::get('/subscriptions/{id}', [App\Http\Controllers\Admin\SubscriptionController::class, 'show'])->name('subscriptions.show');
+    Route::post('/subscriptions/{id}/approve', [App\Http\Controllers\Admin\SubscriptionController::class, 'approve'])->name('subscriptions.approve');
+    Route::post('/subscriptions/{id}/reject', [App\Http\Controllers\Admin\SubscriptionController::class, 'reject'])->name('subscriptions.reject');
+    Route::get('/subscriptions', [App\Http\Controllers\Admin\SubscriptionController::class, 'all'])->name('subscriptions.all');
+    Route::prefix('admin')->name('admin.')->middleware(['auth', 'role:Admin'])->group(function () {    
+        Route::resource('categories', App\Http\Controllers\Admin\CategoryController::class);
+
+    });
+    Route::resource('categories', \App\Http\Controllers\Admin\CategoryController::class);
+    Route::put('/admin/categories/{category}', [App\Http\Controllers\Admin\CategoryController::class, 'update'])->name('admin.categories.update');
+    Route::delete('/admin/categories/{category}', [App\Http\Controllers\Admin\CategoryController::class, 'destroy'])->name('admin.categories.destroy');
+
+
+
+});
+
+// Routes pour l'administration des produits
+Route::prefix('admin')->name('admin.')->middleware(['auth', 'role:admin'])->group(function () {
+    // Subscription management
+    Route::get('/subscriptions/pending', [App\Http\Controllers\Admin\SubscriptionController::class, 'pending'])->name('subscriptions.pending');
+    Route::get('/subscriptions/{id}', [App\Http\Controllers\Admin\SubscriptionController::class, 'show'])->name('subscriptions.show');
+    Route::post('/subscriptions/{id}/approve', [App\Http\Controllers\Admin\SubscriptionController::class, 'approve'])->name('subscriptions.approve');
+    Route::post('/subscriptions/{id}/reject', [App\Http\Controllers\Admin\SubscriptionController::class, 'reject'])->name('subscriptions.reject');
+    Route::get('/subscriptions', [App\Http\Controllers\Admin\SubscriptionController::class, 'all'])->name('subscriptions.all');
+    Route::resource('categories', App\Http\Controllers\Admin\CategoryController::class);  
+    Route::resource('categories', \App\Http\Controllers\Admin\CategoryController::class);
+    Route::put('/admin/categories/{category}', [App\Http\Controllers\Admin\CategoryController::class, 'update'])->name('admin.categories.update');
+    Route::delete('/admin/categories/{category}', [App\Http\Controllers\Admin\CategoryController::class, 'destroy'])->name('admin.categories.destroy');
+
+
+
+
+
+    // Routes pour les produits
+    Route::get('/products/{product}/approve', [App\Http\Controllers\Admin\ProductController::class, 'approve'])->name('products.approve');
+    Route::post('/products/{product}/suspend', [App\Http\Controllers\Admin\ProductController::class, 'suspend'])->name('products.suspend');
+    Route::patch('/products/{product}/activate', [App\Http\Controllers\Admin\ProductController::class, 'activate'])->name('products.activate');
 
 });
 

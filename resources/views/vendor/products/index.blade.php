@@ -24,9 +24,17 @@
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             @foreach($products as $product)
                 <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden transition-transform hover:scale-105">
-                    <img src="{{ asset('storage/' . $product->image_url) }}" alt="{{ $product->name }}"      class="w-full h-48 object-cover">
+                    <img src="{{ asset('storage/' . $product->image_url) }}" alt="{{ $product->name }}" class="w-full h-48 object-cover">
                     <div class="p-4">
-                        <h3 class="text-xl font-semibold text-blue-950 dark:text-white">{{ $product->name }}</h3>
+                        <div class="flex justify-between items-center">
+                            <h3 class="text-xl font-semibold text-blue-950 dark:text-white">{{ $product->name }}</h3>
+                            <span class="px-2 py-1 text-xs rounded-full 
+                                {{ $product->status === 'approved' ? 'bg-green-100 text-green-800' : 
+                                  ($product->status === 'pending' ? 'bg-yellow-100 text-yellow-800' : 'bg-red-100 text-red-800') }}">
+                                {{ $product->status === 'approved' ? 'Approuvé' : 
+                                  ($product->status === 'pending' ? 'En attente' : 'Suspendu') }}
+                            </span>
+                        </div>
                         <p class="text-sm text-gray-600 dark:text-gray-400 mt-2">{{ Str::limit($product->description, 100) }}</p>
                         <div class="flex justify-between items-center mt-4">
                             <p class="font-bold text-green-950 dark:text-green-400">{{ number_format($product->price, 0, ',', ' ') }} FCFA</p>

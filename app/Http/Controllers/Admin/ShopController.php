@@ -33,16 +33,28 @@ class ShopController extends Controller
      */
     public function approve(Shop $shop)
     {
-        $shop->update([
-            'status' => 'approved',
-            'approved_at' => now(),
-        ]);
+        \Log::info('Tentative d\'approbation de la boutique: ' . $shop->id);
+        \Log::info('Statut actuel: ' . $shop->status);
+        
+        try {
+            $shop->update([
+                'status' => 'approved',
+                'approved_at' => now(),
+            ]);
+            
+            \Log::info('Boutique approuvée avec succès');
 
-        // Notification au vendeur
-        $shop->user->notify(new \App\Notifications\ShopApproved($shop));
+            // Notification au vendeur
+            $shop->user->notify(new \App\Notifications\ShopApproved($shop));
 
-        return redirect()->route('admin.shops.index')
-            ->with('success', 'La boutique a été approuvée avec succès.');
+            return redirect()->route('admin.shops.index')
+                ->with('success', 'La boutique a été approuvée avec succès.');
+        } catch (\Exception $e) {
+            \Log::error('Erreur lors de l\'approbation de la boutique: ' . $e->getMessage());
+            
+            return redirect()->route('admin.shops.index')
+                ->with('error', 'Erreur lors de l\'approbation de la boutique: ' . $e->getMessage());
+        }
     }
 
     /**

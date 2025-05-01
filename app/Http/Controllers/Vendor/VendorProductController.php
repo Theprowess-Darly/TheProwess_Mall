@@ -3,18 +3,24 @@
 namespace App\Http\Controllers\Vendor;
 
 use App\Http\Controllers\Controller;
-use App\Models\Product;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Gate; // Ajouter cet import
+use App\Models\Product;
 use App\Models\Category;
+use Illuminate\Support\Facades\Storage;
 
 class VendorProductController extends Controller
 {
     public function index()
     {
-        $shop = auth()->user()->shop;
-        $products = $shop->products()->latest()->paginate(10);
-        return view('vendor.products.index', compact('products'));
+        $products = Product::where('status', 'approved')
+        ->with(['category', 'shop'])
+        ->latest()
+        ->paginate(12);
+
+        $categories = Category::all();
+
+        return view('vendor.products.index', compact('products', 'categories'));
     }
 
     public function create()
@@ -73,17 +79,24 @@ class VendorProductController extends Controller
         return redirect()->route('vendor.products.index')->with('success', 'Produit ajouté avec succès!');
     }
 
-    public function edit(Product $product)
+    public function edit(Product $product) 
     {
-        $this->authorize('update', $product); // optional, for security
+        // Remplacer $this->authorize par Gate::authorize
+        Gate::authorize('update', $product); // ou utiliser la façade Gate
+        // Ou utiliser cette syntaxe alternative
+        // $this->authorizeForUser(auth()->user(), 'update', $product);
+        
         $categories = Category::all();
         return view('vendor.products.edit', compact('product', 'categories'));
     }
 
-    public function update(Request $request, Product $product)
+    public function update(Request $request, Product $product) 
     {
-        $this->authorize('update', $product); // optional
-
+        // Remplacer $this->authorize par Gate::authorize
+        Gate::authorize('update', $product); // ou utiliser la façade Gate
+        // Ou utiliser cette syntaxe alternative
+        // $this->authorizeForUser(auth()->user(), 'update', $product);
+    
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'description' => 'required|string',
@@ -113,5 +126,52 @@ class VendorProductController extends Controller
         ]);
 
         return redirect()->route('vendor.products.index')->with('success', 'Product updated successfully!');
+    }
+        /**
+     * Display the specified product.
+     *
+     * @param  \App\Models\Product  $product
+     * @return \Illuminate\Http\Response
+     */
+    public function show(Product $product)
+    {
+        // Ensure the vendor can only view their own products
+        if ($product->shop->user_id !== auth()->id()) {
+            abort(403, 'Unauthorized action.');
+        }
+
+       
+        return view('vendor.products.show', compact('product'));
+    }
+
+    /**
+ * Affiche la liste des produits.
+ *
+ * @return \Illuminate\View\View
+ */
+
+
+    /**
+     * Remove the specified product from storage.
+     *
+     * @param  \App\Models\Product  $product
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy(Product $product)
+    {
+        // Vérifier que le vendeur ne peut supprimer que ses propres produits
+        if ($product->shop->user_id !== auth()->id()) {
+            abort(403, 'Action non autorisée.');
+        }
+        
+        // Supprimer l'image si elle existe
+        if ($product->image) {
+            Storage::delete('public/' . $product->image);
+        }
+        
+        $product->delete();
+        
+        return redirect()->route('vendor.products.index')
+            ->with('success', 'Produit supprimé avec succès.');
     }
 }
