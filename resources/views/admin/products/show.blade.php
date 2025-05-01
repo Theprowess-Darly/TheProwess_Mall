@@ -1,11 +1,11 @@
 <x-app-layout>
     <x-slot name="header">
-        <div class="flex justify-between items-center">
+        <div class="flex justify-between w-full items-center">
             <h2 class="font-semibold text-xl text-green-950 dark:text-green-300 leading-tight">
                 {{ __('Détails du produit') }}
             </h2>
             <a href="{{ route('admin.products.index') }}" class="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 transition-colors duration-200">
-                Retour aux produits
+               Retour aux produits
             </a>
         </div>
     </x-slot>
@@ -69,7 +69,7 @@
                                 <div>
                                     <p class="mb-2"><span class="font-medium">Stock:</span> {{ $product->quantity }}</p>
                                     <p class="mb-2"><span class="font-medium">Statut:</span> 
-                                        @if($product->status == 'active')
+                                        @if($product->status == 'approved')
                                             <span class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800 dark:bg-green-800 dark:text-green-100">Actif</span>
                                         @else
                                             <span class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800 dark:bg-red-800 dark:text-red-100">Inactif</span>
@@ -107,4 +107,54 @@
             </div>
         </div>
     </div>
+
+    <div class="mt-6 flex space-x-4">
+        @if($product->status === 'pending')
+            <a href="{{ route('admin.products.approve', $product) }}" 
+               class="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 transition-colors duration-200"
+               onclick="return confirm('Êtes-vous sûr de vouloir approuver ce produit?')">
+                Approuver le produit
+            </a>
+        @endif
+        
+        @if($product->status === 'approved')
+            <button type="button" 
+                   class="px-4 py-2 bg-yellow-600 text-white rounded-md hover:bg-yellow-700 transition-colors duration-200"
+                   onclick="document.getElementById('suspend-modal').classList.remove('hidden')">
+                Suspendre le produit
+            </button>
+        @endif
+        
+        @if($product->status === 'suspended')
+            <a href="{{ route('admin.products.approve', $product) }}" 
+               class="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 transition-colors duration-200"
+               onclick="return confirm('Êtes-vous sûr de vouloir réactiver ce produit?')">
+                Réactiver le produit
+            </a>
+        @endif
+        
+        <!-- Modal de suspension -->
+        <div id="suspend-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+            <div class="bg-white p-6 rounded-lg w-full max-w-md">
+                <h3 class="text-lg font-bold mb-4">Suspendre le produit</h3>
+                
+                <form action="{{ route('admin.products.suspend', $product) }}" method="POST">
+                    @csrf
+                    
+                    <div class="mb-4">
+                        <label for="suspension_reason" class="block text-sm font-medium text-gray-700">Raison de la suspension</label>
+                        <textarea id="suspension_reason" name="suspension_reason" rows="4" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" required></textarea>
+                    </div>
+                    
+                    <div class="flex justify-end space-x-3">
+                        <button type="button" class="px-4 py-2 bg-gray-300 text-gray-800 rounded-md hover:bg-gray-400 transition-colors duration-200" onclick="document.getElementById('suspend-modal').classList.add('hidden')">
+                            Annuler
+                        </button>
+                        <button type="submit" class="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 transition-colors duration-200">
+                            Suspendre
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
 </x-app-layout>

@@ -31,29 +31,70 @@ class ProductController extends Controller
     }
 
     /**
-     * Activer un produit
+     * Approuver un produit
      * 
-     * @param Product $product
+     * @param Product $product Le produit à approuver
      * @return \Illuminate\Http\RedirectResponse
      */
     public function activate(Product $product)
     {
-        \Log::info('Tentative d\'activation du produit: ' . $product->id);
+        \Log::info('Tentative d\'approbation du produit: ' . $product->id);
         \Log::info('Statut actuel: ' . $product->status);
         
         try {
-            $product->status = 'approved';
-            $product->save();
+            $product->update([
+                'status' => 'approved',
+                'approved_at' => now()
+            ]);
             
-            \Log::info('Produit activé avec succès');
+            \Log::info('Produit approuvé avec succès');
+            
+            // Notification au vendeur que son produit a été approuvé
+            if ($product->shop && $product->shop->user) {
+                // Décommentez cette ligne si vous avez créé la notification
+                // $product->shop->user->notify(new \App\Notifications\ProductApproved($product));
+            }
             
             return redirect()->route('admin.products.index')
-                ->with('success', 'Produit activé avec succès');
+                ->with('success', 'Le produit a été approuvé avec succès.');
         } catch (\Exception $e) {
-            \Log::error('Erreur lors de l\'activation du produit: ' . $e->getMessage());
+            \Log::error('Erreur lors de l\'approbation du produit: ' . $e->getMessage());
             
             return redirect()->route('admin.products.index')
-                ->with('error', 'Erreur lors de l\'activation du produit: ' . $e->getMessage());
+                ->with('error', 'Erreur lors de l\'approbation du produit: ' . $e->getMessage());
+        }
+    }
+    
+    /**
+     * Suspendre un produit
+     * 
+     * @param Product $product
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function suspend(Request $request, Product $product)
+    {
+        try {
+            $validated = $request->validate([
+                'suspension_reason' => 'required|string|max:500',
+            ]);
+            
+            $product->update([
+                'status' => 'suspended',
+                'suspension_reason' => $validated['suspension_reason']
+            ]);
+            
+            // Notification au vendeur
+            if ($product->shop && $product->shop->user) {
+                $product->shop->user->notify(new \App\Notifications\ProductSuspended($product));
+            }
+            
+            return redirect()->route('admin.products.index')
+                ->with('success', 'Produit suspendu avec succès.');
+        } catch (\Exception $e) {
+            \Log::error('Erreur lors de la suspension du produit: ' . $e->getMessage());
+            
+            return redirect()->route('admin.products.index')
+                ->with('error', 'Erreur lors de la suspension du produit: ' . $e->getMessage());
         }
     }
     
@@ -66,8 +107,9 @@ class ProductController extends Controller
     public function deactivate(Product $product)
     {
         try {
-            $product->status = 'rejected';
-            $product->save();
+            $product->update([
+                'status' => 'rejected'
+            ]);
             
             return redirect()->route('admin.products.index')
                 ->with('success', 'Produit désactivé avec succès.');

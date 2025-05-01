@@ -148,10 +148,27 @@ class ShopController extends Controller
         return redirect()->route('vendor.shop.edit')
             ->with('success', 'Boutique mise à jour avec succès!');
     }
+      
 
-  
+    /**
+     * Display the specified shop.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
+    {
+        // Récupérer la boutique avec l'ID spécifié
+        $shop = auth()->user()->shop;
+        
+        // Vérifier si la boutique existe et appartient à l'utilisateur connecté
+        if (!$shop || $shop->id != $id) {
+            return redirect()->route('vendor.dashboard')->with('error', 'Vous n\'avez pas accès à cette boutique.');
+        }
+        
+        return view('vendor.shop.show', compact('shop'));
+    }
 
-       
 
-   
+
 }
