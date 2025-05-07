@@ -35,7 +35,15 @@
                                 <span class="font-medium text-green-700 dark:text-green-300">{{ $usersByRole['Marchand'] ?? 0 }}</span>
                             </div>
                             <div class="w-full bg-gray-200 dark:bg-gray-600 rounded-full h-2">
-                                <div class="bg-blue-600 h-2 rounded-full" style="width: {{ ($usersByRole['Marchand'] ?? 0) / $totalUsers * 100 }}%"></div>
+                                <div class="bg-green-600 h-2 rounded-full" style="width: {{ ($usersByRole['Marchand'] ?? 0) / $totalUsers * 100 }}%"></div>
+                            </div>
+
+                            <div class="flex justify-between mb-1 mt-2">
+                                <span>Livreurs</span>
+                                <span class="font-medium text-green-700 dark:text-green-300">{{ $usersByRole['livreur'] ?? 0 }}</span>
+                            </div>
+                            <div class="w-full bg-gray-200 dark:bg-gray-600 rounded-full h-2">
+                                <div class="bg-yellow-600 h-2 rounded-full" style="width: {{ ($usersByRole['livreur'] ?? 0) / $totalUsers * 100 }}%"></div>
                             </div>
                         </div>
                     </div>
@@ -68,6 +76,14 @@
                             </div>
                             <div class="w-full bg-gray-200 dark:bg-gray-600 rounded-full h-2">
                                 <div class="bg-yellow-600 h-2 rounded-full" style="width: {{ $totalShops > 0 ? $pendingShops / $totalShops * 100 : 0 }}%"></div>
+                            </div>
+
+                            <div class="flex justify-between mb-1 mt-2">
+                                <span>Suspendues</span>
+                                <span class="font-medium text-green-700 dark:text-green-300">{{ $suspendedShops }}</span>
+                            </div>
+                            <div class="w-full bg-gray-200 dark:bg-gray-600 rounded-full h-2">
+                                <div class="bg-yellow-600 h-2 rounded-full" style="width: {{ $totalShops > 0 ? $suspendedShops / $totalShops * 100 : 0 }}%"></div>
                             </div>
                         </div>
                     </div>
@@ -108,16 +124,20 @@
                                 </svg>
                             </div>
                         </div>
-                        <p class="text-3xl font-bold mt-2 text-green-800 dark:text-white">{{ $totalOrders }}</p>
-                        <p class="mt-2 text-sm">Revenu total: <span class="font-medium text-green-700 dark:text-green-300">{{ number_format($totalRevenue, 0, ',', ' ') }} XAF</span></p>
+                        <p class="text-3xl font-bold my-4 text-green-800 dark:text-white">{{ $totalOrders }}</p>
+                        
+                        <span class="text-sm mt-4 text-gray-600 dark:text-gray-400"></span>
+
+                        <p class="mt-2 text-sm">Revenu total: <span class="font-medium text-green-700 dark:text-green-300">{{ number_format($totalWalletBalance, 0, ',', ' ') }} XAF</span></p>
                         <div class="mt-2">
                             <div class="flex items-center justify-between">
-                                <span class="text-sm text-gray-600 dark:text-gray-400">Taux de conversion</span>
-                                <span class="text-sm font-medium text-green-600 dark:text-green-400">3.2%</span>
+                                <p class="mt-2 text-sm">Chiffre d'affaires: <span class="font-medium text-green-700 dark:text-green-300">{{ number_format($totalRevenue, 0, ',', ' ') }} XAF</span></p>
+
                             </div>
-                            <div class="w-full h-2 bg-gray-200 dark:bg-gray-600 rounded-full mt-1">
+                            
+                            {{-- <div class="w-full h-2 bg-gray-200 dark:bg-gray-600 rounded-full mt-1">
                                 <div class="h-2 bg-green-600 rounded-full" style="width: 32%"></div>
-                            </div>
+                            </div> --}}
                         </div>
                     </div>
                 </div>
@@ -137,7 +157,7 @@
                 <div class="bg-white dark:bg-gray-700 overflow-hidden shadow-md rounded-lg p-6">
                     <h3 class="text-lg font-semibold text-green-950 dark:text-green-300 mb-4 border-b border-gray-200 dark:border-gray-600 pb-2">Distribution des utilisateurs</h3>
                     <div class="h-80">
-                        <canvas id="userDistributionChart"></canvas>
+                        <canvas id="userDistributionChart" class="dark:text-white "></canvas>
                     </div>
                 </div>
             </div>

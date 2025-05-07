@@ -88,6 +88,8 @@ class ShopController extends Controller
     {
         $shop = Shop::where('user_id', Auth::id())->firstOrFail();
         return view('vendor.shop.edit', compact('shop'));
+        $shop = auth()->user()->shop;
+        return view('vendor.shop.edit', compact('shop'));
     }
 
     /**

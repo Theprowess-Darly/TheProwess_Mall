@@ -9,7 +9,9 @@ use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\OrderController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Vendor\VendorProductController;
-
+use App\Http\Controllers\CartController;
+use App\Http\Controllers\PaymentCallbackController;
+use App\Http\Controllers\PaymentController;
 
 Route::get('/', function () {
     return view('home');
@@ -58,6 +60,45 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
     Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
     Route::get('/orders/{order}', [OrderController::class, 'show'])->name('orders.show');
     Route::patch('/orders/{order}/status', [OrderController::class, 'updateStatus'])->name('orders.update-status');
+    Route::post('/orders', [App\Http\Controllers\Admin\OrderController::class, 'store'])->name('orders.store');
+
+        
+    // Subscription management
+    Route::get('/subscriptions/pending', [App\Http\Controllers\Admin\SubscriptionController::class, 'pending'])->name('subscriptions.pending');
+    Route::get('/subscriptions/{id}', [App\Http\Controllers\Admin\SubscriptionController::class, 'show'])->name('subscriptions.show');
+    
+
+    Route::post('/admin/subscriptions/{subscription}/approve', [App\Http\Controllers\Admin\SubscriptionController::class, 'approve'])->name('admin.subscriptions.approve');
+    Route::post('/subscriptions/{id}/reject', [App\Http\Controllers\Admin\SubscriptionController::class, 'reject'])->name('subscriptions.reject');
+    Route::get('/subscriptions', [App\Http\Controllers\Admin\SubscriptionController::class, 'all'])->name('subscriptions.all');
+    Route::prefix('admin')->name('admin.')->middleware(['auth', 'role:Admin'])->group(function () {    
+        Route::resource('categories', App\Http\Controllers\Admin\CategoryController::class);
+
+    });
+    // category management
+    Route::resource('categories', \App\Http\Controllers\Admin\CategoryController::class);
+    Route::put('/admin/categories/{category}', [App\Http\Controllers\Admin\CategoryController::class, 'update'])->name('admin.categories.update');
+    Route::delete('/admin/categories/{category}', [App\Http\Controllers\Admin\CategoryController::class, 'destroy'])->name('admin.categories.destroy');
+    
+    // Subscription management
+    Route::get('/subscriptions/pending', [App\Http\Controllers\Admin\SubscriptionController::class, 'pending'])->name('subscriptions.pending');
+    Route::get('/subscriptions/{id}', [App\Http\Controllers\Admin\SubscriptionController::class, 'show'])->name('subscriptions.show');
+    Route::post('/subscriptions/{id}/approve', [App\Http\Controllers\Admin\SubscriptionController::class, 'approve'])->name('subscriptions.approve');
+    Route::post('/subscriptions/{id}/reject', [App\Http\Controllers\Admin\SubscriptionController::class, 'reject'])->name('subscriptions.reject');
+    Route::get('/subscriptions', [App\Http\Controllers\Admin\SubscriptionController::class, 'all'])->name('subscriptions.all');
+    Route::resource('categories', App\Http\Controllers\Admin\CategoryController::class);  
+    Route::resource('categories', \App\Http\Controllers\Admin\CategoryController::class);
+    Route::put('/admin/categories/{category}', [App\Http\Controllers\Admin\CategoryController::class, 'update'])->name('admin.categories.update');
+    Route::delete('/admin/categories/{category}', [App\Http\Controllers\Admin\CategoryController::class, 'destroy'])->name('admin.categories.destroy');
+    // Routes pour les produits
+    Route::get('/products/{product}/approve', [App\Http\Controllers\Admin\ProductController::class, 'approve'])->name('products.approve');
+    Route::post('/products/{product}/suspend', [App\Http\Controllers\Admin\ProductController::class, 'suspend'])->name('products.suspend');
+    Route::patch('/products/{product}/activate', [App\Http\Controllers\Admin\ProductController::class, 'activate'])->name('products.activate');
+    
+    
+
+
+
 });
 
 // Vendor Routes
@@ -96,71 +137,14 @@ Route::middleware(['auth', 'role:Marchand'])->prefix('vendor')->name('vendor.')-
 
 });
 
-// Admin routes (continued)
-Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->group(function () {
-    // Subscription management
-    Route::get('/subscriptions/pending', [App\Http\Controllers\Admin\SubscriptionController::class, 'pending'])->name('subscriptions.pending');
-    Route::get('/subscriptions/{id}', [App\Http\Controllers\Admin\SubscriptionController::class, 'show'])->name('subscriptions.show');
-    Route::post('/subscriptions/{id}/approve', [App\Http\Controllers\Admin\SubscriptionController::class, 'approve'])->name('subscriptions.approve');
-    Route::post('/subscriptions/{id}/reject', [App\Http\Controllers\Admin\SubscriptionController::class, 'reject'])->name('subscriptions.reject');
-    Route::get('/subscriptions', [App\Http\Controllers\Admin\SubscriptionController::class, 'all'])->name('subscriptions.all');
-    Route::prefix('admin')->name('admin.')->middleware(['auth', 'role:Admin'])->group(function () {    
-        Route::resource('categories', App\Http\Controllers\Admin\CategoryController::class);
-
-    });
-    Route::resource('categories', \App\Http\Controllers\Admin\CategoryController::class);
-    Route::put('/admin/categories/{category}', [App\Http\Controllers\Admin\CategoryController::class, 'update'])->name('admin.categories.update');
-    Route::delete('/admin/categories/{category}', [App\Http\Controllers\Admin\CategoryController::class, 'destroy'])->name('admin.categories.destroy');
 
 
-
-});
-
-// Routes pour l'administration
-Route::prefix('admin')->name('admin.')->middleware(['auth', 'role:admin'])->group(function () {
-    // Subscription management
-    Route::get('/subscriptions/pending', [App\Http\Controllers\Admin\SubscriptionController::class, 'pending'])->name('subscriptions.pending');
-    Route::get('/subscriptions/{id}', [App\Http\Controllers\Admin\SubscriptionController::class, 'show'])->name('subscriptions.show');
-    
-  
-    Route::post('/admin/subscriptions/{subscription}/approve', [App\Http\Controllers\Admin\SubscriptionController::class, 'approve'])->name('admin.subscriptions.approve');
-    Route::post('/subscriptions/{id}/reject', [App\Http\Controllers\Admin\SubscriptionController::class, 'reject'])->name('subscriptions.reject');
-    Route::get('/subscriptions', [App\Http\Controllers\Admin\SubscriptionController::class, 'all'])->name('subscriptions.all');
-    Route::prefix('admin')->name('admin.')->middleware(['auth', 'role:Admin'])->group(function () {    
-        Route::resource('categories', App\Http\Controllers\Admin\CategoryController::class);
-
-    });
-    Route::resource('categories', \App\Http\Controllers\Admin\CategoryController::class);
-    Route::put('/admin/categories/{category}', [App\Http\Controllers\Admin\CategoryController::class, 'update'])->name('admin.categories.update');
-    Route::delete('/admin/categories/{category}', [App\Http\Controllers\Admin\CategoryController::class, 'destroy'])->name('admin.categories.destroy');
-
-
-
-});
-
-// Routes pour l'administration des produits
-Route::prefix('admin')->name('admin.')->middleware(['auth', 'role:admin'])->group(function () {
-    // Subscription management
-    Route::get('/subscriptions/pending', [App\Http\Controllers\Admin\SubscriptionController::class, 'pending'])->name('subscriptions.pending');
-    Route::get('/subscriptions/{id}', [App\Http\Controllers\Admin\SubscriptionController::class, 'show'])->name('subscriptions.show');
-    Route::post('/subscriptions/{id}/approve', [App\Http\Controllers\Admin\SubscriptionController::class, 'approve'])->name('subscriptions.approve');
-    Route::post('/subscriptions/{id}/reject', [App\Http\Controllers\Admin\SubscriptionController::class, 'reject'])->name('subscriptions.reject');
-    Route::get('/subscriptions', [App\Http\Controllers\Admin\SubscriptionController::class, 'all'])->name('subscriptions.all');
-    Route::resource('categories', App\Http\Controllers\Admin\CategoryController::class);  
-    Route::resource('categories', \App\Http\Controllers\Admin\CategoryController::class);
-    Route::put('/admin/categories/{category}', [App\Http\Controllers\Admin\CategoryController::class, 'update'])->name('admin.categories.update');
-    Route::delete('/admin/categories/{category}', [App\Http\Controllers\Admin\CategoryController::class, 'destroy'])->name('admin.categories.destroy');
+ 
 
 
 
 
 
-    // Routes pour les produits
-    Route::get('/products/{product}/approve', [App\Http\Controllers\Admin\ProductController::class, 'approve'])->name('products.approve');
-    Route::post('/products/{product}/suspend', [App\Http\Controllers\Admin\ProductController::class, 'suspend'])->name('products.suspend');
-    Route::patch('/products/{product}/activate', [App\Http\Controllers\Admin\ProductController::class, 'activate'])->name('products.activate');
-
-});
 
 // Notification routes (for all authenticated users)
 // Route::middleware(['auth'])->group(function () {
@@ -178,7 +162,6 @@ Route::middleware(['auth', 'role:livreur'])->prefix('delivery')->name('delivery.
 //Client dashboard routes
 Route::middleware(['auth', 'role:client'])->prefix('client')->name('client.')->group(function () {
     Route::get('/dashboard', [App\Http\Controllers\Client\DashboardController::class, 'index'])->name('dashboard');
-    Route::get('/products', [App\Http\Controllers\client\ProductController::class, 'index'])->name('products.index');
 
 });
 
@@ -192,69 +175,37 @@ Route::post('/register/vendor', [App\Http\Controllers\Auth\VendorRegisterControl
 
 //Visitor pages routes
 
-Route::get('/privacy-policy', function () {
-    return view('pages.privacy-policy');
-})->name('privacy-policy');
+Route::get('/privacy-policy', function () {return view('pages.privacy-policy');})->name('privacy-policy');
 
-Route::get('/return-policy', function () {
-    return view('pages.return-policy');
-})->name('return-policy');
+Route::get('/return-policy', function () {return view('pages.return-policy');})->name('return-policy');
 
-Route::get('/terms-of-sale', function () {
-    return view('pages.terms-of-sale');
-})->name('terms-of-sale');
+Route::get('/terms-of-sale', function () {return view('pages.terms-of-sale');})->name('terms-of-sale');
 
-Route::get('/careers', function () {
-    return view('pages.careers');
-})->name('careers');
+Route::get('/careers', function () {return view('pages.careers');})->name('careers');
 
-Route::get('/become-seller', function () {
-    return view('pages.become-seller');
-})->name('become-seller');
+Route::get('/become-seller', function () {return view('pages.become-seller');})->name('become-seller');
 
-Route::get('/about', function () {
-    return view('pages.about');
-})->name('about');
+Route::get('/about', function () {return view('pages.about');})->name('about');
 
-Route::get('/showrooms', function () {
-    return view('pages.showrooms');
-})->name('showrooms');
+Route::get('/showrooms', function () {return view('pages.showrooms');})->name('showrooms');
 
-Route::get('/how-to-shop', function () {
-    return view('pages.how-to-shop');
-})->name('how-to-shop');
+Route::get('/how-to-shop', function () {return view('pages.how-to-shop');})->name('how-to-shop');
 
-Route::get('/contact', function () {
-    return view('pages.contact');
-})->name('contact');
+Route::get('/contact', function () {return view('pages.contact');})->name('contact');
 
-Route::get('/delivery-fees', function () {
-    return view('pages.delivery-fees');
-})->name('delivery-fees');
+Route::get('/delivery-fees', function () {return view('pages.delivery-fees');})->name('delivery-fees');
 
-Route::get('/help-center', function () {
-    return view('pages.help-center');
-})->name('help-center');
+Route::get('/help-center', function () {return view('pages.help-center');})->name('help-center');
 
-Route::get('/about-deliveries', function () {
-    return view('pages.about-deliveries');
-})->name('about-deliveries');
+Route::get('/about-deliveries', function () {return view('pages.about-deliveries');})->name('about-deliveries');
 
-Route::get('/about-fees', function () {
-    return view('pages.about-fees');
-})->name('about-fees');
+Route::get('/about-fees', function () {return view('pages.about-fees');})->name('about-fees');
 
-Route::get('/about-orders', function () {
-    return view('pages.about-orders');
-})->name('about-orders');
+Route::get('/about-orders', function () {return view('pages.about-orders');})->name('about-orders');
 
-Route::get('/about-payments', function () {
-    return view('pages.about-payments');
-})->name('about-payments');
+Route::get('/about-payments', function () {return view('pages.about-payments');})->name('about-payments');
 
-Route::get('/about-stock', function () {
-    return view('pages.about-stock');
-})->name('about-stock');
+Route::get('/about-stock', function () {return view('pages.about-stock');})->name('about-stock');
 
 
 // Seller Registration Routes
@@ -264,18 +215,35 @@ Route::post('/seller/documents', [App\Http\Controllers\SellerController::class, 
 
 // Home and Public Pages
 Route::get('/', [HomeController::class, 'index'])->name('home');
-Route::get('/home', function() {
-    return redirect('/');
-});
+Route::get('/home', function() {return redirect('/');});
+
 
 // Cart Routes
-Route::get('/cart', function () {
-    return view('cart');
-})->name('cart');
+// Routes accessible only to logged-in users
+Route::middleware('auth')->group(function () {
+    // Cart Page (Optional)
+    Route::get('/cart', [App\Http\Controllers\CartController::class, 'index'])->name('cart.index');
 
-Route::get('/checkout', function () {
-    return view('checkout');
-})->middleware('auth')->name('checkout');
+    // AJAX Cart Actions
+    Route::post('/cart/add', [CartController::class, 'add'])->name('cart.add');
+    Route::post('/cart/update', [CartController::class, 'update'])->name('cart.update'); // Or PUT/PATCH if preferred
+    Route::post('/cart/remove', [CartController::class, 'remove'])->name('cart.remove'); // Or DELETE if preferred
+    Route::get('/cart/count', [CartController::class, 'count'])->name('cart.count'); // Endpoint just for the count
+   
+    Route::post('/cart/add/{productId}', [App\Http\Controllers\CartController::class, 'addToCart']);
+    Route::post('/cart/update/{productId}', [App\Http\Controllers\CartController::class, 'updateQuantity']);
+    Route::delete('/cart/remove/{productId}', [App\Http\Controllers\CartController::class, 'removeItem']);
+    Route::post('/cart/clear', [App\Http\Controllers\CartController::class, 'clearCart']);
+    Route::get('/cart/count', [App\Http\Controllers\CartController::class, 'count'])->name('cart.count');
+
+});
+
+// Checkout Page (Optional)
+Route::get('/checkout', function () {return view('checkout');})->middleware('auth')->name('checkout');
+Route::get('/checkout', [App\Http\Controllers\CheckoutController::class, 'index'])->name('checkout');
+Route::post('/client/payment', PaymentController::class)->name('payment.process');
+
+Route::get('/notchpay-callback', PaymentCallbackController::class)->name('notchpay-callback');
 
 // Order Routes
 Route::post('/orders', [OrderController::class, 'store'])->middleware('auth')->name('orders.store');
@@ -284,22 +252,25 @@ Route::post('/orders', [OrderController::class, 'store'])->middleware('auth')->n
 Route::middleware(['auth', 'role:client'])->group(function () {
     Route::get('/client/orders', [App\Http\Controllers\Client\OrderController::class, 'index'])->name('client.orders');
     Route::get('/client/orders/{order}', [App\Http\Controllers\Client\OrderController::class, 'show'])->name('client.orders.show');
-});
 
-// Client Wishlist Routes
-Route::middleware(['auth', 'role:client'])->group(function () {
+   
+    // Client Wishlist Routes
+
     Route::get('/client/wishlist', [App\Http\Controllers\Client\WishlistController::class, 'index'])->name('client.wishlist');
     Route::post('/client/wishlist', [App\Http\Controllers\Client\WishlistController::class, 'store'])->name('client.wishlist.store');
     Route::delete('/client/wishlist/{product}', [App\Http\Controllers\Client\WishlistController::class, 'destroy'])->name('client.wishlist.destroy');
-});
 
-// Client Review Routes
-Route::middleware(['auth', 'role:client'])->group(function () {
+
+    // Client Review Routes
+
     Route::get('/client/reviews', [App\Http\Controllers\Client\ReviewController::class, 'index'])->name('client.reviews');
     Route::get('/client/reviews/create/{product}', [App\Http\Controllers\Client\ReviewController::class, 'create'])->name('client.reviews.create');
     Route::post('/client/reviews', [App\Http\Controllers\Client\ReviewController::class, 'store'])->name('client.reviews.store');
     Route::delete('/client/reviews/{review}', [App\Http\Controllers\Client\ReviewController::class, 'destroy'])->name('client.reviews.destroy');
 });
+// client products
+Route::get('/client/products', [App\Http\Controllers\Client\ProductController::class, 'index'])->name('client.products.index');
+ 
 
-// Add this route for vendor shop
+// route for vendor shop
 Route::get('/vendor/shop/{shop}', [App\Http\Controllers\Vendor\ShopController::class, 'show'])->name('vendor.shop.show');

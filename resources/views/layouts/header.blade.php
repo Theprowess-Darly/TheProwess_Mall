@@ -2,24 +2,44 @@
     <!-- Top Bar -->
     <nav class="container mx-auto px-4 py-3">
         <div class="flex justify-between items-center">
-            <div class="flex items-center space-x-4">
+            <a href="{{ route('home') }}" class="ml-2 h-15  mr-20">
+                <img src="{{ Vite::asset('resources/images/LOGO-TPMALL.png') }}" alt="TPM Logo" class="h-14 inline">
+            </a>
+            <div class="flex items-center mr-4 justify-end w-full space-x-2">
                 <button class="md:hidden text-gray-600" onclick="toggleMobileMenu()">
                     <i class="fas fa-bars text-xl"></i>
                 </button>
-                <a href="{{ route('home') }}" class="ml-2">
-                    <img src="{{ Vite::asset('resources/images/logos/tpmL.png') }}" alt="TPM Logo" class="h-8 inline">
-                </a>
-                <div class="hidden md:block relative">
-                    <input type="text" placeholder="Rechercher..." class="w-48 px-4 py-2 border rounded-full focus:outline-none focus:ring-2 focus:ring-green-500">
+ 
+                <div class="hidden md:block relative w-1/2">
+                    <input type="text" placeholder="Rechercher..." class="w-full py-1 px-4 border rounded-full focus:outline-none focus:ring-2 focus:ring-green-500">
                     <button class="absolute right-3 top-2 text-gray-500"><i class="fas fa-search"></i></button>
                 </div>
             </div>
             <div class="hidden md:flex items-center space-x-6">
-                <a href="#" class="text-gray-600 hover:text-green-500" title="Favoris"><i class="fas fa-heart"></i></a>
+                <a href="{{ route('client.wishlist') }}" class="text-gray-600 hover:text-green-500" title="Favoris"><i class="fas fa-heart"></i></a>
                 
                 @auth
                 <!-- Afficher le panier uniquement pour les utilisateurs connectés -->
-                <a href="{{ route('cart') }}" class="text-gray-600 hover:text-green-500" title="Panier"><i class="fas fa-shopping-cart"></i></a>
+                @if (auth()->user()->role === "client")
+                    {{-- cart icon --}}
+                    <a href="{{ route('cart.index') }}" class="md:flex items-center text-gray-600 hover:text-green-500"> <!-- Link to your cart page -->
+                        <i class="fas fa-shopping-cart"></i> (<span id="cart-count">
+                            @auth <!-- Only show count if logged in -->
+                            {{-- Calculate initial count server-side --}}
+                            @php
+                                $cart = session('cart', []);
+                                $initialCount = 0;
+                                foreach ($cart as $item) {
+                                    $initialCount += $item['quantity'] ?? 1; // Sum quantities
+                                }
+                                echo $initialCount;
+                            @endphp
+                            @else
+                            0
+                            @endauth
+                        </span>)
+                    </a>
+                @endif
                 
                 <!-- Afficher le nom de l'utilisateur et menu déroulant -->
                 <div class="relative group">
@@ -28,6 +48,9 @@
                         <i class="fas fa-chevron-down text-xs"></i>
                     </button>
                     <div class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50 hidden group-hover:block">
+                        <a href="{{ route('dashboard') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-green-50 hover:text-green-500">
+                            Mon tableau de bord
+                        </a>
                         <a href="{{ route('profile.edit') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-green-50 hover:text-green-500">
                             Mon Profil
                         </a>
@@ -41,8 +64,8 @@
                 </div>
                 @else
                 <!-- Afficher les boutons de connexion/inscription pour les utilisateurs non connectés -->
-                <a href="{{ route('login') }}" class="bg-green-900 text-white px-4 py-2 rounded-md hover:bg-green-700">Connexion</a>
-                <a href="{{ route('register') }}" class="bg-green-900 text-white px-4 py-2 rounded-md hover:bg-green-700 transition duration-300">Inscription</a>
+                <a href="{{ route('login') }}" class="bg-green-900 text-white px-4 py-1 rounded-md hover:bg-green-700">Connexion</a>
+                <a href="{{ route('register') }}" class="bg-green-900 text-white px-4 py-1 rounded-md hover:bg-green-700 transition duration-300">Inscription</a>
                 @endauth
             </div>
         </div>
@@ -60,7 +83,7 @@
                 
                 @auth
                 <!-- Panier pour mobile (utilisateurs connectés uniquement) -->
-                <a href="{{ route('cart') }}" class="text-gray-600 hover:text-green-500" title="Panier"><i class="fas fa-shopping-cart"></i></a>
+                <a href="{{ route('cart.index') }}" class="text-gray-600 hover:text-green-500" title="Panier"><i class="fas fa-shopping-cart"></i></a>
                 <a href="{{ route('profile.edit') }}" class="text-gray-600 hover:text-green-500" title="Mon Compte"><i class="fas fa-user"></i></a>
                 @endauth
             </div>

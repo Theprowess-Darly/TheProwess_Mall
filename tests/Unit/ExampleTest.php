@@ -1,5 +1,9 @@
 <?php
 
+use App\Models\Delivery;
+
 test('that true is true', function () {
-    expect(true)->toBeTrue();
+    $delivery = Delivery::factory()->create();
+
+    expect($delivery->delivery_person_id)->toBe(null);
 });

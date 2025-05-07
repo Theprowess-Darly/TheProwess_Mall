@@ -183,83 +183,104 @@
             </div>
         </section>
 
+        {{-- Shops Section --}}
+        <section class="py-12 bg-yellow-50">
+            <div class="container mx-auto px-4">
+                <h2 class="text-2xl font-bold mb-8">Nos Boutiques</h2>
+                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                    @forelse ($shops as $shop)
+                        @if($shop->status === 'approved')
+                            <div class="bg-white rounded-lg shadow hover:shadow-lg transition-shadow overflow-hidden">
+                                <a href="{{ route('vendor.shop.show', $shop) }}" class="block">
+                                    @if($shop->logo)
+                                        <img src="{{ asset('storage/' . $shop->logo) }}" alt="{{ $shop->name }}" class="w-full h-40 object-cover">
+                                    @else
+                                        <div class="w-full h-40 bg-gray-200 flex items-center justify-center">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+                                            </svg>
+                                        </div>
+                                    @endif
+                                    <div class="p-4">
+                                        <h3 class="text-lg font-semibold mb-2">{{ $shop->name }}</h3>
+                                        <p class="text-gray-600 text-sm line-clamp-2">{{ $shop->description }}</p>
+                                        <div class="mt-4 flex justify-between items-center">
+                                            <span class="text-sm text-gray-500">{{ $shop->products->count() }} produits</span>
+                                            <span class="text-green-600 font-medium text-sm">Voir la boutique</span>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        @endif
+                    @empty
+                        <div class="col-span-full text-center py-8">
+                            <p class="text-gray-500">Aucune boutique disponible pour le moment.</p>
+                        </div>
+                    @endforelse
+                </div>
+            </div>
+        </section>
     
         <!-- Featured Products -->
-        <section class="py-12 bg-white">
+        <section class="py-12 bg-green-50">
             <div class="container mx-auto px-4">
                 <h2 class="text-2xl font-bold mb-8">Produits vedettes</h2>
-                
+               
                 <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-                    @php
-                        // Récupérer tous les shops
-                        $shops = \App\Models\Shop::all();
-                        
-                        // Pour chaque shop, récupérer au moins un produit aléatoire
-                        $featuredProducts = collect();
-                        
-                        foreach ($shops as $shop) {
-                            // Récupérer un produit aléatoire de ce shop
-                            $product = $shop->products()->inRandomOrder()->first();
-                            
-                            if ($product) {
-                                $featuredProducts->push($product);
-                            }
-                            
-                            // Ajouter éventuellement un deuxième produit aléatoire (si le shop a plus d'un produit)
-                            if ($shop->products()->count() > 1) {
-                                $secondProduct = $shop->products()->where('id', '!=', $product ? $product->id : 0)->inRandomOrder()->first();
-                                if ($secondProduct) {
-                                    $featuredProducts->push($secondProduct);
-                                }
-                            }
-                        }
-                        
-                        // Si on n'a pas assez de produits, compléter avec des produits aléatoires
-                        if ($featuredProducts->count() < 8) {
-                            $additionalProducts = \App\Models\Product::whereNotIn('id', $featuredProducts->pluck('id'))->inRandomOrder()->take(8 - $featuredProducts->count())->get();
-                            $featuredProducts = $featuredProducts->merge($additionalProducts);
-                        }
-                        
-                        // Limiter à 8 produits maximum et mélanger
-                        $featuredProducts = $featuredProducts->take(8)->shuffle();
-                    @endphp
-                    
+
                     @forelse ($featuredProducts as $product)
                         <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition-shadow duration-300 transform hover:scale-105">
                             <a href="{{ route('vendor.products.show', $product->id) }}">
                                 <div class="h-48 overflow-hidden">
-                                    @if ($product->image)
-                                        <img src="{{ asset('storage/public/images/products/' . $product->image) }}" alt="{{ $product->name }}" class="w-full h-full object-cover transition-transform duration-300 hover:scale-110">
+                                    @if ($product->image_url)
+                                        <img src="{{ asset('/storage/' . $product->image_url) }}" alt="{{ $product->name }}" class="w-full h-full object-cover transition-transform duration-300 hover:scale-110">
                                     @else
                                         <div class="w-full h-full bg-gray-200 flex items-center justify-center">
                                             <i class="fas fa-image text-gray-400 text-4xl"></i>
                                         </div>
                                     @endif
+                                        {{-- wishlist --}}
+                                    <div class="absolute top-2 right-2">
+                                        <button class="add-to-wishlist bg-white dark:bg-gray-800 rounded-full p-2 shadow hover:bg-gray-100 dark:hover:bg-gray-700 transform transition-all duration-300 hover:scale-110" data-product-id="{{ $product->id }}">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                                            </svg>
+                                        </button>
+                                    </div>
                                 </div>
                                 <div class="p-4">
-                                    <h3 class="text-lg font-semibold mb-2 text-gray-800">{{ $product->name }}</h3>
-                                    <p class="text-sm text-gray-600 mb-2 line-clamp-2">{{ $product->description }}</p>
                                     <div class="flex justify-between items-center">
+                                        <h3 class="text-lg font-bold mb-2 text-gray-800"> {{ $product->name }} </h3>
                                         <span class="text-green-700 font-bold">{{ number_format($product->price, 0, ',', ' ') }} FCFA</span>
-                                        <span class="text-xs text-gray-500">{{ $product->shop->name }}</span>
+
+                                    </div>
+                                    <p class="text-sm text-gray-600 mb-2 line-clamp-2">{{ $product->description }}</p>
+                                    <div class="flex justify-self-end mt-4">
+
+                                        <span class="text-xs text-gray-500"> Shop:{{ $product->shop->name }}</span>
                                     </div>
                                 </div>
                             </a>
-                            <div class="p-4 pt-0 flex justify-between items-center">
-                                @auth
-                                    <button onclick="addToCart({{ $product->id }})" class="bg-green-900 text-white px-3 py-1 rounded-full text-sm hover:bg-green-700 transition-colors transform hover:scale-105 duration-300">
-                                        <i class="fas fa-cart-plus mr-1"></i> Ajouter
-                                    </button>
-                                    <button onclick="addToWishlist({{ $product->id }})" class="text-gray-500 hover:text-red-500 transform hover:scale-110 transition-all duration-300">
-                                        <i class="far fa-heart"></i>
-                                    </button>
+
+                            <div class="p-2 mt-1">
+                                @auth <!-- Show button only if user is logged in -->
+                                <form class="add-to-cart-form " method="POST" action="{{ route('cart.add') }}">
+                                    @csrf
+                                    <input type="hidden" name="product_id" value="{{ $product->id }}">
+                                    <div class="flex justify-between  space-x-2 items-center">
+                                        <input type="number" name="quantity" value="1" min="1" class="w-10 px-1 py-1 border border-gray-300 dark:border-gray-600 rounded-md dark:bg-gray-800 dark:text-white">
+                                        <button type="submit" class="ml-2 bg-green-700 rounded-full hover:bg-green-950 text-white px-2 py-2 transition-colors">
+                                            <span class="flex items-center">
+                                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+                                                </svg>
+                                                {{-- Ajouter au panier --}}
+                                            </span>
+                                        </button>
+                                    </div>
+                                </form>
                                 @else
-                                    <a href="{{ route('login') }}" class="bg-green-900 text-white px-3 py-1 rounded-full text-sm hover:bg-green-700 transition-colors transform hover:scale-105 duration-300">
-                                        <i class="fas fa-cart-plus mr-1"></i> Ajouter
-                                    </a>
-                                    <a href="{{ route('login') }}" class="text-gray-500 hover:text-red-500 transform hover:scale-110 transition-all duration-300">
-                                        <i class="far fa-heart"></i>
-                                    </a>
+                                <p class="mt-4"><a href="{{ route('login') }}" class="text-blue-600 dark:text-blue-400 hover:underline">Connectez-vous</a> pour ajouter des articles à votre panier.</p>
                                 @endauth
                             </div>
                         </div>
@@ -268,6 +289,15 @@
                             <p class="text-gray-500">Aucun produit disponible pour le moment.</p>
                         </div>
                     @endforelse
+                    @if (session('success'))
+                        <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative" role="alert">
+                            <strong class="font-bold">Success!</strong>
+                            <span class="block sm:inline">{{ session('success') }}</span>
+                            <span class="absolute top-0 bottom-0 right-0 px-4 py-3"></span>
+                        </div>
+                               
+                    @endif
+
                 </div>
                 
                 <div class="text-center mt-8">
@@ -278,6 +308,35 @@
             </div>
         </section>
         
+        <!-- Popular Brands -->
+        <section class="py-12 bg-gray-50">
+            <div class="container mx-auto px-4">
+                <h2 class="text-2xl font-bold mb-8">Marques Populaires</h2>
+                <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
+                    <!-- Brand logo1 -->
+                    <div class="bg-white p-4 rounded-lg shadow hover:shadow-lg transition-shadow">
+                        <img src="{{ vite::asset('resources/images/logos/tpmL.png')}}" alt="Brand" class="w-full h-20 object-contain">
+                    </div>
+                    <!-- Brand logo2 -->
+                    <div class="bg-white p-4 rounded-lg shadow hover:shadow-lg transition-shadow">
+                        <img src="{{ vite::asset('resources/images/logos/samsung.png')}}" alt="Brand" class="w-full h-20 object-contain">
+                    </div>
+                    <!-- Brand logo3 -->
+                    <div class="bg-white p-4 rounded-lg shadow hover:shadow-lg transition-shadow">
+                        <img src="{{ vite::asset('resources/images/logos/apple.png')}}" alt="Brand" class="w-full h-20 object-contain">
+                    </div>
+                    <!-- Brand logo4 -->
+                    <div class="bg-white p-4 rounded-lg shadow hover:shadow-lg transition-shadow">
+                        <img src="{{ vite::asset('resources/images/logos/tecno.png')}}" alt="Brand" class="w-full h-20 object-contain">
+                    </div>
+                    <!-- Brand logo5 -->
+                    <div class="bg-white p-4 rounded-lg shadow hover:shadow-lg transition-shadow">
+                        <img src="{{ vite::asset('resources/images/logos/infinix.png') }}" alt="Brand" class="w-full h-20 object-contain">
+                    </div>
+                    <!-- Repeat for more brands -->
+                </div>
+            </div>
+        </section>
 
         <!-- Special Offers -->
         <section class="py-12">
@@ -309,35 +368,7 @@
             </div>
         </section>
 
-        <!-- Popular Brands -->
-        <section class="py-12 bg-gray-50">
-            <div class="container mx-auto px-4">
-                <h2 class="text-2xl font-bold mb-8">Marques Populaires</h2>
-                <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
-                    <!-- Brand logo1 -->
-                    <div class="bg-white p-4 rounded-lg shadow hover:shadow-lg transition-shadow">
-                        <img src="{{ vite::asset('resources/images/logos/tpmL.png')}}" alt="Brand" class="w-full h-20 object-contain">
-                    </div>
-                    <!-- Brand logo2 -->
-                    <div class="bg-white p-4 rounded-lg shadow hover:shadow-lg transition-shadow">
-                        <img src="{{ vite::asset('resources/images/logos/samsung.png')}}" alt="Brand" class="w-full h-20 object-contain">
-                    </div>
-                    <!-- Brand logo3 -->
-                    <div class="bg-white p-4 rounded-lg shadow hover:shadow-lg transition-shadow">
-                        <img src="{{ vite::asset('resources/images/logos/apple.png')}}" alt="Brand" class="w-full h-20 object-contain">
-                    </div>
-                    <!-- Brand logo4 -->
-                    <div class="bg-white p-4 rounded-lg shadow hover:shadow-lg transition-shadow">
-                        <img src="{{ vite::asset('resources/images/logos/tecno.png')}}" alt="Brand" class="w-full h-20 object-contain">
-                    </div>
-                    <!-- Brand logo5 -->
-                    <div class="bg-white p-4 rounded-lg shadow hover:shadow-lg transition-shadow">
-                        <img src="{{ vite::asset('resources/images/logos/infinix.png') }}" alt="Brand" class="w-full h-20 object-contain">
-                    </div>
-                    <!-- Repeat for more brands -->
-                </div>
-            </div>
-        </section>
+
 
         <!-- Latest Blog Posts -->
         <section class="py-12">
@@ -618,34 +649,10 @@
                     @endauth
                 }
 
-                // Fonction pour ajouter un produit à la liste de souhaits
-                function addToWishlist(productId) {
-                    // Vérifier si l'utilisateur est connecté
-                    @auth
-                        // Envoyer une requête AJAX pour ajouter le produit à la liste de souhaits
-                        fetch(`/wishlist/add/${productId}`, {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json',
-                                'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                            }
-                        })
-                        .then(response => response.json())
-                        .then(data => {
-                            if (data.success) {
-                                // Animation de succès
-                                const button = event.target.closest('button');
-                                button.innerHTML = '<i class="fas fa-heart"></i>';
-                                button.classList.add('text-red-500');
-                            }
-                        });
-                    @else
-                        // Rediriger vers la page de connexion si l'utilisateur n'est pas connecté
-                        window.location.href = '{{ route('login') }}';
-                    @endauth
-                }
+
             </script>
         @endpush
 
     </body>
 </html>
+

@@ -27,7 +27,7 @@
                                 <div class="flex items-center justify-between">
                                     <div>
                                         <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100">
-                                            Commande #{{ $order->order_number }}
+                                            Commande No: #AGDf{{ $order->user->id . 'tpm'  }}{{ sprintf('%06d', $order->id) }}
                                         </h3>
                                         <p class="text-sm text-gray-600 dark:text-gray-400">
                                             Passée le {{ $order->created_at->format('d/m/Y à H:i') }}
@@ -36,23 +36,23 @@
                                     <div class="text-right">
                                         <div class="mb-2">
                                             <span class="px-3 py-1 text-sm rounded-full 
-                                                @if($order->status === 'pending') bg-yellow-100 text-yellow-800
-                                                @elseif($order->status === 'processing') bg-blue-100 text-blue-800
-                                                @elseif($order->status === 'completed') bg-green-100 text-green-800
-                                                @elseif($order->status === 'cancelled') bg-red-100 text-red-800
+                                                @if($order->payment_status === 'pending') bg-yellow-100 text-yellow-800
+                                                @elseif($order->payment_status === 'processing') bg-blue-100 text-blue-800
+                                                @elseif($order->payment_status === 'complete') bg-green-100 text-green-800
+                                                @elseif($order->payment_status === 'cancelled') bg-red-100 text-red-800
                                                 @endif">
-                                                {{ ucfirst($order->status) }}
+                                                {{ ucfirst($order->payment_status) }}
                                             </span>
                                         </div>
                                         <p class="text-lg font-bold text-gray-900 dark:text-gray-100">
-                                            {{ number_format($order->total, 0, ',', ' ') }} FCFA
+                                            {{ number_format($order->total_amount, 0, ',', ' ') }} FCFA
                                         </p>
                                     </div>
                                 </div>
                                 
                                 <div class="mt-4 flex justify-between items-center">
                                     <div class="text-sm text-gray-600 dark:text-gray-400">
-                                        <p>{{ $order->items->count() }} article(s)</p>
+                                        <p>{{ $order->orderItems->count() }} article(s)</p>
                                         <p>Livraison : {{ $order->shipping_address }}</p>
                                     </div>
                                     <a href="{{ route('client.orders.show', $order) }}" 
