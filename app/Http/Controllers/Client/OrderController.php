@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Client;
 
 use App\Http\Controllers\Controller;
 use App\Models\Order;
+use App\Models\OrderItem;
+
 use Illuminate\Http\Request;
 
 class OrderController extends Controller
@@ -34,7 +36,46 @@ class OrderController extends Controller
         if ($order->user_id !== auth()->id()) {
             abort(403);
         }
-
+        
+        // Charger les items de la commande et leurs produits associés
+        $order->load('orderItems.product');
+        
         return view('client.orders.show', compact('order'));
+    }
+       /**
+     * Enregistre une nouvelle commande dans la base de données.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request)
+    {
+        // Validation des données
+        $validated = $request->validate([
+            'shipping_address' => 'required|string',
+            'city' => 'required|string',
+            'phone' => 'required|string',
+            'payment_method' => 'required|string|in:cash,card,mobile_money',
+            'notes' => 'nullable|string',
+        ]);
+
+        // Création de la commande
+        $order = Order::create([
+            'user_id' => auth()->id(),
+            'payment_method' => $request->payment_method,
+            'payment_status' => 'pending',
+            'status' => 'pending',
+            'address' => $request->shipping_address,
+            'city' => $request->city,
+            'phone' => $request->phone,
+            'notes' => $request->notes,
+            'total' => 0, // Sera mis à jour après l'ajout des articles
+            'subtotal' => 0,
+            'shipping_fee' => 0,
+        ]);
+
+        // Redirection vers la page de paiement
+        return redirect()->route('orders.payment', $order)
+            ->with('success', 'Votre commande a été créée avec succès.');
     }
 }

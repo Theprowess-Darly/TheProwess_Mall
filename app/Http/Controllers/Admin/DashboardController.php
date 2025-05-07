@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Order;
 use App\Models\Product;
 use App\Models\Shop;
+use App\Models\Subscription;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -22,7 +23,7 @@ class DashboardController extends Controller
         
         // Shop statistics
         $totalShops = Shop::count();
-        $activeShops = Shop::where('status', 'active')->count();
+        $activeShops = Shop::where('status', 'approved')->count();
         $pendingShops = Shop::where('status', 'pending')->count();
         $suspendedShops = Shop::where('status', 'suspended')->count();
         
@@ -31,15 +32,23 @@ class DashboardController extends Controller
         
         // Order statistics
         $totalOrders = Order::count();
-        // Modified this line to use 'status' instead of 'payment_status'
+        
+        //Calcul du chiffre d'affaire total de la plateforme
+        // $totalplatformRevenue = Order::where('status', 'delivered')->sum('total'); // Somme de toutes les ventes
         $totalRevenue = Order::where('status', 'delivered')->sum('total');
         
         // Recent orders
         $recentOrders = Order::with('user')->latest()->take(5)->get();
         
-        // Wallet balance (placeholder - adjust based on your actual model)
-        $totalWalletBalance = 0; // Replace with actual wallet balance calculation
-        
+        // Calcul du revenu total des abonnements de boutiques
+        $totalWalletBalance = Subscription::sum('amount'); // Somme de tous les montants d'abonnement
+        // uniquement le abonements payés
+       
+        //$totalWalletBalance = Subscription::where('status', 'paid')->sum('amount');
+      
+       
+        $conversionRate = 100; // Taux de conversion en FCFA
+        $totalWalletBalance = $totalWalletBalance * $conversionRate; // Conversion en FCFA
         // Recent users
         $recentUsers = User::latest()->take(5)->get();
         

@@ -18,7 +18,7 @@ class ProductController extends Controller
         // Fetch all products from the database in random order
         $products = Product::where('status', 'approved')
                           ->inRandomOrder()
-                          ->paginate(100); // You can adjust the number per page as needed
+                          ->paginate(100); // number per page
         
         return view('client.products.index', compact('products'));
     }

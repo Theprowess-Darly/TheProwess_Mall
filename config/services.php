@@ -35,4 +35,5 @@ return [
         ],
     ],
 
+    'nochtpay' => env('NOTCHPAY_PUBLIC_KEY'),
 ];

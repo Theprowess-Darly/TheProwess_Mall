@@ -3,15 +3,15 @@
 @section('title', 'Tous les produits')
 
 @section('content')
-    <div class="container dark:bg-slate-700 bg-slate-400 mx-auto px-4 py-8">
+    <div class="container dark:bg-slate-600 bg-slate-400 mx-auto px-4 py-8">
         <h1 class="text-3xl font-bold text-green-900 dark:text-green-400 mb-8">Tous nos produits</h1>
         
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
             @forelse ($products as $product)
                 <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden transition-transform duration-300 hover:shadow-lg hover:scale-105">
                     <div class="relative h-48 overflow-hidden">
-                        @if($product->image)
-                            <img src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}" class="w-full h-full object-cover transform transition-transform duration-300 hover:scale-110">
+                        @if($product->image_url)
+                            <img src="{{ asset('/storage/' . $product->image_url) }}" alt="{{ $product->name }}" class="w-full h-full object-cover transform transition-transform duration-300 hover:scale-110">
                         @else
                             <div class="w-full h-full bg-gray-200 dark:bg-gray-700 flex items-center justify-center">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -30,14 +30,40 @@
                     </div>
                     
                     <div class="p-4">
-                        <h3 class="text-lg font-semibold text-gray-800 dark:text-white mb-2">{{ $product->name }}</h3>
-                        <p class="text-gray-600 dark:text-gray-300 text-sm mb-2 line-clamp-2">{{ $product->description }}</p>
-                        
-                        <div class="flex justify-between items-center mt-4">
-                            <span class="text-green-600 dark:text-green-400 font-bold">{{ number_format($product->price, 0, ',', ' ') }} FCFA</span>
-                            <button class="add-to-cart bg-green-600 hover:bg-green-700 text-white px-3 py-1 rounded-md text-sm transform transition-all duration-300 hover:scale-105" data-product-id="{{ $product->id }}">
-                                Ajouter au panier
-                            </button>
+                        <!--  Product Card -->
+                        <div>
+                            <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100">{{ $product->name }}</h3>
+                            <p class="text-green-950 dark:text-green-400 font-bold mt-2">{{ number_format($product->price, 0, ',', ' ') }} FCFA</p>
+                            @if($product->old_price)
+                                <p class="text-sm line-through text-gray-500 mt-1">{{ number_format($product->old_price, 0, ',', ' ') }} FCFA</p>
+                            @endif
+                            <p class="text-sm text-gray-600 dark:text-gray-400 mt-2">{{ Str::limit($product->description, 100) }}</p>
+                            
+                            @if($product->category)
+                                <span class="inline-block mt-2 bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200 text-xs px-2 py-1 rounded-full">
+                                    {{ $product->category->name }}
+                                </span>
+                            @endif
+
+                            @auth <!-- Show button only if user is logged in -->
+                                <form class="add-to-cart-form mt-4" method="POST" action="{{ route('cart.add') }}">
+                                    @csrf
+                                    <input type="hidden" name="product_id" value="{{ $product->id }}">
+                                    <div class="flex justify-between space-x-2 items-center">
+                                        <input type="number" name="quantity" value="1" min="1" class="w-16 px-1 py-1 border border-gray-300 dark:border-gray-600 rounded-md dark:bg-gray-800 dark:text-white">
+                                        <button type="submit" class="ml-2 bg-green-700 rounded-full hover:bg-green-950 text-white px-2 py-2 transition-colors">
+                                            <span class="flex items-center">
+                                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+                                                </svg>
+                                                {{-- Ajouter au panier --}}
+                                            </span>
+                                        </button>
+                                    </div>
+                                </form>
+                            @else
+                                <p class="mt-4"><a href="{{ route('login') }}" class="text-blue-600 dark:text-blue-400 hover:underline">Connectez-vous</a> pour faire vos achats en toute securité.</p>
+                            @endauth
                         </div>
                     </div>
                 </div>
@@ -50,13 +76,29 @@
                     <p class="text-gray-500 dark:text-gray-400">Revenez plus tard pour découvrir nos produits.</p>
                 </div>
             @endforelse
+
+
         </div>
-        
+        @if (session('success'))
+                <div class="bg-green-100 w-30 border  border-green-400 text-green-700 px-4 py-3 rounded relative" role="alert">
+                <strong class="font-bold">Success!</strong>
+                <span class="block sm:inline">{{ session('success') }}</span>
+                <span class="absolute top-0 bottom-0 right-0 px-4 py-3"></span>
+            </div>
+        {{-- @else
+            <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+                <strong class="font-bold">Error!</strong>
+                <span class="block sm:inline">{{ session('fail') }}</span>
+                <span class="absolute top-0 bottom-0 right-0 px-4 py-3"></span>
+            </div>                                --}}
+        @endif
         <div class="mt-8">
             {{ $products->links() }}
         </div>
     </div>
 
+
+@endsection
     <!-- Modal de connexion requise -->
     <div id="login-modal" class="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center hidden">
         <div class="bg-white dark:bg-gray-800 rounded-lg shadow-xl max-w-md w-full transform transition-all duration-300 scale-95 opacity-0" id="modal-content">
@@ -74,13 +116,11 @@
             </div>
         </div>
     </div>
-@endsection
-
 @push('scripts')
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Gestion des boutons d'ajout au panier
-            const addToCartButtons = document.querySelectorAll('.add-to-cart');
+            // Gestion des boutons d'ajout au panier et à la liste de souhaits
+            const addToWishlistButtons = document.querySelectorAll('.add-to-wishlist');
             const loginModal = document.getElementById('login-modal');
             const modalContent = document.getElementById('modal-content');
             const cancelLoginBtn = document.getElementById('cancel-login');
@@ -88,40 +128,20 @@
             // Variable pour vérifier si l'utilisateur est authentifié
             const isAuthenticated = {{ auth()->check() ? 'true' : 'false' }};
             
-            addToCartButtons.forEach(button => {
+            // Gestion des boutons d'ajout à la liste de souhaits
+            addToWishlistButtons.forEach(button => {
                 button.addEventListener('click', function() {
-                    if (isAuthenticated) {
-                        const productId = this.getAttribute('data-product-id');
-                        // Logique d'ajout au panier pour utilisateurs connectés
-                        fetch(`/cart/add/${productId}`, {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json',
-                                'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                            }
-                        })
-                        .then(response => response.json())
-                        .then(data => {
-                            if (data.success) {
-                                // Animation de succès
-                                this.innerHTML = '<i class="fas fa-check"></i> Ajouté';
-                                this.classList.remove('bg-green-600', 'hover:bg-green-700');
-                                this.classList.add('bg-green-500');
-                                
-                                setTimeout(() => {
-                                    this.innerHTML = 'Ajouter au panier';
-                                    this.classList.remove('bg-green-500');
-                                    this.classList.add('bg-green-600', 'hover:bg-green-700');
-                                }, 2000);
-                            }
-                        });
-                    } else {
+                    if (!isAuthenticated) {
                         // Afficher le modal pour les utilisateurs non connectés
                         loginModal.classList.remove('hidden');
                         setTimeout(() => {
                             modalContent.classList.remove('scale-95', 'opacity-0');
                             modalContent.classList.add('scale-100', 'opacity-100');
                         }, 10);
+                    } else {
+                        // Logique d'ajout à la liste de souhaits pour utilisateurs connectés
+                        const productId = this.getAttribute('data-product-id');
+                        // Implémentez votre logique d'ajout à la liste de souhaits ici
                     }
                 });
             });
