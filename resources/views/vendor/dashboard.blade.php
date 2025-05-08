@@ -47,19 +47,17 @@
                         </div>
                         <div class="flex justify-between w-full">
                             <div>  
-                                {{-- <p class="text-3xl font-bold mt-2 text-green-800 dark:text-white">{{ auth()->user()->shop->orders()->count() }}</p> --}}
+                                <p class="text-3xl font-bold mt-2 text-green-800 dark:text-white">{{ $pendingOrders }}</p>
                                 <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">En cours</p>
                             </div>
                             <div>
-                                {{-- <p class="text-3xl font-bold mt-2 text-green-800 dark:text-white">{{ auth()->user()->shop->orders()->count() }}</p> --}}
-                                <p class="mt-2 text-sm text-gray-600 dark:text-gray-400"> Livrées</p>
+                                <p class="text-3xl font-bold mt-2 text-green-800 dark:text-white">{{ $completedOrders }}</p>
+                                <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">Payés</p>
                             </div>
-
                         </div>
-                        <div class="flex justify-between w-full">
-                            <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">Total des commandes</p>                            
-
-                            {{-- <p class="text-3xl font-bold mt-2 text-green-800 dark:text-white">{{ auth()->user()->shop->orders()->count() }}</p> --}}
+                        <div class="flex justify-between w-full mt-2">
+                            <p class="text-sm text-gray-600 dark:text-gray-400">Total des commandes</p>                            
+                            <p class="text-lg font-bold text-green-800 dark:text-white">{{ $totalOrders }}</p>
                         </div>
                     </div>
                 </div>
@@ -75,7 +73,7 @@
                                 </svg>
                             </div>
                         </div>
-                        {{-- <p class="text-3xl font-bold mt-2 text-green-800 dark:text-white">{{ number_format(auth()->user()->shop->orders()->sum('total_amount') ?? 0, 0, ',', ' ') }} FCFA</p> --}}
+                        <p class="text-xl font-bold mt-2 text-green-800 dark:text-white">{{ number_format($totalRevenue, 0, ',', ' ') }} FCFA</p>
                         <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">Revenus totaux</p>
                     </div>
                 </div>
@@ -91,7 +89,7 @@
                                 </svg>
                             </div>
                         </div>
-                        {{-- <p class="text-3xl font-bold mt-2 text-green-800 dark:text-white">{{ auth()->user()->shop->orders()->distinct('user_id')->count('user_id') }}</p> --}}
+                        <p class="text-3xl font-bold mt-2 text-green-800 dark:text-white">{{ $totalCustomers }}</p>
                         <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">Clients uniques</p>
                     </div>
                 </div>
@@ -119,7 +117,7 @@
                 <div class="bg-white dark:bg-gray-700 overflow-hidden shadow-md rounded-lg p-6">
                     <div class="flex justify-between items-center mb-4 border-b border-gray-200 dark:border-gray-600 pb-2">
                         <h3 class="text-lg font-semibold text-green-950 dark:text-green-300">Commandes récentes</h3>
-                        <a href="#" class="text-sm text-green-600 dark:text-green-400 hover:underline">Voir tout</a>
+                        <a href="{{ route('vendor.orders.index') }}" class="text-sm text-green-600 dark:text-green-400 hover:underline">Voir tout</a>
                     </div>
                     
                     <div class="overflow-x-auto">
@@ -147,7 +145,7 @@
                                             <span class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800 dark:bg-blue-800 dark:text-blue-100">
                                                 En traitement
                                             </span>
-                                        @elseif($order->status == 'completed')
+                                        @elseif($order->status == 'complete')
                                             <span class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800 dark:bg-green-800 dark:text-green-100">
                                                 Complétée
                                             </span>
@@ -181,8 +179,7 @@
                         @forelse($topProducts ?? [] as $product)
                             <div class="flex items-center p-3 bg-gray-50 dark:bg-gray-800 rounded-lg">
                                 <div class="flex-shrink-0 h-12 w-12 rounded-md overflow-hidden">
-                                    <img src="{{ $product->image_url ?? asset('images/placeholder.png') }}" alt="{{ $product->name }}" class="h-full w-full object-cover">
-                                </div>
+                                    <img src="{{ $product->image_url ? asset('storage/' . str_replace('storage/', '', $product->image_url)) : asset('images/placeholder.png') }}" alt="{{ $product->name }}" class="w-full h-48 object-cover">                                </div>
                                 <div class="ml-4 flex-1">
                                     <div class="flex justify-between">
                                         <p class="text-sm font-medium text-gray-900 dark:text-gray-100">{{ $product->name }}</p>
