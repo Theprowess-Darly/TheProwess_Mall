@@ -63,7 +63,7 @@
                                 <option value="processing" {{ $order->status == 'processing' ? 'selected' : '' }}>En traitement</option>
                                 <option value="shipped" {{ $order->status == 'shipped' ? 'selected' : '' }}>Expédiée</option>
                                 <option value="delivered" {{ $order->status == 'delivered' ? 'selected' : '' }}>Livrée</option>
-                                <option value="completed" {{ $order->status == 'completed' ? 'selected' : '' }}>Terminée</option>
+                                <option value="complete" {{ $order->status == 'completed' ? 'selected' : '' }}>Terminée</option>
                                 <option value="cancelled" {{ $order->status == 'cancelled' ? 'selected' : '' }}>Annulée</option>
                             </select>
                             <button type="submit" class="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 transition-colors duration-200">

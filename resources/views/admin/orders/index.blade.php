@@ -26,7 +26,7 @@
                                 <option value="processing">En traitement</option>
                                 <option value="shipped">Expédiée</option>
                                 <option value="delivered">Livrée</option>
-                                <option value="completed">Terminée</option>
+                                <option value="complete">Terminée</option>
                                 <option value="cancelled">Annulée</option>
                             </select>
                         </div>
@@ -68,7 +68,7 @@
                                             <span class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-purple-100 text-purple-800 dark:bg-purple-800 dark:text-purple-100">
                                                 Livrée
                                             </span>
-                                        @elseif($order->status == 'completed')
+                                        @elseif($order->status == 'complete')
                                             <span class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800 dark:bg-green-800 dark:text-green-100">
                                                 Terminée
                                             </span>

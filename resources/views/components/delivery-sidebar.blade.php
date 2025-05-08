@@ -1,8 +1,8 @@
 <div class="min-h-screen bg-purple-950 dark:bg-gray-900 text-white w-64 fixed left-0 top-0 z-40 transition-all duration-300 ease-in-out" id="sidebar">
     <div class="flex items-center justify-between p-4 border-b border-purple-800 dark:border-gray-700">
         <div class="flex items-center space-x-2">
-            <img src="{{ asset('images/logo.png') }}" alt="TPMall Logo" class="h-8 w-auto" onerror="this.src='{{ asset('images/placeholder.png') }}'; this.onerror='';">
-            <span class="text-xl font-bold text-white">TPMall</span>
+            <img src="{{ asset('images/LOGO-TPMALL.png') }}" alt="TPMall Logo" class="h-8 w-auto" onerror="this.src='{{ asset('images/placeholder.png') }}'; this.onerror='';">
+            <span class="text-xl font-bold text-white"></span>
         </div>
         <button id="closeSidebar" class="md:hidden text-white hover:text-purple-300">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">

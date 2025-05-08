@@ -21,7 +21,7 @@
                                 <option value="">Tous les statuts</option>
                                 <option value="pending" {{ request('status') == 'pending' ? 'selected' : '' }}>En attente</option>
                                 <option value="processing" {{ request('status') == 'processing' ? 'selected' : '' }}>En traitement</option>
-                                <option value="completed" {{ request('status') == 'completed' ? 'selected' : '' }}>Complétée</option>
+                                <option value="complete" {{ request('status') == 'complete' ? 'selected' : '' }}>Complétée</option>
                                 <option value="cancelled" {{ request('status') == 'cancelled' ? 'selected' : '' }}>Annulée</option>
                             </select>
                         </div>
@@ -46,7 +46,8 @@
                                 <th class="px-6 py-3 text-left text-xs font-medium text-green-800 dark:text-green-300 uppercase tracking-wider">Client</th>
                                 <th class="px-6 py-3 text-left text-xs font-medium text-green-800 dark:text-green-300 uppercase tracking-wider">Date</th>
                                 <th class="px-6 py-3 text-left text-xs font-medium text-green-800 dark:text-green-300 uppercase tracking-wider">Montant</th>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-green-800 dark:text-green-300 uppercase tracking-wider">Statut</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-green-800 dark:text-green-300 uppercase tracking-wider">Statut de paiement</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-green-800 dark:text-green-300 uppercase tracking-wider">Statut de Livraison</th>
                                 <th class="px-6 py-3 text-left text-xs font-medium text-green-800 dark:text-green-300 uppercase tracking-wider">Actions</th>
                             </tr>
                         </thead>
@@ -58,17 +59,46 @@
                                 <td class="px-6 py-4 whitespace-nowrap text-gray-900 dark:text-gray-100">{{ $order->created_at->format('d/m/Y H:i') }}</td>
                                 <td class="px-6 py-4 whitespace-nowrap text-gray-900 dark:text-gray-100">{{ number_format($order->total_amount, 0, ',', ' ') }} FCFA</td>
                                 <td class="px-6 py-4 whitespace-nowrap">
+                                    @if($order->payment_status == 'pending')
+                                        <span class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800 dark:bg-yellow-800 dark:text-yellow-100">
+                                            En attente
+                                        </span>
+                                    @elseif($order->payment_status == 'processing')
+                                        <span class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800 dark:bg-blue-800 dark:text-blue-100">
+                                            En traitement
+                                        </span>
+                                    @elseif($order->payment_status == 'complete')
+                                        <span class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800 dark:bg-green-800 dark:text-green-100">
+                                            Complétée
+                                        </span>
+                                    @elseif($order->payment_status == 'cancelled')
+                                        <span class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800 dark:bg-red-800 dark:text-red-100">
+                                            Annulée
+                                        </span>
+                                    @endif
+                                </td>
+                                {{-- statut de livraison --}}
+                                
+                                <td class="px-6 py-4 whitespace-nowrap">
                                     @if($order->status == 'pending')
                                         <span class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800 dark:bg-yellow-800 dark:text-yellow-100">
                                             En attente
                                         </span>
                                     @elseif($order->status == 'processing')
                                         <span class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800 dark:bg-blue-800 dark:text-blue-100">
-                                            En traitement
+                                            En préparation
                                         </span>
-                                    @elseif($order->status == 'completed')
+                                    @elseif($order->status == 'ready_for_delivery')
+                                        <span class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-purple-100 text-purple-800 dark:bg-purple-800 dark:text-purple-100">
+                                            Prête à livrer
+                                        </span>
+                                    @elseif($order->status == 'in_transit')
+                                        <span class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-indigo-100 text-indigo-800 dark:bg-indigo-800 dark:text-indigo-100">
+                                            En transit
+                                        </span>
+                                    @elseif($order->status == 'delivered')
                                         <span class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800 dark:bg-green-800 dark:text-green-100">
-                                            Complétée
+                                            Livrée
                                         </span>
                                     @elseif($order->status == 'cancelled')
                                         <span class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800 dark:bg-red-800 dark:text-red-100">
@@ -76,6 +106,7 @@
                                         </span>
                                     @endif
                                 </td>
+                                 
                                 <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
                                     <a href="{{ route('vendor.orders.show', $order->id) }}" class="text-green-600 hover:text-green-900 dark:text-green-400 dark:hover:text-green-300 mr-3">
                                         Détails

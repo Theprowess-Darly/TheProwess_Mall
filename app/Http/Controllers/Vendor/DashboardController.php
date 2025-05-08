@@ -40,16 +40,20 @@ class DashboardController extends Controller
         $orders = Order::whereIn('id', $orderIds)->get();
         
         // Commandes en cours (statut pending ou processing)
-        $pendingOrders = $orders->whereIn('status', ['pending', 'processing'])->count();
+        $pendingOrders = $orders->whereIn('payment_status', ['pending', 'processing'])->count();
         
         // Commandes livrées (statut completed)
-        $completedOrders = $orders->where('status', 'complete')->count();
+        $completedOrders = $orders->where('payment_status', 'complete')->count();
+
+        $paidOrdersId = $orders->where('payment_status', 'complete')->pluck('id')->toArray();
+        $orderItemsPaids = OrderItem::whereIn('order_id', $paidOrdersId)->get();
+        // dd($paidOrdersId, $orderItemsPaids);
         
         // Total des commandes
         $totalOrders = $orders->count();
         
         // Calculer le revenu total (somme des prix des produits de la boutique dans toutes les commandes)
-        $totalRevenue = $orderItems->sum(function($item) {
+        $totalRevenue = $orderItemsPaids->sum(function($item) {
             return $item->price * $item->quantity;
         });
         
