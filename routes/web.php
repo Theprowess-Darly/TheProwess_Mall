@@ -160,8 +160,21 @@ Route::middleware(['auth', 'role:Marchand'])->prefix('vendor')->name('vendor.')-
 // });
 
 // Delivery routes
+// Delivery routes
 Route::middleware(['auth', 'role:livreur'])->prefix('delivery')->name('delivery.')->group(function () {
     Route::get('/dashboard', [App\Http\Controllers\Delivery\DashboardController::class, 'index'])->name('dashboard');
+    
+    // Routes pour les livraisons
+    Route::get('/deliveries', [App\Http\Controllers\Delivery\DeliveryController::class, 'index'])->name('deliveries.index');
+    Route::get('/deliveries/{delivery}', [App\Http\Controllers\Delivery\DeliveryController::class, 'show'])->name('deliveries.show');
+    Route::post('/deliveries/{delivery}/accept', [App\Http\Controllers\Delivery\DeliveryController::class, 'accept'])->name('deliveries.accept');
+    Route::post('/deliveries/{delivery}/complete', [App\Http\Controllers\Delivery\DeliveryController::class, 'complete'])->name('deliveries.complete');
+    
+    // Routes pour l'historique
+    Route::get('/history', [App\Http\Controllers\Delivery\HistoryController::class, 'index'])->name('history.index');
+    
+    // Routes pour les gains
+    Route::get('/earnings', [App\Http\Controllers\Delivery\EarningsController::class, 'index'])->name('earnings.index');
 });
 
 //Client dashboard routes
