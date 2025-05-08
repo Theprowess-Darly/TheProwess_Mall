@@ -93,7 +93,7 @@
                     <!-- CEO and founder -->
                     <div class="text-center">
                         <div class="w-32 h-32 mx-auto rounded-full bg-gray-200 mb-4 overflow-hidden">
-                            <img src="{{ Vite::asset('resources/images/team/ceo.jpg') }}" alt="CEO" class="w-full h-full object-cover">
+                            <img src="{{ asset('images/team/ceo.jpg') }}" alt="CEO" class="w-full h-full object-cover">
                         </div>
                         <h3 class="text-xl font-semibold text-teal-950">Mrs DIANGHA Darly</h3>
                         <p class="text-gray-600">CEO & Fondatrice</p>
@@ -101,7 +101,7 @@
                     <!-- in memory of my beloved husband forever loved -->
                     <div class="text-center">
                         <div class="w-32 h-32 mx-auto rounded-full bg-gray-200 mb-4 overflow-hidden">
-                            <img src="{{ Vite::asset('resources/images/team/memorial.jpg') }}" alt="CEO" class="w-full h-full object-cover">
+                            <img src="{{ asset('images/team/memorial.jpg') }}" alt="CEO" class="w-full h-full object-cover">
                         </div>
                         <h3 class="text-xl font-semibold text-teal-950">GODCARES DIANGHA</h3>
                         <p class="text-gray-600">Dedicaces speciales</p>
@@ -109,7 +109,7 @@
                     <!-- CEO and founder -->
                     <div class="text-center">
                         <div class="w-32 h-32 mx-auto rounded-full bg-gray-200 mb-4 overflow-hidden">
-                            <img src="{{ Vite::asset('resources/images/team/adviser.jpg') }}" alt="CEO" class="w-full h-full object-cover">
+                            <img src="{{ asset('images/team/adviser.jpg') }}" alt="CEO" class="w-full h-full object-cover">
                         </div>
                         <h3 class="text-xl font-semibold text-teal-950">Chris SAMORY</h3>
                         <p class="text-gray-600">Conseiller principal</p>

@@ -75,8 +75,8 @@
                 </div>
                 <div>
                     <span>Téléchargez l'app sur</span>
-                    <a href="#" class="ml-2"><img src="{{ Vite::asset('resources/images/downloadApp/app_store.png') }}" alt="App Store" class="h-8 inline"></a>
-                    <a href="#" class="ml-2"><img src="{{ Vite::asset('resources/images/downloadApp/play_store.png') }}" alt="Play Store" class="h-8 inline"></a>
+                    <a href="#" class="ml-2"><img src="{{ asset('images/downloadApp/app_store.png') }}" alt="App Store" class="h-8 inline"></a>
+                    <a href="#" class="ml-2"><img src="{{ asset('images/downloadApp/play_store.png') }}" alt="Play Store" class="h-8 inline"></a>
                 </div>
             </div>
         </div>
@@ -86,9 +86,9 @@
             <div class="md:flex justify-between items-center">
                 <div class="flex items-center space-x-4" my-4>
                     <span>Nos méthodes de paiement:</span>
-                    <img src="{{ Vite::asset('resources/images/payment/momo.png') }}" alt="Mobile Money" class="h-6">
-                    <img src="{{ Vite::asset('resources/images/payment/om.png') }}" alt="Orange Money" class="h-6">
-                    <img src="{{ Vite::asset('resources/images/payment/cash0.png') }}" alt="Cash" class="h-6">
+                    <img src="{{ asset('images/payment/momo.png') }}" alt="Mobile Money" class="h-6">
+                    <img src="{{ asset('images/payment/om.png') }}" alt="Orange Money" class="h-6">
+                    <img src="{{ asset('images/payment/cash0.png') }}" alt="Cash" class="h-6">
                 </div>
                 <div class="text-sm text-gray-400 my-4">
                     © 2025 TheProwessMall.inc all rights reserved
