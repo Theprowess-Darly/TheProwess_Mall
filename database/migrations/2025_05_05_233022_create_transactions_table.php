@@ -11,16 +11,18 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('transactions', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('order_id')->constrained('orders')->cascadeOnDelete();
-            $table->foreignId('provider')->nullable();
-            $table->string('reference');
-            $table->string('status')->default('pending');
-            $table->string('amount');
-            $table->string('currency');           
-            $table->timestamps();
-            $table->json('metadata')->nullable();
+        Schema::withoutForeignKeyConstraints(function () {
+            Schema::create('transactions', function (Blueprint $table) {
+                $table->id();
+                $table->foreignId('order_id')->constrained('orders')->cascadeOnDelete();
+                $table->foreignId('provider')->nullable();
+                $table->string('reference');
+                $table->string('status')->default('pending');
+                $table->string('amount');
+                $table->string('currency');           
+                $table->timestamps();
+                $table->json('metadata')->nullable();
+            });
         });
     }
 
