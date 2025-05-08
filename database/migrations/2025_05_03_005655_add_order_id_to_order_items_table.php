@@ -11,11 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('order_items', function (Blueprint $table) {
-            // Add order_id column if it doesn't exist
-            if (!Schema::hasColumn('order_items', 'order_id')) {
-                $table->foreignId('order_id')->constrained()->onDelete('cascade');
-            }
+        Schema::withoutForeignKeyConstraints(function () {
+            Schema::table('order_items', function (Blueprint $table) {
+                // Add order_id column if it doesn't exist
+                if (!Schema::hasColumn('order_items', 'order_id')) {
+                    $table->foreignId('order_id')->constrained()->onDelete('cascade');
+                }
+            });
         });
     }
 

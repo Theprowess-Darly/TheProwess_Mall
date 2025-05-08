@@ -11,16 +11,19 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('deliveries', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('order_id')->constrained()->onDelete('cascade');
-            $table->foreignId('delivery_person_id')->nullable()->constrained('users')->onDelete('set null');
-            $table->enum('status', ['pending', 'in_progress', 'completed', 'cancelled'])->default('pending');
-            $table->text('delivery_address');
-            $table->text('delivery_notes')->nullable();
-            $table->timestamp('completed_at')->nullable();
-            $table->timestamps();
+        Schema::withoutForeignKeyConstraints(function () {
+            Schema::create('deliveries', function (Blueprint $table) {
+                $table->id();
+                $table->foreignId('order_id')->constrained()->onDelete('cascade');
+                $table->foreignId('delivery_person_id')->nullable()->constrained('users')->onDelete('set null');
+                $table->enum('status', ['pending', 'in_progress', 'completed', 'cancelled'])->default('pending');
+                $table->text('delivery_address');
+                $table->text('delivery_notes')->nullable();
+                $table->timestamp('completed_at')->nullable();
+                $table->timestamps();
+            });
         });
+       
     }
 
     /**
