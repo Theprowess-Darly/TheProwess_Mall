@@ -3,7 +3,7 @@
     <nav class="container mx-auto px-4 py-3">
         <div class="flex justify-between items-center">
             <a href="{{ route('home') }}" class="ml-2 h-15  mr-20">
-                <img src="{{ Vite::asset('resources/images/LOGO-TPMALL.png') }}" alt="TPM Logo" class="h-14 inline">
+                <img src="{{ asset('images/logo.png') }}" alt="TPM Logo" class="h-14 inline">
             </a>
             <div class="flex items-center mr-4 justify-end w-full space-x-2">
                 <button class="md:hidden text-gray-600" onclick="toggleMobileMenu()">

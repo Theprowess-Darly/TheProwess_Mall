@@ -1,7 +1,7 @@
 <footer class="bg-teal-950 border-t-yellow-700 text-white">
     <!-- Newsletter Section -->
     <div class="bg-green-960 pt-5 p-3 md:flex items-center justify-between mx-10 space-x-6">
-        <img src="{{ Vite::asset('resources/images/LOGOTPMALL.png') }}" class="justify-self-start h-20" alt="logo">
+        <img src="{{ asset('images/logo.png') }}" class="justify-self-start h-20" alt="logo">
         <div class="md:flex justify-between space-x-4 pb-2">
             <span class="text-sm">Inscrivez vous à notre News List pour ne manquer aucune offre exclusive</span>
             <div class="flex">
