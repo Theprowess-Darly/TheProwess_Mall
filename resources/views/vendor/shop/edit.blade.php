@@ -51,7 +51,7 @@
                         <label for="logo" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Logo</label>
                         @if(isset($shop) && $shop->logo)
                             <div class="mb-2">
-                                <img src="{{ asset('storage/' . $shop->logo) }}" alt="Logo actuel" class="w-32 h-32 object-cover rounded-lg">
+                                <img loading="lazy" src="{{ asset('storage/' . $shop->logo) }}" alt="Logo actuel" class="w-32 h-32 object-cover rounded-lg">
                                 <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">Logo actuel</p>
                             </div>
                         @endif
@@ -66,7 +66,7 @@
                         <label for="banner" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Bannière</label>
                         @if(isset($shop) && $shop->banner)
                             <div class="mb-2">
-                                <img src="{{ asset('storage/' . $shop->banner) }}" alt="Bannière actuelle" class="w-full h-40 object-cover rounded-lg">
+                                <img loading="lazy" src="{{ asset('storage/' . $shop->banner) }}" alt="Bannière actuelle" class="w-full h-40 object-cover rounded-lg">
                                 <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">Bannière actuelle</p>
                             </div>
                         @endif

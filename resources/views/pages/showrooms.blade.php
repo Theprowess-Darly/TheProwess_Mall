@@ -32,7 +32,7 @@
             <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
                 <!-- Douala Showroom -->
                 <div class="bg-white rounded-lg shadow-lg overflow-hidden transform transition-all duration-300 hover:scale-105">
-                    <img src="{{ asset('images/showrooms/showroom1.jpg') }}" alt="Douala Showroom" class="w-full h-48 object-cover">
+                    <img loading="lazy" src="{{ asset('images/showrooms/showroom1.jpg') }}" alt="Douala Showroom" class="w-full h-48 object-cover">
                     <div class="p-6">
                         <h3 class="text-xl font-semibold text-teal-950 mb-2">Douala - Akwa</h3>
                         <div class="space-y-2 text-gray-600">
@@ -48,7 +48,7 @@
 
                 <!-- Yaoundé Showroom -->
                 <div class="bg-white rounded-lg shadow-lg overflow-hidden transform transition-all duration-300 hover:scale-105">
-                    <img src="{{ asset('images/showrooms/showroom3.jpg') }}" alt="Yaoundé Showroom" class="w-full h-48 object-cover">
+                    <img loading="lazy" src="{{ asset('images/showrooms/showroom3.jpg') }}" alt="Yaoundé Showroom" class="w-full h-48 object-cover">
                     <div class="p-6">
                         <h3 class="text-xl font-semibold text-teal-950 mb-2">Yaoundé - Centre</h3>
                         <div class="space-y-2 text-gray-600">
@@ -64,7 +64,7 @@
 
                 <!-- Bafoussam Showroom -->
                 <div class="bg-white rounded-lg shadow-lg overflow-hidden transform transition-all duration-300 hover:scale-105">
-                    <img src="{{ asset('images/showrooms/showroom2.jpg') }}" alt="Bafoussam Showroom" class="w-full h-48 object-cover">
+                    <img loading="lazy" src="{{ asset('images/showrooms/showroom2.jpg') }}" alt="Bafoussam Showroom" class="w-full h-48 object-cover">
                     <div class="p-6">
                         <h3 class="text-xl font-semibold text-teal-950 mb-2">Bafoussam - Centre</h3>
                         <div class="space-y-2 text-gray-600">

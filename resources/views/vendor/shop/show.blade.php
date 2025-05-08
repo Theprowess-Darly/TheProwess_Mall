@@ -9,7 +9,7 @@
             <!-- Banner Section -->
             <div class="relative h-48 md:h-64 bg-green-100 dark:bg-gray-700">
                 @if($shop->banner)
-                    <img src="{{ asset('storage/' . $shop->banner) }}" alt="{{ $shop->name }} Banner" class="w-full h-full object-cover">
+                    <img loading="lazy" src="{{ asset('storage/' . $shop->banner) }}" alt="{{ $shop->name }} Banner" class="w-full h-full object-cover">
                 @else
                     <div class="w-full h-full flex items-center justify-center bg-gradient-to-r from-green-400 to-green-600 dark:from-green-700 dark:to-green-900">
                         <h1 class="text-3xl font-bold text-white">{{ $shop->name }}</h1>
@@ -19,7 +19,7 @@
                 <!-- Shop Logo -->
                 <div class="absolute -bottom-12 left-8 border-4 border-white dark:border-gray-800 rounded-full shadow-lg">
                     @if($shop->logo)
-                        <img src="{{ asset('storage/' . $shop->logo) }}" alt="{{ $shop->name }} Logo" class="w-24 h-24 rounded-full object-cover bg-white">
+                        <img loading="lazy" src="{{ asset('storage/' . $shop->logo) }}" alt="{{ $shop->name }} Logo" class="w-24 h-24 rounded-full object-cover bg-white">
                     @else
                         <div class="w-24 h-24 rounded-full bg-green-600 dark:bg-green-800 flex items-center justify-center">
                             <span class="text-2xl font-bold text-white">{{ substr($shop->name, 0, 1) }}</span>
