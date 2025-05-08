@@ -64,6 +64,19 @@
                     <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
                 </div>
             </div>
+            {{-- acepter la politique de confidentialité --}}
+            <div class="mt-4">
+                <label for="terms" class="inline-flex items-center">
+                    <input id="terms" type="checkbox" class="rounded border-green-950 text-yellow-700 shadow-sm focus:ring-yellow-700" name="terms" required>
+                    <span class="ml-2 text-sm text-gray-600">
+                        {{ __('J\'accepte la') }} 
+                        <a href="{{ route('privacy-policy') }}" class="text-yellow-700 hover:underline" target="_blank">{{ __('politique de confidentialité') }}</a>
+                        {{ __('et les') }}
+                        <a href="{{ route('terms-of-sale') }}" class="text-yellow-700 hover:underline" target="_blank">{{ __('conditions générales de vente') }}</a>
+                    </span>
+                </label>
+                <x-input-error :messages="$errors->get('terms')" class="mt-2" />
+            </div>
 
             <!-- Add this at the bottom of the form, just before the closing </form> tag -->
             <div class="mt-4 text-center">

@@ -60,6 +60,7 @@ class VendorRegisterController extends Controller
                 'country' => $request->country,
                 'postal_code' => $request->postal_code,
                 'password' => Hash::make($request->password),
+                'terms' => ['required', 'accepted'],
                 'role' => 'Marchand',
             ]);
 

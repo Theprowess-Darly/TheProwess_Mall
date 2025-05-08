@@ -88,8 +88,7 @@ class ShopController extends Controller
     {
         $shop = Shop::where('user_id', Auth::id())->firstOrFail();
         return view('vendor.shop.edit', compact('shop'));
-        $shop = auth()->user()->shop;
-        return view('vendor.shop.edit', compact('shop'));
+       
     }
 
     /**
@@ -144,6 +143,8 @@ class ShopController extends Controller
             $bannerPath = $request->file('banner')->store('shops/banners', 'public');
             $shop->banner = $bannerPath;
         }
+
+        dd($shop);
     
         $shop->save();
     
