@@ -102,6 +102,7 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
 });
 
 // Vendor Routes
+// Dans le groupe de routes vendor existant
 Route::middleware(['auth', 'role:Marchand'])->prefix('vendor')->name('vendor.')->group(function () {
     Route::get('/dashboard', [App\Http\Controllers\Vendor\DashboardController::class, 'index'])->name('dashboard');
     
@@ -134,7 +135,9 @@ Route::middleware(['auth', 'role:Marchand'])->prefix('vendor')->name('vendor.')-
     Route::get('vendor/shop/edit', [App\Http\Controllers\Vendor\ShopController::class, 'edit'])->name('vendor.shop.edit');
 
 
-
+    // Routes pour les commandes
+    Route::get('/orders', [App\Http\Controllers\Vendor\OrderController::class, 'index'])->name('orders.index');
+    Route::get('/orders/{order}', [App\Http\Controllers\Vendor\OrderController::class, 'show'])->name('orders.show');
 });
 
 

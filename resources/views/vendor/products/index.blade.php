@@ -28,7 +28,7 @@
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                 @foreach($products as $product)
                     <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden transition-transform hover:scale-105">
-                        <img src="{{ asset('storage/' . $product->image_url) }}" alt="{{ $product->name }}" class="w-full h-48 object-cover">
+                        <img src="{{ $product->image_url ? asset('storage/' . str_replace('storage/', '', $product->image_url)) : asset('images/placeholder.png') }}" alt="{{ $product->name }}" class="w-full h-48 object-cover">
                         <div class="p-4">
                             <div class="flex justify-between items-center">
                                 <h3 class="text-xl font-semibold text-blue-950 dark:text-white">{{ $product->name }}</h3>
