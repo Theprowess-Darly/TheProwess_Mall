@@ -21,7 +21,7 @@
                             <div class="container mx-auto px-4">
                                 <div class="flex items-center justify-between">
                                     <div class="w-2/3 ">
-                                        <!-- <img src="{{ Vite::asset('resources/images/carousel/slider-1.png') }}" alt="slider 1" class="w-full"> -->
+                                        <!-- <img src="{{ asset('images/carousel/slider-1.png') }}" alt="slider 1" class="w-full"> -->
                                     </div>
                                     <div class="w-1/2">
                                         <h1 class="text-4xl font-bold mb-4">Bienvenue sur TheProwess Mall</h1>
@@ -41,7 +41,7 @@
                             <div class="container mx-auto px-4">
                                 <div class="flex items-center justify-between">
                                     <div class="w-2/3 ">
-                                        <!-- <img src="{{ Vite::asset('resources/images/carousel/slider-2.jpg') }}" alt="Slider 2" class="w-full"> -->
+                                        <!-- <img src="{{ asset('images/carousel/slider-2.jpg') }}" alt="Slider 2" class="w-full"> -->
                                     </div>
                                     <div class="w-1/2">
                                         <h1 class="text-4xl font-bold mb-4">Offres Spéciales</h1>
@@ -60,7 +60,7 @@
                             <div class="container mx-auto px-4">
                                 <div class="flex items-center justify-between">
                                                                 <div class="w-1/2 ">
-                                        <!-- <img src="{{ Vite::asset('resources/images/carousel/slider-3.png') }}" alt="Slider 3" class="w-full"> -->
+                                        <!-- <img src="{{ asset('images/carousel/slider-3.png') }}" alt="Slider 3" class="w-full"> -->
                                     </div> 
                                     <div class="w-1/2">
                                         <h1 class="text-4xl font-bold mb-4">Prix et tarifs inbattables</h1>
@@ -83,7 +83,7 @@
                                         <a href="{{ route('products.store') }}" class="bg-white text-green-700 px-8 py-3 rounded-full hover:bg-gray-100">Explorer</a>
                                     </div>
                                     <div class="w-1/2">
-                                        <!-- <img src="{{ Vite::asset('resources/images/carousel/moneychart.png') }}" alt="Slider 4" class="w-full"> -->
+                                        <!-- <img src="{{ asset('images/carousel/moneychart.png') }}" alt="Slider 4" class="w-full"> -->
                                     </div>
                                 </div>
                             </div>
@@ -102,7 +102,7 @@
                                         <a href="{{ route('products.store') }}" class="bg-white text-green-700 px-8 py-3 rounded-full hover:bg-gray-100">Explorer</a>
                                     </div>
                                     <div class="w-1/2">
-                                        <!-- <img src="{{ Vite::asset('resources/images/carousel/slider-6.jpg') }}" alt="Slider 5" class="w-full"> -->
+                                        <!-- <img src="{{ asset('images/carousel/slider-6.jpg') }}" alt="Slider 5" class="w-full"> -->
                                     </div>
                                 </div>
                             </div>
@@ -121,7 +121,7 @@
                                         <a href="{{ route('products.store') }}" class="bg-white text-green-700 px-8 py-3 rounded-full hover:bg-gray-100">Explorer</a>
                                     </div>
                                     <div class="w-1/2">
-                                        <!-- <img src="{{ Vite::asset('resources/images/carousel/slider-6.jpg') }}" alt="Slider 5" class="w-full"> -->
+                                        <!-- <img src="{{ asset('images/carousel/slider-6.jpg') }}" alt="Slider 5" class="w-full"> -->
                                     </div>
                                 </div>
                             </div>
@@ -140,7 +140,7 @@
                                         <a href="{{ route('products.store') }}" class="bg-white text-green-700 px-8 py-3 rounded-full hover:bg-gray-100">Explorer</a>
                                     </div>
                                 <div class="w-1/2">
-                                        <!-- <img src="{{ Vite::asset('resources/images/carousel/slider-6.jpg') }}" alt="Slider 5" class="w-full"> -->
+                                        <!-- <img src="{{ asset('images/carousel/slider-6.jpg') }}" alt="Slider 5" class="w-full"> -->
                                     </div>
                                 </div>
                             </div>
@@ -160,7 +160,7 @@
                                         <a href="{{ route('become-seller') }}" class="bg-white text-green-700 px-8 py-3 rounded-full hover:bg-gray-100">Explorer</a>
                                     </div>
                                     <div class="w-1/2">
-                                        <!-- <img src="{{ Vite::asset('resources/images/carousel/slider-6.jpg') }}" alt="Slider 5" class="w-full"> -->
+                                        <!-- <img src="{{ asset('images/carousel/slider-6.jpg') }}" alt="Slider 5" class="w-full"> -->
                                     </div>
                                 </div>
                             </div>
@@ -316,23 +316,23 @@
                 <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
                     <!-- Brand logo1 -->
                     <div class="bg-white p-4 rounded-lg shadow hover:shadow-lg transition-shadow">
-                        <img src="{{ vite::asset('resources/images/logos/tpmL.png')}}" alt="Brand" class="w-full h-20 object-contain">
+                        <img src="{{ asset('images/logos/tpmL.png')}}" alt="Brand" class="w-full h-20 object-contain">
                     </div>
                     <!-- Brand logo2 -->
                     <div class="bg-white p-4 rounded-lg shadow hover:shadow-lg transition-shadow">
-                        <img src="{{ vite::asset('resources/images/logos/samsung.png')}}" alt="Brand" class="w-full h-20 object-contain">
+                        <img src="{{ asset('images/logos/samsung.png')}}" alt="Brand" class="w-full h-20 object-contain">
                     </div>
                     <!-- Brand logo3 -->
                     <div class="bg-white p-4 rounded-lg shadow hover:shadow-lg transition-shadow">
-                        <img src="{{ vite::asset('resources/images/logos/apple.png')}}" alt="Brand" class="w-full h-20 object-contain">
+                        <img src="{{ asset('images/logos/apple.png')}}" alt="Brand" class="w-full h-20 object-contain">
                     </div>
                     <!-- Brand logo4 -->
                     <div class="bg-white p-4 rounded-lg shadow hover:shadow-lg transition-shadow">
-                        <img src="{{ vite::asset('resources/images/logos/tecno.png')}}" alt="Brand" class="w-full h-20 object-contain">
+                        <img src="{{ asset('images/logos/tecno.png')}}" alt="Brand" class="w-full h-20 object-contain">
                     </div>
                     <!-- Brand logo5 -->
                     <div class="bg-white p-4 rounded-lg shadow hover:shadow-lg transition-shadow">
-                        <img src="{{ vite::asset('resources/images/logos/infinix.png') }}" alt="Brand" class="w-full h-20 object-contain">
+                        <img src="{{ asset('images/logos/infinix.png') }}" alt="Brand" class="w-full h-20 object-contain">
                     </div>
                     <!-- Repeat for more brands -->
                 </div>
@@ -352,7 +352,7 @@
                             <p class="mb-4">Jusqu'à 50% de réduction</p>
                             <a href="#" class="bg-yellow-700 text-white px-6 py-2 rounded hover:bg-yellow-600">Voir plus</a>
                         </div>
-                        <img src="{{ vite::asset('resources/images/offers/parfum.png') }}" alt="Offer" class="w-2/3">
+                        <img src="{{ asset('images/offers/parfum.png') }}" alt="Offer" class="w-2/3">
                     </div>
                     <!-- offre 2 -->
                     <div class="bg-white my-2 rounded-lg p-6 flex items-center shadow-lg transform transition-all duration-300 
@@ -362,7 +362,7 @@
                             <p class="mb-4">Jusqu'à 20% de réduction</p>
                             <a href="#" class="bg-yellow-700 text-white px-6 py-2 rounded hover:bg-yellow-500">Voir plus</a>
                         </div>
-                        <img src="{{ vite::asset('resources/images/categories/deco3.jpg') }}" alt="Offer" class="w-1/3">
+                        <img src="{{ asset('images/categories/deco3.jpg') }}" alt="Offer" class="w-1/3">
                     </div>
                     <!-- Add more offers -->
                 </div>
@@ -377,7 +377,7 @@
                 <h2 class="text-2xl font-bold mb-8">Actualités & Conseils</h2>
                 <div class="grid md:grid-cols-3 gap-6">
                     <div class="bg-white rounded-lg shadow-lg overflow-hidden">
-                        <img src="{{ vite::asset('resources/images/bgs/lady.png')}}" alt="Blog" class="w-full h-48 object-cover">
+                        <img src="{{ asset('images/bgs/lady.png')}}" alt="Blog" class="w-full h-48 object-cover">
                         <div class="p-6">
                             <h3 class="font-semibold mb-2">Guide d'achat</h3>
                             <p class="text-gray-600 mb-4">Comment choisir les meilleurs produits...</p>
@@ -397,7 +397,7 @@
                     <!-- Temoignage client 1 -->
                     <div class="bg-teal-900 p-6 rounded-lg relative">
                         <div class="absolute -top-6 left-1/2 transform -translate-x-1/2">
-                            <img src="{{ vite::asset('resources/images/userprofile/client0.png') }}" alt="Customer" class="w-20 h-20 rounded-full border-4 border-teal-950">
+                            <img src="{{ asset('images/userprofile/client0.png') }}" alt="Customer" class="w-20 h-20 rounded-full border-4 border-teal-950">
                         </div>
                         <p class="mt-8 mb-4 text-gray-300">"Service excellent, livraison rapide..."</p>
                         <p class="font-semibold">- Ezekiel D.</p>
@@ -405,7 +405,7 @@
                     <!-- Temoignage client 2 -->
                     <div class="bg-teal-900 p-6 rounded-lg relative">
                         <div class="absolute -top-6 left-1/2 transform -translate-x-1/2">
-                            <img src="{{ vite::asset('resources/images/userprofile/Vendeur0.png') }}" alt="Customer" class="w-20 h-20 rounded-full border-4 border-teal-950">
+                            <img src="{{ asset('images/userprofile/Vendeur0.png') }}" alt="Customer" class="w-20 h-20 rounded-full border-4 border-teal-950">
                         </div>
                         <p class="mt-8 mb-4 text-gray-300">"Plateforme agreable, livraison rapide..."</p>
                         <p class="font-semibold">- James A.</p>
@@ -413,7 +413,7 @@
                     <!-- Temoignage client 3 -->
                     <div class="bg-teal-900 p-6 rounded-lg relative">
                         <div class="absolute -top-6 left-1/2 transform -translate-x-1/2">
-                            <img src="{{ vite::asset('resources/images/userprofile/Admin0.png') }}" alt="Customer" class="w-20 h-20 rounded-full border-4 border-teal-950">
+                            <img src="{{ asset('images/userprofile/Admin0.png') }}" alt="Customer" class="w-20 h-20 rounded-full border-4 border-teal-950">
                         </div>
                         <p class="mt-8 mb-4 text-gray-300">"Produits de qualite, livraison rapide..."</p>
                         <p class="font-semibold">- Marie J.</p>
