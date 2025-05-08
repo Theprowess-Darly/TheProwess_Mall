@@ -1,7 +1,7 @@
 <footer class="bg-teal-950 border-t-yellow-700 text-white">
     <!-- Newsletter Section -->
     <div class="bg-green-960 pt-5 p-3 md:flex items-center justify-between mx-10 space-x-6">
-        <img src="{{ asset('images/logo.png') }}" class="justify-self-start h-20" alt="logo">
+        <img loading="lazy" src="{{ asset('images/logo.png') }}" class="justify-self-start h-20" alt="logo">
         <div class="md:flex justify-between space-x-4 pb-2">
             <span class="text-sm">Inscrivez vous à notre News List pour ne manquer aucune offre exclusive</span>
             <div class="flex">
@@ -86,9 +86,9 @@
             <div class="md:flex justify-between items-center">
                 <div class="flex items-center space-x-4" my-4>
                     <span>Nos méthodes de paiement:</span>
-                    <img src="{{ asset('images/payment/momo.png') }}" alt="Mobile Money" class="h-6">
-                    <img src="{{ asset('images/payment/om.png') }}" alt="Orange Money" class="h-6">
-                    <img src="{{ asset('images/payment/cash0.png') }}" alt="Cash" class="h-6">
+                    <img loading="lazy" src="{{ asset('images/payment/momo.png') }}" alt="Mobile Money" class="h-6">
+                    <img loading="lazy" src="{{ asset('images/payment/om.png') }}" alt="Orange Money" class="h-6">
+                    <img loading="lazy" src="{{ asset('images/payment/cash0.png') }}" alt="Cash" class="h-6">
                 </div>
                 <div class="text-sm text-gray-400 my-4">
                     © 2025 TheProwessMall.inc all rights reserved

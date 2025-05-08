@@ -26,7 +26,7 @@
                                 <td class="px-4 py-4">
                                     <div class="flex items-center">
                                         @if(isset($item['image']))
-                                            <img src="{{ asset('storage/' . $item['image']) }}" alt="{{ $item['name'] }}" class="w-16 h-16 object-cover rounded-md mr-3">
+                                            <img loading="lazy" src="{{ asset('storage/' . $item['image']) }}" alt="{{ $item['name'] }}" class="w-16 h-16 object-cover rounded-md mr-3">
                                         @else
                                             <div class="w-16 h-16 bg-gray-200 dark:bg-gray-700 rounded-md mr-3 flex items-center justify-center">
                                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">

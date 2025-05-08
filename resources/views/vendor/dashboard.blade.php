@@ -207,7 +207,7 @@
                         @forelse($topProducts ?? [] as $product)
                             <div class="flex items-center p-3 bg-gray-50 dark:bg-gray-800 rounded-lg">
                                 <div class="flex-shrink-0 h-12 w-12 rounded-md overflow-hidden">
-                                    <img src="{{ $product->image_url ? asset('storage/' . str_replace('storage/', '', $product->image_url)) : asset('images/placeholder.png') }}" alt="{{ $product->name }}" class="w-full h-48 object-cover">                                </div>
+                                    <img loading="lazy" src="{{ $product->image_url ? asset('storage/' . str_replace('storage/', '', $product->image_url)) : asset('images/placeholder.png') }}" alt="{{ $product->name }}" class="w-full h-48 object-cover">                                </div>
                                 <div class="ml-4 flex-1">
                                     <div class="flex justify-between">
                                         <p class="text-sm font-medium text-gray-900 dark:text-gray-100">{{ $product->name }}</p>

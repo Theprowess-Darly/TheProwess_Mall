@@ -109,7 +109,7 @@
                             @enderror
                             @if ($user->avatar)
                                 <div class="mt-2">
-                                    <img src="{{ asset('storage/' . $user->avatar) }}" alt="Profile Picture" class="img-thumbnail" style="max-width: 150px;">
+                                    <img loading="lazy" src="{{ asset('storage/' . $user->avatar) }}" alt="Profile Picture" class="img-thumbnail" style="max-width: 150px;">
                                 </div>
                             @endif
                         </div>

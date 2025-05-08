@@ -23,7 +23,7 @@
                             <div class="p-6">
                                 <div class="flex items-start justify-between">
                                     <div class="flex items-center">
-                                        <img src="{{ $review->product->image }}" alt="{{ $review->product->name }}" class="w-16 h-16 object-cover rounded">
+                                        <img loading="lazy" src="{{ $review->product->image }}" alt="{{ $review->product->name }}" class="w-16 h-16 object-cover rounded">
                                         <div class="ml-4">
                                             <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100">
                                                 {{ $review->product->name }}

@@ -24,7 +24,7 @@
                     @foreach($wishlist as $item)
                         <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                             <div class="relative">
-                                <img src="{{ $item->product->image }}" alt="{{ $item->product->name }}" class="w-full h-48 object-cover">
+                                <img loading="lazy" src="{{ $item->product->image }}" alt="{{ $item->product->name }}" class="w-full h-48 object-cover">
                                 <form action="{{ route('client.wishlist.destroy', $item->product_id) }}" method="POST" class="absolute top-2 right-2">
                                     @csrf
                                     @method('DELETE')

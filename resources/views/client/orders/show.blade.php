@@ -46,7 +46,7 @@
                             @if($order->items)
                                 @foreach($order->items as $item)
                                     <div class="py-4 flex items-center">
-                                        <img src="{{ $item->product->image_url }}" alt="{{ $item->name }}" class="w-16 h-16 object-cover rounded">
+                                        <img loading="lazy" src="{{ $item->product->image_url }}" alt="{{ $item->name }}" class="w-16 h-16 object-cover rounded">
                                         <div class="ml-4 flex-grow">
                                             <h4 class="text-sm font-medium text-gray-900 dark:text-gray-100">
                                                 {{ $item->name }}

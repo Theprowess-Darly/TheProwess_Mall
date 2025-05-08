@@ -1,1 +1,1 @@
-<img src="{{ asset('images/logos/tpmlogo.png') }}" alt="TPM Logo" {{ $attributes }} />
+<img loading="lazy" src="{{ asset('images/logos/tpmlogo.png') }}" alt="TPM Logo" {{ $attributes }} />
