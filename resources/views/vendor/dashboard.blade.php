@@ -74,7 +74,7 @@
                             </div>
                         </div>
                         <p class="text-xl font-bold mt-2 text-green-800 dark:text-white">{{ number_format($totalRevenue, 0, ',', ' ') }} FCFA</p>
-                        <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">Revenus totaux</p>
+                        <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">Mon chifre d'affaire sur TPM </p>
                     </div>
                 </div>
 
@@ -127,7 +127,8 @@
                                     <th class="px-6 py-3 text-left text-xs font-medium text-green-800 dark:text-green-300 uppercase tracking-wider">ID</th>
                                     <th class="px-6 py-3 text-left text-xs font-medium text-green-800 dark:text-green-300 uppercase tracking-wider">Client</th>
                                     <th class="px-6 py-3 text-left text-xs font-medium text-green-800 dark:text-green-300 uppercase tracking-wider">Montant</th>
-                                    <th class="px-6 py-3 text-left text-xs font-medium text-green-800 dark:text-green-300 uppercase tracking-wider">Statut</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-green-800 dark:text-green-300 uppercase tracking-wider">Statut de paiement</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-green-800 dark:text-green-300 uppercase tracking-wider">Statut de livrason</th>
                                 </tr>
                             </thead>
                             <tbody class="bg-white dark:bg-gray-700 divide-y divide-gray-200 dark:divide-gray-600">
@@ -137,17 +138,44 @@
                                     <td class="px-6 py-4 whitespace-nowrap text-gray-900 dark:text-gray-100">{{ $order->user->name ?? 'N/A' }}</td>
                                     <td class="px-6 py-4 whitespace-nowrap text-gray-900 dark:text-gray-100">{{ number_format($order->total_amount, 0, ',', ' ') }} FCFA</td>
                                     <td class="px-6 py-4 whitespace-nowrap">
+                                        @if($order->payment_status == 'pending')
+                                            <span class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800 dark:bg-yellow-800 dark:text-yellow-100">
+                                                En attente
+                                            </span>
+                                        @elseif($order->payment_status == 'processing')
+                                            <span class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800 dark:bg-blue-800 dark:text-blue-100">
+                                                En traitement
+                                            </span>
+                                        @elseif($order->payment_status == 'complete')
+                                            <span class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800 dark:bg-green-800 dark:text-green-100">
+                                                Complétée
+                                            </span>
+                                        @elseif($order->payment_status == 'cancelled')
+                                            <span class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800 dark:bg-red-800 dark:text-red-100">
+                                                Annulée
+                                            </span>
+                                        @endif
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
                                         @if($order->status == 'pending')
                                             <span class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800 dark:bg-yellow-800 dark:text-yellow-100">
                                                 En attente
                                             </span>
                                         @elseif($order->status == 'processing')
                                             <span class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800 dark:bg-blue-800 dark:text-blue-100">
-                                                En traitement
+                                                En préparation
                                             </span>
-                                        @elseif($order->status == 'complete')
+                                        @elseif($order->status == 'ready_for_delivery')
+                                            <span class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-purple-100 text-purple-800 dark:bg-purple-800 dark:text-purple-100">
+                                                Prête à livrer
+                                            </span>
+                                        @elseif($order->status == 'in_transit')
+                                            <span class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-indigo-100 text-indigo-800 dark:bg-indigo-800 dark:text-indigo-100">
+                                                En transit
+                                            </span>
+                                        @elseif($order->status == 'delivered')
                                             <span class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800 dark:bg-green-800 dark:text-green-100">
-                                                Complétée
+                                                Livrée
                                             </span>
                                         @elseif($order->status == 'cancelled')
                                             <span class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800 dark:bg-red-800 dark:text-red-100">

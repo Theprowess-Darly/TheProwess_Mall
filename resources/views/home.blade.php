@@ -65,7 +65,7 @@
                                     <div class="w-1/2">
                                         <h1 class="text-4xl font-bold mb-4">Prix et tarifs inbattables</h1>
                                         <p class="text-lg mb-8">Economisez et faites vous de l'argent en achetant ou en vendant sur notre site</p>
-                                        <a href="#" class="bg-white text-green-700 px-8 py-3 rounded-full hover:bg-gray-100">Explorer</a>
+                                        <a href="{{ route('products.store') }}" class="bg-white text-green-700 px-8 py-3 rounded-full hover:bg-gray-100">Explorer</a>
                                     </div>
 
                                 </div>
@@ -80,7 +80,7 @@
                                     <div class="w-1/2">
                                         <h1 class="text-4xl font-bold mb-4">Nouveaux Arrivages</h1>
                                         <p class="text-lg mb-8">Découvrez nos dernières collections</p>
-                                        <a href="#" class="bg-white text-green-700 px-8 py-3 rounded-full hover:bg-gray-100">Explorer</a>
+                                        <a href="{{ route('products.store') }}" class="bg-white text-green-700 px-8 py-3 rounded-full hover:bg-gray-100">Explorer</a>
                                     </div>
                                     <div class="w-1/2">
                                         <!-- <img src="{{ Vite::asset('resources/images/carousel/moneychart.png') }}" alt="Slider 4" class="w-full"> -->
@@ -99,7 +99,7 @@
                                         <p class="text-lg mb-8">
                                             Faites vos achats en quelques minutes
                                         </p>
-                                        <a href="#" class="bg-white text-green-700 px-8 py-3 rounded-full hover:bg-gray-100">Explorer</a>
+                                        <a href="{{ route('products.store') }}" class="bg-white text-green-700 px-8 py-3 rounded-full hover:bg-gray-100">Explorer</a>
                                     </div>
                                     <div class="w-1/2">
                                         <!-- <img src="{{ Vite::asset('resources/images/carousel/slider-6.jpg') }}" alt="Slider 5" class="w-full"> -->
@@ -118,7 +118,7 @@
                                         <p class="text-lg mb-8">
                                             Faites vous livrer sut toute l'etendue du territoire et bientot a l'etranger
                                         </p>
-                                        <a href="#" class="bg-white text-green-700 px-8 py-3 rounded-full hover:bg-gray-100">Explorer</a>
+                                        <a href="{{ route('products.store') }}" class="bg-white text-green-700 px-8 py-3 rounded-full hover:bg-gray-100">Explorer</a>
                                     </div>
                                     <div class="w-1/2">
                                         <!-- <img src="{{ Vite::asset('resources/images/carousel/slider-6.jpg') }}" alt="Slider 5" class="w-full"> -->
@@ -137,7 +137,7 @@
                                         <p class="text-lg mb-8">
                                             Votre satisfaction fait notre joie 
                                         </p>
-                                        <a href="#" class="bg-white text-green-700 px-8 py-3 rounded-full hover:bg-gray-100">Explorer</a>
+                                        <a href="{{ route('products.store') }}" class="bg-white text-green-700 px-8 py-3 rounded-full hover:bg-gray-100">Explorer</a>
                                     </div>
                                 <div class="w-1/2">
                                         <!-- <img src="{{ Vite::asset('resources/images/carousel/slider-6.jpg') }}" alt="Slider 5" class="w-full"> -->
@@ -188,6 +188,7 @@
             <div class="container mx-auto px-4">
                 <h2 class="text-2xl font-bold mb-8">Nos Boutiques</h2>
                 <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+
                     @forelse ($shops as $shop)
                         @if($shop->status === 'approved')
                             <div class="bg-white rounded-lg shadow hover:shadow-lg transition-shadow overflow-hidden">
@@ -230,7 +231,7 @@
 
                     @forelse ($featuredProducts as $product)
                         <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition-shadow duration-300 transform hover:scale-105">
-                            <a href="{{ route('vendor.products.show', $product->id) }}">
+                            <a href="{{ route('product.show', $product->id) }}">
                                 <div class="h-48 overflow-hidden">
                                     @if ($product->image_url)
                                         <img src="{{ asset('/storage/' . $product->image_url) }}" alt="{{ $product->name }}" class="w-full h-full object-cover transition-transform duration-300 hover:scale-110">
@@ -301,7 +302,7 @@
                 </div>
                 
                 <div class="text-center mt-8">
-                    <a href="{{ route('client.products.index') }}" class="bg-green-900 text-white px-6 py-2 rounded-md hover:bg-green-700 inline-block">
+                    <a href="{{ route('products.store') }}" class="bg-green-900 text-white px-6 py-2 rounded-md hover:bg-green-700 inline-block">
                         Voir tous les produits
                     </a>
                 </div>

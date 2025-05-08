@@ -36,7 +36,7 @@
                                     <span class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800 dark:bg-blue-800 dark:text-blue-100">
                                         En traitement
                                     </span>
-                                @elseif($order->status == 'completed')
+                                @elseif($order->status == 'complete')
                                     <span class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800 dark:bg-green-800 dark:text-green-100">
                                         Complétée
                                     </span>

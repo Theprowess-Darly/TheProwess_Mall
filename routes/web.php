@@ -12,6 +12,8 @@ use App\Http\Controllers\Vendor\VendorProductController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\PaymentCallbackController;
 use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\SingleProductController;
+use App\Http\Controllers\StoreController;
 
 Route::get('/', function () {
     return view('home');
@@ -271,8 +273,10 @@ Route::middleware(['auth', 'role:client'])->group(function () {
     Route::post('/client/reviews', [App\Http\Controllers\Client\ReviewController::class, 'store'])->name('client.reviews.store');
     Route::delete('/client/reviews/{review}', [App\Http\Controllers\Client\ReviewController::class, 'destroy'])->name('client.reviews.destroy');
 });
-// client products
-Route::get('/client/products', [App\Http\Controllers\Client\ProductController::class, 'index'])->name('client.products.index');
+
+Route::get('/products', StoreController::class)->name('products.store');
+
+Route::get('/single-product', SingleProductController::class)->name('product.show');
  
 
 // route for vendor shop

@@ -8,7 +8,7 @@
     <div class="py-12 bg-purple-50 dark:bg-gray-800">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <!-- Statistics Overview -->
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
                 <!-- Pending Deliveries Card -->
                 <div class="bg-white dark:bg-gray-700 overflow-hidden shadow-md border-l-4 border-yellow-500 dark:border-yellow-500 rounded-lg p-6 transition-all duration-300 hover:shadow-lg">
                     <div class="text-gray-900 dark:text-gray-100">
@@ -56,6 +56,41 @@
                         <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">Livraisons terminées aujourd'hui</p>
                     </div>
                 </div>
+                
+                <!-- Total Earnings Card -->
+                <div class="bg-white dark:bg-gray-700 overflow-hidden shadow-md border-l-4 border-purple-500 dark:border-purple-500 rounded-lg p-6 transition-all duration-300 hover:shadow-lg">
+                    <div class="text-gray-900 dark:text-gray-100">
+                        <div class="flex justify-between items-center">
+                            <h3 class="text-lg font-semibold text-purple-950 dark:text-purple-300">Gains</h3>
+                            <div class="p-2 bg-purple-100 dark:bg-purple-900 rounded-full">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-purple-600 dark:text-purple-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                </svg>
+                            </div>
+                        </div>
+                        <p class="text-3xl font-bold mt-2 text-purple-800 dark:text-white">{{ number_format($totalEarnings ?? 0, 0, ',', ' ') }} FCFA</p>
+                        <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">Total des gains</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Performance Metrics -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
+                <!-- Delivery Chart -->
+                <div class="bg-white dark:bg-gray-700 overflow-hidden shadow-md rounded-lg p-6">
+                    <h3 class="text-lg font-semibold text-purple-950 dark:text-purple-300 mb-4">Livraisons des 7 derniers jours</h3>
+                    <div class="h-64">
+                        <canvas id="deliveryChart"></canvas>
+                    </div>
+                </div>
+                
+                <!-- Earnings Chart -->
+                <div class="bg-white dark:bg-gray-700 overflow-hidden shadow-md rounded-lg p-6">
+                    <h3 class="text-lg font-semibold text-purple-950 dark:text-purple-300 mb-4">Gains des 7 derniers jours</h3>
+                    <div class="h-64">
+                        <canvas id="earningsChart"></canvas>
+                    </div>
+                </div>
             </div>
 
             <!-- Current Deliveries Section -->
@@ -91,7 +126,7 @@
                                         <span class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800 dark:bg-blue-800 dark:text-blue-100">
                                             En cours
                                         </span>
-                                    @elseif($delivery->status == 'completed')
+                                    @elseif($delivery->status == 'complete')
                                         <span class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800 dark:bg-green-800 dark:text-green-100">
                                             Livrée
                                         </span>
@@ -154,10 +189,10 @@
                             <div class="text-right">
                                 <p class="text-sm font-medium text-gray-900 dark:text-gray-100">{{ $history->completed_at ? $history->completed_at->format('d/m/Y H:i') : 'N/A' }}</p>
                                 <span class="px-2 py-1 text-xs rounded-full 
-                                    @if($history->status == 'completed') bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200 @endif
+                                    @if($history->status == 'complete') bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200 @endif
                                     @if($history->status == 'cancelled') bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200 @endif
                                 ">
-                                    @if($history->status == 'completed') Livrée @endif
+                                    @if($history->status == 'complete') Livrée @endif
                                     @if($history->status == 'cancelled') Annulée @endif
                                 </span>
                             </div>
@@ -171,4 +206,65 @@
             </div>
         </div>
     </div>
+    
+    @push('scripts')
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Delivery Chart
+            const deliveryCtx = document.getElementById('deliveryChart').getContext('2d');
+            const deliveryChart = new Chart(deliveryCtx, {
+                type: 'bar',
+                data: {
+                    labels: {!! json_encode($deliveryChartData['labels'] ?? []) !!},
+                    datasets: [{
+                        label: 'Livraisons',
+                        data: {!! json_encode($deliveryChartData['data'] ?? []) !!},
+                        backgroundColor: 'rgba(147, 51, 234, 0.2)',
+                        borderColor: 'rgba(147, 51, 234, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                precision: 0
+                            }
+                        }
+                    }
+                }
+            });
+            
+            // Earnings Chart
+            const earningsCtx = document.getElementById('earningsChart').getContext('2d');
+            const earningsChart = new Chart(earningsCtx, {
+                type: 'line',
+                data: {
+                    labels: {!! json_encode($earningsChartData['labels'] ?? []) !!},
+                    datasets: [{
+                        label: 'Gains (FCFA)',
+                        data: {!! json_encode($earningsChartData['data'] ?? []) !!},
+                        backgroundColor: 'rgba(16, 185, 129, 0.2)',
+                        borderColor: 'rgba(16, 185, 129, 1)',
+                        borderWidth: 2,
+                        tension: 0.3
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        });
+    </script>
+    @endpush
 </x-app-layout>
