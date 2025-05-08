@@ -7,7 +7,7 @@ use App\Models\Wallet;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 
-class AdminUserSeeder extends Seeder
+class DeliveryUserSeeder extends Seeder
 {
     /**
      * Run the database seeds.

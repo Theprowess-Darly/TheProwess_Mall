@@ -87,9 +87,9 @@
                                         Vous serez redirigé vers la plateforme sécurisée Monetbil pour finaliser votre paiement.
                                     </p>
                                     <div class="flex flex-wrap gap-2 mt-2">
-                                        <img src="/images/payment/om.png" alt="Orange Money" class="h-8">
-                                        <img src="/images/payment/momo.png" alt="MTN Mobile Money" class="h-8">
-                                        <img src="/images/payment/paypal.png" alt="Moov Money" class="h-8">
+                                        <img loading="lazy" src="/images/payment/om.png" alt="Orange Money" class="h-8">
+                                        <img loading="lazy" src="/images/payment/momo.png" alt="MTN Mobile Money" class="h-8">
+                                        <img loading="lazy" src="/images/payment/paypal.png" alt="Moov Money" class="h-8">
                                     </div>
                                 </div>
                             </div>
