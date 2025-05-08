@@ -55,7 +55,7 @@
                                 <tr class="hover:bg-green-50 dark:hover:bg-gray-600 transition-colors duration-150">
                                     <td class="px-6 py-4 whitespace-nowrap text-gray-900 dark:text-gray-100">{{ $product->id }}</td>
                                     <td class="px-6 py-4 whitespace-nowrap">
-                                        <img src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}" class="h-10 w-10 rounded-full object-cover">
+                                        <img loading="lazy" src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}" class="h-10 w-10 rounded-full object-cover">
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-gray-900 dark:text-gray-100">{{ $product->name }}</td>
                                     <td class="px-6 py-4 whitespace-nowrap text-gray-900 dark:text-gray-100">{{ number_format($product->price, 0, ',', ' ') }} XAF</td>

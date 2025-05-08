@@ -18,16 +18,16 @@
                         <!-- Product Image -->
                         <div class="md:col-span-1">
                             <div class="bg-gray-100 dark:bg-gray-800 rounded-lg p-4 flex items-center justify-center">
-                                <img src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}" class="max-w-full h-auto rounded-lg">
+                                <img loading="lazy" src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}" class="max-w-full h-auto rounded-lg">
                             </div>
                             
                             @if($product->images && $product->images->count() > 0)
                                 <div class="mt-4 grid grid-cols-4 gap-2">
                                     @foreach($product->images as $image)
                                         <div class="bg-gray-100 dark:bg-gray-800 rounded-lg p-2">
-                                            <img src="{{ asset('storage/' . $image->path) }}" alt="{{ $product->name }}" class="w-full h-auto rounded-lg">
+                                            <img loading="lazy" src="{{ asset('storage/' . $image->path) }}" alt="{{ $product->name }}" class="w-full h-auto rounded-lg">
                                         </div>
-                                    @endforeach
+                                    @endforeach 
                                 </div>
                             @endif
                             

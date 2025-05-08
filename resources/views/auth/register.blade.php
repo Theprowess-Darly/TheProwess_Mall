@@ -3,7 +3,7 @@
     <div class="w-full sm:max-w-md px-2 py-4 bg-white/70 shadow-md overflow-hidden sm:rounded-lg">
         <div class=" flex flex-col bg-white/70  sm:justify-center items-center sm:pt-0 relative z-10">
             <div class="w-24 h-24 mb-4">
-                <img src="{{ asset('images/logos/tpmlogo.png') }}" alt="TPM Logo" class="w-full h-full">
+                <img loading="lazy" src="{{ asset('images/logos/tpmlogo.png') }}" alt="TPM Logo" class="w-full h-full">
             </div>
         </div> 
         <h2 class="text-center text-2xl font-bold text-green-950 mb-6">{{ __('Créer un compte') }}</h2>

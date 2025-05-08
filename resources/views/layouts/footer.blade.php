@@ -86,9 +86,9 @@
             <div class="md:flex justify-between items-center">
                 <div class="flex items-center space-x-4" my-4>
                     <span>Nos méthodes de paiement:</span>
-                    <img src="{{ asset('images/payment/momo.png') }}" alt="Mobile Money" class="h-6">
-                    <img src="{{ asset('images/payment/om.png') }}" alt="Orange Money" class="h-6">
-                    <img src="{{ asset('images/payment/cash0.png') }}" alt="Cash" class="h-6">
+                    <img loading="lazy" src="{{ asset('images/payment/momo.png') }}" alt="Mobile Money" class="h-6">
+                    <img loading="lazy" src="{{ asset('images/payment/om.png') }}" alt="Orange Money" class="h-6">
+                    <img loading="lazy" src="{{ asset('images/payment/cash0.png') }}" alt="Cash" class="h-6">
                 </div>
                 <div class="text-sm text-gray-400 my-4">
                     © 2025 TheProwessMall.inc all rights reserved

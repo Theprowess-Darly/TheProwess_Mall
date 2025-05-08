@@ -20,7 +20,7 @@
                             <div class="bg-gray-100 dark:bg-gray-800 rounded-lg p-6 flex flex-col items-center">
                                 <div class="w-32 h-32 rounded-full overflow-hidden bg-gray-300 dark:bg-gray-600 mb-4">
                                     @if($user->profile_photo_path)
-                                        <img src="{{ asset('storage/' . $user->profile_photo_path) }}" alt="{{ $user->name }}" class="w-full h-full object-cover">
+                                        <img loading="lazy" src="{{ asset('storage/' . $user->profile_photo_path) }}" alt="{{ $user->name }}" class="w-full h-full object-cover">
                                     @else
                                         <div class="w-full h-full flex items-center justify-center bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 text-4xl font-bold">
                                             {{ strtoupper(substr($user->name, 0, 1)) }}

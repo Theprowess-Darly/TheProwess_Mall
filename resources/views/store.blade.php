@@ -21,7 +21,7 @@
                             <a href="{{ route('product.show', $product->id) }}">
                                 <div class="h-48 overflow-hidden">
                                     @if ($product->image_url)
-                                        <img src="{{ asset('/storage/' . $product->image_url) }}" alt="{{ $product->name }}" class="w-full h-full object-cover transition-transform duration-300 hover:scale-110">
+                                        <img loading="lazy" src="{{ asset('/storage/' . $product->image_url) }}" alt="{{ $product->name }}" class="w-full h-full object-cover transition-transform duration-300 hover:scale-110">
                                     @else
                                         <div class="w-full h-full bg-gray-200 flex items-center justify-center">
                                             <i class="fas fa-image text-gray-400 text-4xl"></i>
