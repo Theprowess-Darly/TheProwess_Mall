@@ -8,63 +8,49 @@
     background-position: center;
     background-size: cover;
 }
-.hero1-background {
-    background-image: url('@/images/carousel/ladyy.jpg');
+
+/* Classes d'arrière-plan responsives pour le carousel */
+.hero1-background,
+.hero2-background,
+.hero3-background,
+.hero4-background,
+.hero5-background,
+.hero6-background,
+.hero7-background,
+.hero8-background {
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
-    height: 600px;
+    height: 400px; /* Hauteur par défaut pour mobile */
+}
+
+/* Images spécifiques pour chaque slide */
+.hero1-background {
+    background-image: url('@/images/carousel/ladyy.jpg');
 }
 .hero2-background {
     background-image: url('@/images/carousel/slider-6.jpg');
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: cover;
-    height: 600px;
 }
 .hero3-background {
     background-image: url('@/images/carousel/money1.jpg');
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: cover;
-    height: 600px;
 }
 .hero4-background {
     background-image: url('@/images/carousel/ladyB.jpg');
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: cover;
-    height: 600px;
 }
 .hero5-background {
     background-image: url('@/images/carousel/hero5.png');
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: cover;
-    height: 600px;
 }
 .hero6-background {
     background-image: url('@/images/carousel/livaison.jpg');
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: cover;
-    height: 600px;
     object-fit: cover;
 }
 .hero7-background {
     background-image: url('@/images/carousel/lady3.jpg');
-    background-repeat: no-repeat;
     background-position: top;
-    background-size: cover;
     object-fit: cover;
-    height: 600px;
 }
 .hero8-background {
     background-image: url('@/images/carousel/lady2.jpg');
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: cover;
-    height: 600px;
 }
 
 @font-face {
@@ -74,27 +60,121 @@
     font-style: normal;
 }
 
+/* Carousel responsive */
 .carousel-container {
     position: relative;
     width: 100%;
     overflow: hidden;
-    height: 600px;
+    height: 400px; /* Hauteur par défaut pour mobile */
 }
 
 .carousel-track {
     display: flex;
     transition: transform 0.5s ease-in-out;
+    height: 100%;
 }
 
 .carousel-item {
     min-width: 100%;
     flex-shrink: 0;
-    height: fit-content;
+    height: 100%;
 }
 
 .carousel-prev,
 .carousel-next {
     z-index: 10;
+    font-size: 0.875rem;
+    padding: 0.5rem;
 }
 
-/* Add any additional styling needed */
+/* Media queries pour la responsivité */
+@media (min-width: 640px) {
+    .carousel-container {
+        height: 450px;
+    }
+    
+    .hero1-background,
+    .hero2-background,
+    .hero3-background,
+    .hero4-background,
+    .hero5-background,
+    .hero6-background,
+    .hero7-background,
+    .hero8-background {
+        height: 450px;
+    }
+    
+    .carousel-prev,
+    .carousel-next {
+        font-size: 1rem;
+        padding: 0.625rem;
+    }
+}
+
+@media (min-width: 768px) {
+    .carousel-container {
+        height: 500px;
+    }
+    
+    .hero1-background,
+    .hero2-background,
+    .hero3-background,
+    .hero4-background,
+    .hero5-background,
+    .hero6-background,
+    .hero7-background,
+    .hero8-background {
+        height: 500px;
+    }
+}
+
+@media (min-width: 1024px) {
+    .carousel-container {
+        height: 600px;
+    }
+    
+    .hero1-background,
+    .hero2-background,
+    .hero3-background,
+    .hero4-background,
+    .hero5-background,
+    .hero6-background,
+    .hero7-background,
+    .hero8-background {
+        height: 600px;
+    }
+    
+    .carousel-prev,
+    .carousel-next {
+        font-size: 1.125rem;
+        padding: 0.75rem;
+    }
+}
+
+/* Améliorations pour l'accessibilité et l'expérience utilisateur */
+.carousel-dots {
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.carousel-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.5);
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.carousel-dot.active {
+    background-color: white;
+    transform: scale(1.2);
+}
+
+@media (min-width: 640px) {
+    .carousel-dot {
+        width: 10px;
+        height: 10px;
+    }
+}

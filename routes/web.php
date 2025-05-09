@@ -289,7 +289,7 @@ Route::middleware(['auth', 'role:client'])->group(function () {
 
 Route::get('/products', StoreController::class)->name('products.store');
 
-Route::get('/single-product', SingleProductController::class)->name('product.show');
+Route::get('/single-product/{product_id}', SingleProductController::class)->name('product.show');
  
 
 // route for vendor shop
