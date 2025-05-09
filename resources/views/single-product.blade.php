@@ -11,27 +11,32 @@
         <!-- Include Header -->
         @include('layouts.header')
 
-     
+    
         <section class="py-8 bg-white md:py-16 dark:bg-gray-900 antialiased">
+          @if (session('success'))
+              <div class="max-w-lg mb-4 mx-auto bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative" role="alert">
+                  <strong class="font-bold">Success!</strong>
+                  <span class="block sm:inline">{{ session('success') }}</span>
+                  <span class="absolute top-0 bottom-0 right-0 px-4 py-3"></span>
+              </div>                  
+          @endif
             <div class="max-w-screen-xl px-4 mx-auto 2xl:px-0">
               <div class="lg:grid lg:grid-cols-2 lg:gap-8 xl:gap-16">
-                <div class="shrink-0 max-w-md lg:max-w-lg mx-auto">
-                  <img loading="lazy" class="w-full dark:hidden" src="https://flowbite.s3.amazonaws.com/blocks/e-commerce/imac-front.svg" alt="" />
-                  <img loading="lazy" class="w-full hidden dark:block" src="https://flowbite.s3.amazonaws.com/blocks/e-commerce/imac-front-dark.svg" alt="" />
+                <div class="shrink-0 max-w-md overflow-hidden max-h-96 lg:max-w-lg mx-auto">            
+                  <img loading="lazy" src="{{ asset('/storage/' . $product->image_url) }}" alt="{{ $product->name }}" class="w-full object-cover dark:block">
                 </div>
         
                 <div class="mt-6 sm:mt-8 lg:mt-0">
                   <h1
                     class="text-xl font-semibold text-gray-900 sm:text-2xl dark:text-white"
                   >
-                    Apple iMac 24" All-In-One Computer, Apple M1, 8GB RAM, 256GB SSD,
-                    Mac OS, Pink
+                   {{ $product->name }}
                   </h1>
                   <div class="mt-4 sm:items-center sm:gap-4 sm:flex">
                     <p
                       class="text-2xl font-extrabold text-gray-900 sm:text-3xl dark:text-white"
                     >
-                      $1,249.99
+                    {{ $product->price }}
                     </p>
         
                     <div class="flex items-center gap-2 mt-2 sm:mt-0">
@@ -142,47 +147,31 @@
                       </svg>
                       Add to favorites
                     </a>
-        
-                    <a
-                      href="#"
-                      title=""
-                      class="text-white mt-4 sm:mt-0 bg-green-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800 flex items-center justify-center"
-                      role="button"
-                    >
-                      <svg
-                        class="w-5 h-5 -ms-2 me-2"
-                        aria-hidden="true"
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="24"
-                        height="24"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          stroke="currentColor"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          stroke-width="2"
-                          d="M4 4h1.5L8 16m0 0h8m-8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm.75-3H7.5M11 7H6.312M17 4v6m-3-3h6"
-                        />
-                      </svg>
-        
-                      Add to cart
-                    </a>
+                    @auth <!-- Show button only if user is logged in -->
+                    <form class="add-to-cart-form " method="POST" action="{{ route('cart.add') }}">
+                        @csrf
+                        <input type="hidden" name="product_id" value="{{ $product->id }}">
+                        <div class="flex justify-between  space-x-2 items-center">
+                            <input type="number" name="quantity" value="1" min="1" class="w-10 px-1 py-1 border border-gray-300 dark:border-gray-600 rounded-md dark:bg-gray-800 dark:text-white">
+                            <button type="submit" class="ml-2 bg-green-700 rounded-full hover:bg-green-950 text-white px-2 py-2 transition-colors">
+                                <span class="flex items-center">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+                                    </svg>
+                                    {{-- Ajouter au panier --}}
+                                </span>
+                            </button>
+                        </div>
+                    </form>
+                    @else
+                    <p class="mt-4"><a href="{{ route('login') }}" class="text-blue-600 dark:text-blue-400 hover:underline">Connectez-vous</a> pour ajouter des articles à votre panier.</p>
+                    @endauth
                   </div>
         
                   <hr class="my-6 md:my-8 border-gray-200 dark:border-gray-800" />
         
                   <p class="mb-6 text-gray-500 dark:text-gray-400">
-                    Studio quality three mic array for crystal clear calls and voice
-                    recordings. Six-speaker sound system for a remarkably robust and
-                    high-quality audio experience. Up to 256GB of ultrafast SSD storage.
-                  </p>
-        
-                  <p class="text-gray-500 dark:text-gray-400">
-                    Two Thunderbolt USB 4 ports and up to two USB 3 ports. Ultrafast
-                    Wi-Fi 6 and Bluetooth 5.0 wireless. Color matched Magic Mouse with
-                    Magic Keyboard or Magic Keyboard with Touch ID.
+                    {{ $product->description }}
                   </p>
                 </div>
               </div>

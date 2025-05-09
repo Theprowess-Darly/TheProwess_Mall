@@ -17,19 +17,18 @@
                 <div class="carousel-track">
                     <!-- Carousel Item 1 -->
                     <div class="carousel-item">
-                        <div class="hero1-background bg-teal-950 text-white py-16">
+                        <div class="hero1-background bg-teal-950 text-white py-8 md:py-16">
                             <div class="container mx-auto px-4">
-                                <div class="flex items-center justify-between">
-                                    <div class="w-2/3 ">
+                                <div class="flex flex-col md:flex-row items-center md:justify-between">
+                                    <div class="w-full md:w-1/2 lg:w-2/3 mb-6 md:mb-0 order-2 md:order-1">
                                         <!-- <img loading="lazy" src="{{ asset('images/carousel/slider-1.png') }}" alt="slider 1" class="w-full"> -->
                                     </div>
-                                    <div class="w-1/2">
-                                        <h1 class="text-4xl font-bold mb-4">Bienvenue sur TheProwess Mall</h1>
-                                        <p class="text-lg mb-8">Découvrez nos meilleures offres et profitez de prix imbattables</p>
-                                        <p class="text-lg mb-8">Jouissez de votre arjent sur notre site</p>
-                                        <a href="#" class="bg-yellow-500 text-white px-8 py-3 rounded-full hover:bg-yellow-600">Voir les offres</a>
+                                    <div class="w-full md:w-1/2 text-center md:text-left order-1 md:order-2">
+                                        <h1 class="text-2xl md:text-3xl lg:text-4xl font-bold mb-4">Bienvenue sur TheProwess Mall</h1>
+                                        <p class="text-base md:text-lg mb-4 md:mb-8">Découvrez nos meilleures offres et profitez de prix imbattables</p>
+                                        <p class="text-base md:text-lg mb-4 md:mb-8">Jouissez de votre arjent sur notre site</p>
+                                        <a href="#" class="inline-block bg-yellow-500 text-white px-4 md:px-8 py-2 md:py-3 rounded-full hover:bg-yellow-600">Voir les offres</a>
                                     </div>
-                                
                                 </div>
                             </div>
                         </div>
@@ -37,18 +36,17 @@
 
                     <!-- Carousel Item 2 -->
                     <div class="carousel-item">
-                        <div class="hero2-background bg-yellow-600  text-green-70 py-16">
+                        <div class="hero2-background bg-yellow-600 text-green-70 py-8 md:py-16">
                             <div class="container mx-auto px-4">
-                                <div class="flex items-center justify-between">
-                                    <div class="w-2/3 ">
+                                <div class="flex flex-col md:flex-row items-center md:justify-between">
+                                    <div class="w-full md:w-1/2 lg:w-2/3 mb-6 md:mb-0 order-2 md:order-1">
                                         <!-- <img src="{{ asset('images/carousel/slider-2.jpg') }}" alt="Slider 2" class="w-full"> -->
                                     </div>
-                                    <div class="w-1/2">
-                                        <h1 class="text-4xl font-bold mb-4">Offres Spéciales</h1>
-                                        <p class="text-lg mb-8">Jusqu'à 50% de réduction sur les articles sélectionnés</p>
-                                        <a href="#" class="bg-teal-950 text-white px-8 py-3 rounded-full hover:bg-teal-900">Shop Now</a>
+                                    <div class="w-full md:w-1/2 text-center md:text-left order-1 md:order-2">
+                                        <h1 class="text-2xl md:text-3xl lg:text-4xl font-bold mb-4">Offres Spéciales</h1>
+                                        <p class="text-base md:text-lg mb-4 md:mb-8">Jusqu'à 50% de réduction sur les articles sélectionnés</p>
+                                        <a href="#" class="inline-block bg-teal-950 text-white px-4 md:px-8 py-2 md:py-3 rounded-full hover:bg-teal-900">Shop Now</a>
                                     </div>
-
                                 </div>
                             </div>
                         </div>
@@ -56,110 +54,113 @@
 
                     <!-- Carousel Item 3 -->
                     <div class="carousel-item">
-                        <div class="hero3-background  text-white py-16">
+                        <div class="hero3-background text-white py-8 md:py-16">
                             <div class="container mx-auto px-4">
-                                <div class="flex items-center justify-between">
-                                                                <div class="w-1/2 ">
+                                <div class="flex flex-col md:flex-row items-center md:justify-between">
+                                    <div class="w-full md:w-1/2 mb-6 md:mb-0 order-2 md:order-1">
                                         <!-- <img src="{{ asset('images/carousel/slider-3.png') }}" alt="Slider 3" class="w-full"> -->
-                                    </div> 
-                                    <div class="w-1/2">
-                                        <h1 class="text-4xl font-bold mb-4">Prix et tarifs inbattables</h1>
-                                        <p class="text-lg mb-8">Economisez et faites vous de l'argent en achetant ou en vendant sur notre site</p>
-                                        <a href="{{ route('products.store') }}" class="bg-white text-green-700 px-8 py-3 rounded-full hover:bg-gray-100">Explorer</a>
                                     </div>
-
+                                    <div class="w-full md:w-1/2 text-center md:text-left order-1 md:order-2">
+                                        <h1 class="text-2xl md:text-3xl lg:text-4xl font-bold mb-4">Prix et tarifs inbattables</h1>
+                                        <p class="text-base md:text-lg mb-4 md:mb-8">Economisez et faites vous de l'argent en achetant ou en vendant sur notre site</p>
+                                        <a href="{{ route('products.store') }}" class="inline-block bg-white text-green-700 px-4 md:px-8 py-2 md:py-3 rounded-full hover:bg-gray-100">Explorer</a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
+                    
                     <!-- Carousel Item 4 -->
                     <div class="carousel-item">
-                        <div class="hero4-background bg-green-700 text-white py-16">
+                        <div class="hero4-background bg-green-700 text-white py-8 md:py-16">
                             <div class="container mx-auto px-4">
-                                <div class="flex items-center justify-between">
-                                    <div class="w-1/2">
-                                        <h1 class="text-4xl font-bold mb-4">Nouveaux Arrivages</h1>
-                                        <p class="text-lg mb-8">Découvrez nos dernières collections</p>
-                                        <a href="{{ route('products.store') }}" class="bg-white text-green-700 px-8 py-3 rounded-full hover:bg-gray-100">Explorer</a>
+                                <div class="flex flex-col md:flex-row items-center md:justify-between">
+                                    <div class="w-full md:w-1/2 text-center md:text-left order-1">
+                                        <h1 class="text-2xl md:text-3xl lg:text-4xl font-bold mb-4">Nouveaux Arrivages</h1>
+                                        <p class="text-base md:text-lg mb-4 md:mb-8">Découvrez nos dernières collections</p>
+                                        <a href="{{ route('products.store') }}" class="inline-block bg-white text-green-700 px-4 md:px-8 py-2 md:py-3 rounded-full hover:bg-gray-100">Explorer</a>
                                     </div>
-                                    <div class="w-1/2">
+                                    <div class="w-full md:w-1/2 mb-6 md:mb-0 order-2">
                                         <!-- <img src="{{ asset('images/carousel/moneychart.png') }}" alt="Slider 4" class="w-full"> -->
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
+                    
                     <!-- Carousel Item 5 -->
                     <div class="carousel-item">
-                        <div class="hero5-background bg-yellow-700 text-white py-16">
+                        <div class="hero5-background bg-yellow-700 text-white py-8 md:py-16">
                             <div class="container mx-auto px-4">
-                                <div class="flex items-center justify-between">
-                                    <div class="w-1/2">
-                                        <h1 class="text-4xl font-bold mb-4">Rapide et sur</h1>
-                                        <p class="text-lg mb-8">
+                                <div class="flex flex-col md:flex-row items-center md:justify-between">
+                                    <div class="w-full md:w-1/2 text-center md:text-left order-1">
+                                        <h1 class="text-2xl md:text-3xl lg:text-4xl font-bold mb-4">Rapide et sur</h1>
+                                        <p class="text-base md:text-lg mb-4 md:mb-8">
                                             Faites vos achats en quelques minutes
                                         </p>
-                                        <a href="{{ route('products.store') }}" class="bg-white text-green-700 px-8 py-3 rounded-full hover:bg-gray-100">Explorer</a>
+                                        <a href="{{ route('products.store') }}" class="inline-block bg-white text-green-700 px-4 md:px-8 py-2 md:py-3 rounded-full hover:bg-gray-100">Explorer</a>
                                     </div>
-                                    <div class="w-1/2">
+                                    <div class="w-full md:w-1/2 mb-6 md:mb-0 order-2">
                                         <!-- <img src="{{ asset('images/carousel/slider-6.jpg') }}" alt="Slider 5" class="w-full"> -->
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
+                    
                     <!-- Carousel Item 6 -->
                     <div class="carousel-item">
-                        <div class="hero6-background bg-yellow-700 text-teal-700 py-16">
+                        <div class="hero6-background bg-yellow-700 text-teal-700 py-8 md:py-16">
                             <div class="container mx-auto px-4">
-                                <div class="flex items-center justify-between">
-                                    <div class="w-1/2">
-                                        <h1 class="text-4xl font-bold mb-4">Livraisons a domicile</h1>
-                                        <p class="text-lg mb-8">
+                                <div class="flex flex-col md:flex-row items-center md:justify-between">
+                                    <div class="w-full md:w-1/2 text-center md:text-left order-1">
+                                        <h1 class="text-2xl md:text-3xl lg:text-4xl font-bold mb-4">Livraisons a domicile</h1>
+                                        <p class="text-base md:text-lg mb-4 md:mb-8">
                                             Faites vous livrer sut toute l'etendue du territoire et bientot a l'etranger
                                         </p>
-                                        <a href="{{ route('products.store') }}" class="bg-white text-green-700 px-8 py-3 rounded-full hover:bg-gray-100">Explorer</a>
+                                        <a href="{{ route('products.store') }}" class="inline-block bg-white text-green-700 px-4 md:px-8 py-2 md:py-3 rounded-full hover:bg-gray-100">Explorer</a>
                                     </div>
-                                    <div class="w-1/2">
+                                    <div class="w-full md:w-1/2 mb-6 md:mb-0 order-2">
                                         <!-- <img src="{{ asset('images/carousel/slider-6.jpg') }}" alt="Slider 5" class="w-full"> -->
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
+                    
                     <!-- Carousel Item 7 -->
                     <div class="carousel-item">
-                        <div class="hero7-background bg-yellow-700 text-white py-16">
+                        <div class="hero7-background bg-yellow-700 text-white py-8 md:py-16">
                             <div class="container mx-auto px-4">
-                                <div class="flex items-center justify-between">
-                                    <div class="w-1/2">
-                                        <h1 class="text-4xl font-bold mb-4">Toujours satisfaits</h1>
-                                        <p class="text-lg mb-8">
+                                <div class="flex flex-col md:flex-row items-center md:justify-between">
+                                    <div class="w-full md:w-1/2 text-center md:text-left order-1">
+                                        <h1 class="text-2xl md:text-3xl lg:text-4xl font-bold mb-4">Toujours satisfaits</h1>
+                                        <p class="text-base md:text-lg mb-4 md:mb-8">
                                             Votre satisfaction fait notre joie 
                                         </p>
-                                        <a href="{{ route('products.store') }}" class="bg-white text-green-700 px-8 py-3 rounded-full hover:bg-gray-100">Explorer</a>
+                                        <a href="{{ route('products.store') }}" class="inline-block bg-white text-green-700 px-4 md:px-8 py-2 md:py-3 rounded-full hover:bg-gray-100">Explorer</a>
                                     </div>
-                                <div class="w-1/2">
+                                    <div class="w-full md:w-1/2 mb-6 md:mb-0 order-2">
                                         <!-- <img src="{{ asset('images/carousel/slider-6.jpg') }}" alt="Slider 5" class="w-full"> -->
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
+                    
                     <!-- Carousel Item 8 -->
                     <div class="carousel-item">
-                        <div class="hero8-background bg-yellow-700 text-teal-700 py-16">
+                        <div class="hero8-background bg-yellow-700 text-teal-700 py-8 md:py-16">
                             <div class="container mx-auto px-4">
-                                <div class="flex items-center justify-between">
-
-                                    <div class="w-1/2">
-                                        <h1 class="text-4xl font-bold mb-4">Gagnez de l'argent</h1>
-                                        <p class="text-lg mb-8">
+                                <div class="flex flex-col md:flex-row items-center md:justify-between">
+                                    <div class="w-full md:w-1/2 text-center md:text-left order-1">
+                                        <h1 class="text-2xl md:text-3xl lg:text-4xl font-bold mb-4">Gagnez de l'argent</h1>
+                                        <p class="text-base md:text-lg mb-4 md:mb-8">
                                             Vendez vos atricles rapidement sur notre site
                                         </p>
-                                        <a href="{{ route('become-seller') }}" class="bg-white text-green-700 px-8 py-3 rounded-full hover:bg-gray-100">Explorer</a>
+                                        <a href="{{ route('become-seller') }}" class="inline-block bg-white text-green-700 px-4 md:px-8 py-2 md:py-3 rounded-full hover:bg-gray-100">Explorer</a>
                                     </div>
-                                    <div class="w-1/2">
+                                    <div class="w-full md:w-1/2 mb-6 md:mb-0 order-2">
                                         <!-- <img src="{{ asset('images/carousel/slider-6.jpg') }}" alt="Slider 5" class="w-full"> -->
                                     </div>
                                 </div>
@@ -170,15 +171,15 @@
                 </div>
                 
                 <!-- Navigation Buttons -->
-                <button class="carousel-prev absolute left-4 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-50 text-white p-2 rounded-full hover:bg-opacity-75 transition-all duration-200">
-                    <i class="fas fa-chevron-left"></i>
+                <button class="carousel-prev absolute left-2 md:left-4 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-50 text-white p-1 md:p-2 rounded-full hover:bg-opacity-75 transition-all duration-200 z-10">
+                    <i class="fas fa-chevron-left text-sm md:text-base"></i>
                 </button>
-                <button class="carousel-next absolute right-4 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-50 text-white p-2 rounded-full hover:bg-opacity-75 transition-all duration-200">
-                    <i class="fas fa-chevron-right"></i>
+                <button class="carousel-next absolute right-2 md:right-4 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-50 text-white p-1 md:p-2 rounded-full hover:bg-opacity-75 transition-all duration-200 z-10">
+                    <i class="fas fa-chevron-right text-sm md:text-base"></i>
                 </button>
                 
                 <!-- Dots Navigation -->
-                <div class="carousel-dots absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2">
+                <div class="carousel-dots absolute bottom-2 md:bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-1 md:space-x-2 z-10">
                 </div>
             </div>
         </section>
